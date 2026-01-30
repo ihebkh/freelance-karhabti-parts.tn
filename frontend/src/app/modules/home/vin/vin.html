@@ -1,20 +1,30 @@
 <nav class="topbar">
 
   <div class="topbar-logo">
-    <img src="/assets/zoraga.jpg" alt="karhabti.tn" class="logo-image">
+    <div class="logo-circle">
+      <img src="/assets/zoraga.jpg" alt="Logo" class="logo-image">
+    </div>
+    <div class="logo-brand">
+      <h1 class="brand-name">ZORЯAGA</h1>
+      <p class="brand-tagline">Vos besoins, notre priorité !</p>
+    </div>
   </div>
 
   <div class="topbar-search-container">
     <div class="search-input-wrapper">
+      <select class="search-mode-select" [(ngModel)]="searchMode" (change)="clearSearch()">
+        <option value="PART">Pièces</option>
+        <option value="VIN">VIN</option>
+      </select>
+
+      <span class="search-icon">🔍</span>
       <input
         type="text"
-        [(ngModel)]="searchQuery"
+        [ngModel]="searchQuery"
         (input)="onSearchInput($any($event.target).value)"
         (keyup.enter)="handleSearchEnter()"
         [placeholder]="searchMode === 'PART' ? 'Rechercher une pièce...' : 'Entrez votre code VIN'"
       />
-
-      <button type="button" class="search-btn" (click)="handleSearchEnter()" [disabled]="!searchQuery || isSearching">🔍</button>
 
       <span *ngIf="isSearching" class="loading-dots">...</span>
 
@@ -47,20 +57,24 @@
   </div>
 
   <div class="topbar-actions">
-   
-
-    <div class="action-item" *ngIf="!authService.isAdmin()">
-      <span class="action-icon">👤</span>
-      <span class="action-label">Me connecter</span>
+    <div class="topbar-phone">
+      <span class="phone-icon">📞</span>
+      <div class="phone-info">
+        <span class="phone-label">Téléphone :</span>
+        <span class="phone-number">28 299 447</span>
+      </div>
     </div>
 
-    <div *ngIf="!authService.isAdmin()" class="action-item cart-section" (click)="openCartModal(cartModal)">
-      <span class="action-icon">🛒</span>
-      <span class="action-label">Mon panier</span>
+    <div *ngIf="!authService.isAdmin()" class="cart-section" (click)="openCartModal(cartModal)">
+      <span class="cart-icon">🛒</span>
+      <div class="cart-info">
+        <span class="cart-label">Mon Panier</span>
+        <span class="cart-amount">{{ getCartTotalPrice() | number:'1.2-2' }} TND</span>
+      </div>
       <span class="cart-badge">{{ getCartTotal() }}</span>
     </div>
   </div>
-
+</nav>
 
 <ng-template #userModal let-modal>
   <div class="garage-modal">

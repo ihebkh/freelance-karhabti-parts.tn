@@ -1,68 +1,76 @@
-<div class="auth-container">
-  <div class="auth-card">
-    <h2>Ravi de vous revoir</h2>
-    <p class="subtitle">Connectez-vous pour gérer vos pièces automobiles</p>
+<div class="auth-split-container">
+  <!-- LEFT SIDE: FORM -->
+  <div class="auth-form-side">
+    <div class="auth-form-content">
+      <h2>Ravi de vous revoir 👋</h2>
+      <p class="subtitle">Connectez-vous afin de profiter de notre service de pièces de rechange.</p>
 
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" novalidate>
+      <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" novalidate>
+        <!-- EMAIL -->
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            #emailCtrl="ngModel"
+            placeholder="exemple@email.com"
+            required
+            email
+          />
+          <small class="error"
+                 *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+            <span *ngIf="emailCtrl.errors?.['required']">L'e-mail est obligatoire</span>
+            <span *ngIf="emailCtrl.errors?.['email']">Format d'e-mail invalide</span>
+          </small>
+        </div>
 
-      <!-- EMAIL -->
-      <input
-        type="email"
-        name="email"
-        [(ngModel)]="email"
-        #emailCtrl="ngModel"
-        placeholder="E-mail"
-        required
-        email
-      />
+        <!-- PASSWORD -->
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            #passwordCtrl="ngModel"
+            placeholder="Au moins 8 caractères"
+            required
+            minlength="8"
+          />
+          <small class="error"
+                 *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)">
+            <span *ngIf="passwordCtrl.errors?.['required']">Le mot de passe est obligatoire</span>
+            <span *ngIf="passwordCtrl.errors?.['minlength']">Minimum 8 caractères</span>
+          </small>
+        </div>
 
-      <small class="error"
-             *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
-    <span *ngIf="emailCtrl.errors?.['required']">
-      L’e-mail est obligatoire
-    </span>
-        <span *ngIf="emailCtrl.errors?.['email']">
-      Format d’e-mail invalide
-    </span>
-      </small>
+        <div class="forgot-password">
+          <a routerLink="/auth/forgot-password">Mot de passe oublié ?</a>
+        </div>
 
-      <!-- PASSWORD -->
-      <input
-        type="password"
-        name="password"
-        [(ngModel)]="password"
-        #passwordCtrl="ngModel"
-        placeholder="Mot de passe"
-        required
-        minlength="8"
-      />
+        <button type="submit" [disabled]="loginForm.invalid" class="btn-primary">
+          Se connecter
+        </button>
+      </form>
 
-      <small class="error"
-             *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)">
-    <span *ngIf="passwordCtrl.errors?.['required']">
-      Le mot de passe est obligatoire
-    </span>
-        <span *ngIf="passwordCtrl.errors?.['minlength']">
-      Minimum 8 caractères
-    </span>
-      </small>
+      <div class="divider">
+        <span>Ou</span>
+      </div>
 
-      <button type="submit" [disabled]="loginForm.invalid">
-        Se connecter
-      </button>
 
-    </form>
+      <p *ngIf="message" class="success-msg">{{ message }}</p>
+      <p *ngIf="error" class="error-msg">{{ error }}</p>
 
-    <p *ngIf="message" style="color: green">{{ message }}</p>
-    <p *ngIf="error" style="color: red">{{ error }}</p>
-
-    <p class="switch">
-      Vous n’avez pas de compte ?
-      <a routerLink="/auth/signup">En créer un</a>
-    </p>
-
-    <div style="text-align: right; margin-bottom: 15px;">
-      <a routerLink="/auth/forgot-password" style="font-size: 0.85rem; color: #666;">Mot de passe oublié ?</a>
+      <p class="switch">
+        Vous n'avez pas de compte ? <a routerLink="/auth/signup">S'inscrire</a>
+      </p>
     </div>
+  </div>
+
+  <!-- RIGHT SIDE: IMAGE -->
+  <div class="auth-image-side">
+    <div class="image-overlay"></div>
   </div>
 </div>

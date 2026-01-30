@@ -8,7 +8,7 @@ import { HomeManufactures } from './home-manufactures/home-manufactures';
 import { AlertHome } from './alert-home/alert-home';
 import { BrandListConstante } from './brand-list-constante/brand-list-constante';
 import { CategoryList } from './category-list/category-list';
-
+import { Vin } from './vin/vin';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,7 @@ import { CategoryList } from './category-list/category-list';
     AlertHome,
     BrandListConstante,
     CategoryList,
+    Vin
   ],
   imports: [
     CommonModule,

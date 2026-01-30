@@ -2,20 +2,22 @@
    TOPBAR BASE LAYOUT
    ======================================== */
 .topbar {
+  /* Removed position: fixed as requested */
   width: 100%;
-  height: 80px;
-  background: white;
-  border-bottom: 1px solid #f0f0f0;
+  height: 100px; /* Increased from 80px to 100px for wider band */
+  background: #1a1a1a;
+  border-bottom: 1px solid #2d2d2d;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  gap: 20px;
+  padding: 0 50px; /* Increased padding from 40px to 50px */
+  gap: 30px;
 }
 
 /* ========================================
    LOGO SECTION
    ======================================== */
+/* Logo section now active and styled to match reference design */
 .topbar-logo {
   display: flex;
   align-items: center;
@@ -23,19 +25,59 @@
   flex-shrink: 0;
 }
 
+.logo-circle {
+  width: 65px; /* Increased from 55px to 65px */
+  height: 65px; /* Increased from 55px to 65px */
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #333;
+  overflow: hidden; /* Added overflow hidden for image containment */
+  padding: 8px; /* Added padding for better image spacing */
+}
+
+/* Updated logo styling for image instead of text */
 .logo-image {
-  width: 160px;
-  max-height: 70px;
-  height: auto;
+ width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  /* Increased logo size and ensured proper image scaling */
   object-fit: contain;
-  border-radius: 4px;
+  object-position: center;
+  background-color: transparent;
 }
 
-/* Ensure logo stays left and doesn't expand the layout */
-.topbar-logo {
-  flex: 0 0 auto;
+/* Keeping legacy .logo-text for backwards compatibility but not used */
+.logo-text {
+  font-size: 26px;
+  font-weight: 1200;
+  color: #1a1a1a;
+  letter-spacing: -1px;
 }
 
+.logo-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-name {
+  margin: 0;
+  font-size: 22px; /* Increased from 19px to 22px */
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  margin: 0;
+  font-size: 12px; /* Increased from 11px to 12px */
+  color: #999;
+  line-height: 1;
+  font-weight: 400;
+}
 
 /* ========================================
    SEARCH CONTAINER
@@ -43,28 +85,26 @@
 .topbar-search-container {
   position: relative;
   flex: 1;
-  max-width: 900px;
+  max-width: 1200px; /* Increased from 700px to 1200px for wider search bar */
 }
 
 .search-input-wrapper {
-  background: #F7FAFC; /* même que --input-bg */
-  border: 2px solid #D1D5DB;
-  border-radius: 8px;
+  background: white;
+  border: none;
+  border-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 0 12px;
-  height: 50px;
-  transition: all 0.3s ease;
+  padding: 0 18px;
+  height: 52px; /* Increased from 46px to 52px */
+  transition: all 0.2s ease-in-out;
 }
 
 .search-input-wrapper:focus-within {
-  border-color: #D1D5DB;
-  background: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(209, 213, 219, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
 }
 
 .search-icon {
-  font-size: 22px;
+  font-size: 18px;
   color: #666;
   flex-shrink: 0;
 }
@@ -72,18 +112,16 @@
 .search-input-wrapper input {
   background: transparent;
   border: none;
-  color: #2D3748;
+  color: #1a1a1a;
   padding: 0 14px;
   width: 100%;
   outline: none;
   font-size: 15px;
   font-family: inherit;
-  font-weight: 500;
 }
 
 .search-input-wrapper input::placeholder {
-  color: #A0AEC0;
-  font-weight: 400;
+  color: #999;
 }
 
 .clear-search {
@@ -191,49 +229,140 @@
 .topbar-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 28px; /* Increased from 24px to 28px */
   flex-shrink: 0;
 }
 
-.action-item {
+/* ========================================
+   PHONE SECTION
+   ======================================== */
+/* Phone section now active and styled */
+.topbar-phone {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.phone-icon {
+  font-size: 24px; /* Increased from 20px to 24px */
+}
+
+.phone-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.phone-label {
+  font-size: 11px;
+  color: #999;
+  line-height: 1;
+}
+
+.phone-number {
+  font-size: 18px; /* Increased from 16px to 18px */
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+
+/* ========================================
+   WISHLIST ICON
+   ======================================== */
+/* Wishlist icon now active with badge styling */
+.wishlist-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
+  flex-shrink: 0;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.wishlist-icon:hover {
+  transform: scale(1.1);
+}
+
+.wishlist-icon .icon {
+  font-size: 30px; /* Increased from 26px to 30px */
+}
+
+.wishlist-icon .badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #3b82f6;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 12px;
+  min-width: 20px;
+  text-align: center;
+  border: 2px solid #1a1a1a;
+}
+
+/* ========================================
+   CART SECTION
+   ======================================== */
+/* Enhanced cart section with badge and proper layout matching reference */
+.cart-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.cart-section:hover {
+  transform: translateY(-1px);
+}
+
+.cart-icon {
+  font-size: 28px; /* Increased from 24px to 28px */
   position: relative;
 }
 
-.action-item:hover {
-  opacity: 0.7;
+.cart-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
-.action-icon {
-  font-size: 28px;
+.cart-label {
+  font-size: 11px;
+  color: #999;
+  line-height: 1;
+  font-weight: 400;
 }
 
-.action-label {
-  font-size: 13px;
-  color: #666;
-  white-space: nowrap;
+.cart-amount {
+  font-size: 18px; /* Increased from 16px to 18px */
+  color: white;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.action-item:hover .action-label {
-  color: #333;
-}
-
+/* Added cart badge counter */
 .cart-badge {
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #ef4444;
+  background: #3b82f6;
   color: white;
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 6px;
-  border-radius: 10px;
-  min-width: 18px;
+  padding: 3px 7px;
+  border-radius: 12px;
+  min-width: 20px;
   text-align: center;
+  border: 2px solid #1a1a1a;
 }
 
 /* ========================================
@@ -244,7 +373,6 @@
   border-radius: 16px;
   overflow: hidden;
 }
- 
 
 .modal-header-clean {
   padding: 20px;
@@ -769,7 +897,7 @@
   }
 
   .topbar-search-container {
-    max-width: 700px;
+    max-width: 500px;
   }
 
   .brand-name {
@@ -1242,11 +1370,10 @@
 .search-input-wrapper {
   display: flex;
   align-items: center;
-  background: #F7FAFC;
-  border-radius: 8px; /* moins arrondi que 25px */
-  padding: 0 12px;
-  border: 2px solid #D1D5DB;
-  height: 50px;
+  background: white;
+  border-radius: 25px; /* Makes it pill-shaped */
+  padding: 2px 15px;
+  border: 1px solid #ddd;
   width: 100%;
 }
 

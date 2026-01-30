@@ -1,6 +1,6 @@
 .welcome-banner {
   width: 100%;
-  background: #00C853;
+  background: #D4AF37;
   padding: 10px 16px;
   position: sticky;
   top: 0;
@@ -72,6 +72,8 @@
 .banner-close:hover {
   background: rgba(0,0,0,0.15);
 }
+
+
 
 /* mobile : on autorise le retour ligne si besoin */
 @media (max-width: 520px) {
