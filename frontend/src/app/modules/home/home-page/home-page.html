@@ -1,0 +1,57 @@
+<div class="welcome-screen">
+  <div class="welcome-header">
+    <h1>BIENVENUE DANS LE CATALOGUE</h1>
+    <p>Sélectionnez un département pour commencer à parcourir nos pièces automobiles premium</p>
+  </div>
+
+  <h4>Nos marques partenaires</h4>
+  <app-cars-container></app-cars-container>
+
+  <h4>SÉLECTIONNEZ VOTRE VÉHICULE</h4>
+
+  <app-brand-list-constante></app-brand-list-constante>
+
+
+  <h4>ACCÈS RAPIDE</h4>
+
+
+  <div class="navigation-grid">
+    <a routerLink="/cars/brands" class="nav-square" style="background-image: url('/assets/modele.png');">
+      <div class="square-content">
+        <h3>Parcourir les véhicules</h3>
+        <p>Rechercher par marque et modèle</p>
+      </div>
+      <div class="square-footer">ALLER AUX MARQUES →</div>
+    </a>
+
+    <a routerLink="/cars/categories" class="nav-square" style="background-image: url('/assets/cat.png');">
+      <div class="square-content">
+        <h3>Catégories</h3>
+        <p>Moteur, Freinage, Suspension...</p>
+      </div>
+      <div class="square-footer">ALLER AUX CATÉGORIES →</div>
+    </a>
+
+    <a routerLink="/cars/parts" class="nav-square" style="background-image: url('/assets/unnamed.jpg');">
+      <div class="square-content">
+        <h3>Catalogue des pièces</h3>
+        <p>Liste complète de tous les composants</p>
+      </div>
+      <div class="square-footer">VOIR TOUTES LES PIÈCES →</div>
+    </a>
+
+    <a routerLink="/cars/sales" class="nav-square sale-card" style="background-image: url('/assets/promo.png');">
+      <div class="square-content">
+        <h3>Promotions en cours</h3>
+        <p>Offres exclusives & réductions</p>
+      </div>
+      <div class="square-footer">VOIR LES OFFRES →</div>
+    </a>
+  </div>
+
+  <app-alert-home></app-alert-home>
+  <h4>NOS CATÉGORIES</h4>
+  <app-category-list></app-category-list>
+  <h4>NOS FOURNISSEURS AUTOMOBILES</h4>
+  <app-home-manufactures></app-home-manufactures>
+</div>

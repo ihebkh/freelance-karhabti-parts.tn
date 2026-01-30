@@ -1,0 +1,25 @@
+<!-- Categories container -->
+<div class="category-container" *ngIf="!isLoading">
+  <div
+    class="category-card"
+    *ngFor="let item of categories"
+    (click)="toSubCategory(item.category.id)">
+    <div class="category-image-wrapper">
+      <img
+        *ngIf="item.fullImageUrl; else noImage"
+        [src]="item.fullImageUrl"
+        [alt]="item.category.name"
+        class="category-image" />
+      <ng-template #noImage>
+        <div class="image-placeholder">
+          <span class="placeholder-icon">🔧</span>
+        </div>
+      </ng-template>
+      <div class="category-overlay"></div>
+    </div>
+    <div class="category-label">
+      <div class="green-square"></div>
+      <h3>{{ item.category.name }}</h3>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,81 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_container
+    restart: unless-stopped
+    command:
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_DATABASE: carParts
+      MYSQL_ROOT_PASSWORD: '6jH2kL9nP4!mR7tV1@wX8zY3#qS5bN0$$vC4%xM8*kP2'
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - carparts-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p'$$MYSQL_ROOT_PASSWORD'"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build: ./backend/car-parts
+    container_name: backend_container
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    volumes:
+      - ./uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/carParts?useUnicode=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: '6jH2kL9nP4!mR7tV1@wX8zY3#qS5bN0$$vC4%xM8*kP2'
+      APP_FRONTEND_URL: http://84.247.131.212:8081
+      APPLICATION_FILE_UPLOADS_PHOTOS-OUTPUT-PATH: /app/uploads
+    networks:
+      - carparts-net
+
+  frontend:
+    build: ./frontend/car-parts-frontend
+    container_name: frontend_container
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
+    networks:
+      - carparts-net
+
+  n8n:
+    image: n8nio/n8n
+    container_name: n8n_container
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://84.247.131.212:5678/
+      - GENERIC_TIMEZONE=Africa/Tunis
+      - N8N_SECURE_COOKIE=false
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - carparts-net
+
+networks:
+  carparts-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  n8n_data:

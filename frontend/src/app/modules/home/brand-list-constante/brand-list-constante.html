@@ -1,0 +1,21 @@
+<!-- Brands container -->
+<div class="brand-container" *ngIf="!isLoading">
+  <div class="brand-card" *ngFor="let item of brandsWithUrl" (click)="viewModels(item.brand.id)">
+    <div class="logo-cadre">
+      <img
+        *ngIf="item.fullLogoUrl; else noLogo"
+        [src]="item.fullLogoUrl"
+        [alt]="item.brand.name"
+        (error)="$event.target.style.display='none'" />
+      <ng-template #noLogo>
+        <div class="logo-placeholder">🏎️</div>
+      </ng-template>
+    </div>
+    <h4>{{ item.brand.name }}</h4>
+  </div>
+</div>
+
+<!-- Message si aucune marque -->
+<div class="no-brands" *ngIf="!isLoading && brandsWithUrl.length === 0">
+  <p>Aucune marque disponible pour le moment.</p>
+</div>

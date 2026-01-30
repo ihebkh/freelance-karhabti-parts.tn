@@ -1,0 +1,127 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Créer un compte</h2>
+    <p class="subtitle">Rejoignez notre communauté de passionnés</p>
+
+    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" novalidate>
+
+      <!-- USERNAME -->
+      <input
+        type="text"
+        name="username"
+        placeholder="Nom d'utilisateur"
+        [(ngModel)]="username"
+        #usernameCtrl="ngModel"
+        required
+        minlength="3"
+      />
+      <small class="error"
+             *ngIf="usernameCtrl.invalid && (usernameCtrl.touched || usernameCtrl.dirty)">
+        <span *ngIf="usernameCtrl.errors?.['required']">Nom requis</span>
+        <span *ngIf="usernameCtrl.errors?.['minlength']">Minimum 3 caractères</span>
+      </small>
+
+      <!-- EMAIL -->
+      <input
+        type="email"
+        name="email"
+        placeholder="Adresse e-mail"
+        [(ngModel)]="email"
+        #emailCtrl="ngModel"
+        required
+        email
+      />
+      <small class="error"
+             *ngIf="emailCtrl.invalid && (emailCtrl.touched || emailCtrl.dirty)">
+        <span *ngIf="emailCtrl.errors?.['required']">E-mail requis</span>
+        <span *ngIf="emailCtrl.errors?.['email']">E-mail invalide</span>
+      </small>
+
+      <!-- PHONE -->
+      <input
+        type="text"
+        name="phone"
+        placeholder="Numéro de téléphone"
+        [(ngModel)]="phone"
+        #phoneCtrl="ngModel"
+        required
+        pattern="^(2|3|4|5|7|9)\d{7}$"
+      />
+      <small class="error"
+             *ngIf="phoneCtrl.invalid && (phoneCtrl.touched || phoneCtrl.dirty)">
+        <span *ngIf="phoneCtrl.errors?.['required']">Téléphone requis</span>
+        <span *ngIf="phoneCtrl.errors?.['pattern']">
+      Numéro tunisien invalide (8 chiffres)
+    </span>
+      </small>
+
+      <!-- WHATSAPP -->
+      <input
+        type="text"
+        name="whatsapp"
+        placeholder="Numéro WhatsApp"
+        [(ngModel)]="whatsapp"
+        #whatsappCtrl="ngModel"
+        required
+        pattern="^(2|3|4|5|7|9)\d{7}$"
+      />
+      <small class="error"
+             *ngIf="whatsappCtrl.invalid && (whatsappCtrl.touched || whatsappCtrl.dirty)">
+    <span *ngIf="whatsappCtrl.errors?.['pattern']">
+      Numéro WhatsApp tunisien invalide
+    </span>
+      </small>
+
+      <!-- PASSWORD -->
+      <input
+        type="password"
+        name="password"
+        placeholder="Créer un mot de passe"
+        [(ngModel)]="password"
+        #passwordCtrl="ngModel"
+        required
+        minlength="8"
+        pattern="^(?=.*[A-Za-z])(?=.*\d).+$"
+      />
+      <small class="error"
+             *ngIf="passwordCtrl.invalid && (passwordCtrl.touched || passwordCtrl.dirty)">
+    <span *ngIf="passwordCtrl.errors?.['minlength']">
+      Minimum 8 caractères
+    </span>
+        <span *ngIf="passwordCtrl.errors?.['pattern']">
+      Au moins une lettre et un chiffre
+    </span>
+      </small>
+
+      <!-- CONFIRM PASSWORD -->
+      <input
+        type="password"
+        name="confirmPassword"
+        placeholder="Confirmer le mot de passe"
+        [(ngModel)]="confirmPassword"
+        #confirmCtrl="ngModel"
+        required
+      />
+      <small class="error"
+             *ngIf="confirmCtrl.touched && password !== confirmPassword">
+        Les mots de passe ne correspondent pas
+      </small>
+
+      <!-- GLOBAL MESSAGES -->
+      <p *ngIf="errorMessage" class="error-msg">{{ errorMessage }}</p>
+      <p *ngIf="successMessage" class="success-msg">{{ successMessage }}</p>
+
+      <button
+        type="submit"
+        [disabled]="signupForm.invalid || password !== confirmPassword">
+        Créer mon compte
+      </button>
+
+    </form>
+
+    <p class="switch">
+      Déjà membre ?
+      <a routerLink="/auth/signin">Se connecter</a>
+    </p>
+  </div>
+</div>

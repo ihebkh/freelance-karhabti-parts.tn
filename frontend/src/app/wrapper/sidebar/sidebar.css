@@ -1,0 +1,138 @@
+.horizontal-navbar {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 0 32px;
+}
+
+/* CENTRER LES LIENS */
+.center-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 28px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.center-links a {
+  text-decoration: none;
+  color: #2c2c2c;
+  font-weight: 500;
+  font-size: 15px;
+  position: relative;
+}
+
+/* ACTIVE LINK */
+.center-links a.active {
+  color: #00C853;
+}
+
+/* underline moderne */
+.center-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0%;
+  height: 2px;
+  background: #00C853;
+  transition: width 0.25s ease;
+}
+
+.center-links a:hover::after {
+  width: 100%;
+}
+
+/* ZONE DROITE */
+.logout-wrapper {
+  margin-left: auto;
+}
+
+/* SIGN OUT MODERNE */
+.logout-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1px solid #e53935;
+  background: transparent;
+  color: #e53935;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: #e53935;
+  color: white;
+  box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25);
+}
+
+/* Responsive navbar for tablets and mobile devices */
+
+/* Tablet view */
+@media (max-width: 968px) {
+  .navbar-container {
+    padding: 0 20px;
+  }
+
+  .center-links {
+    gap: 20px;
+  }
+
+  .center-links a {
+    font-size: 14px;
+  }
+
+  .logout-btn {
+    padding: 7px 15px;
+    font-size: 13px;
+  }
+}
+
+/* Mobile landscape */
+@media (max-width: 768px) {
+  .navbar-container {
+    height: auto;
+    flex-direction: column;
+    padding: 15px 20px;
+    gap: 15px;
+  }
+
+  .center-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .center-links li {
+    flex: 0 0 auto;
+  }
+
+  .center-links a {
+    font-size: 13px;
+  }
+
+  .center-links a::after {
+    bottom: -4px;
+  }
+
+  .logout-wrapper {
+    margin-left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .logout-btn {
+    width: 100%;
+    max-width: 200px;
+  }
+}

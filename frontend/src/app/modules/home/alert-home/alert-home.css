@@ -1,0 +1,160 @@
+/* Notification Wrapper */
+.notification-wrapper {
+  position: fixed;
+  bottom: clamp(20px, 5vh, 40px);
+  right: clamp(20px, 4vw, 40px);
+  z-index: 1000;
+  max-width: min(400px, calc(100vw - 40px));
+  width: 100%;
+}
+
+.notification-container {
+  background: white;
+  border-radius: clamp(8px, 2vw, 12px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 3vw, 20px);
+  padding: clamp(15px, 3vw, 20px);
+  position: relative;
+  animation: slideIn 0.5s ease-out;
+  transition: all 0.3s ease;
+}
+
+.notification-container:hover {
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+}
+
+.notification-container.closing {
+  animation: slideOut 0.3s ease-out;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  cursor: pointer;
+  color: #666;
+  font-size: 20px;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.2s;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-weight: 300;
+}
+
+.close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #333;
+  transform: scale(1.1);
+}
+
+/* Avatar avec première lettre */
+.product-avatar {
+  flex-shrink: 0;
+  width: clamp(80px, 20vw, 120px);
+  height: clamp(80px, 20vw, 120px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-avatar:hover {
+  transform: scale(1.05);
+}
+
+.avatar-letter {
+  color: white;
+  font-size: clamp(32px, 8vw, 48px);
+  font-weight: 700;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.product-info {
+  flex: 1;
+  padding-right: clamp(25px, 5vw, 35px);
+  min-width: 0;
+}
+
+.notification-text {
+  font-size: clamp(13px, 2.5vw, 15px);
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: clamp(8px, 2vw, 12px);
+  word-wrap: break-word;
+}
+
+.notification-text strong {
+  font-weight: 600;
+}
+
+.client-name {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.location {
+  color: #059669;
+  font-weight: 500;
+}
+
+.product-name {
+  color: #dc2626;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+  gap: clamp(6px, 1.5vw, 8px);
+  margin-top: clamp(6px, 1.5vw, 8px);
+  flex-wrap: wrap;
+}
+
+.price-label {
+  font-size: clamp(12px, 2.3vw, 14px);
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.price {
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 700;
+  color: #1f2937;
+}

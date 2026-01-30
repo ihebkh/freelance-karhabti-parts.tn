@@ -1,0 +1,34 @@
+<nav class="horizontal-navbar">
+  <div class="navbar-container">
+
+    <ul class="nav-links center-links">
+
+      <li><a routerLink="/user/profile" routerLinkActive="active">Mon Profil</a></li>
+      <li><a routerLink="/home" routerLinkActive="active">Accueil</a></li>
+
+      <ng-container *ngIf="authService.isAdmin()">
+        <li><a routerLink="/user/users" routerLinkActive="active">Utilisateurs</a></li>
+        <li><a routerLink="/admin/cars/brands" routerLinkActive="active">Gérer les véhicules</a></li>
+        <li><a routerLink="/admin/cars/categories" routerLinkActive="active">Catégories</a></li>
+        <li><a routerLink="/admin/cars/parts" routerLinkActive="active">Pièces</a></li>
+        <li><a routerLink="/admin/cars/sales" routerLinkActive="active">Promotions</a></li>
+        <li><a routerLink="/admin/cars/orders" routerLinkActive="active">Commandes</a></li>
+      </ng-container>
+
+      <ng-container *ngIf="!authService.isAdmin()">
+        <li><a routerLink="/cars/brands" routerLinkActive="active">Parcourir les véhicules</a></li>
+        <li><a routerLink="/cars/categories" routerLinkActive="active">Catégories</a></li>
+        <li><a routerLink="/cars/parts" routerLinkActive="active">Pièces</a></li>
+        <li><a routerLink="/cars/orders" routerLinkActive="active">Mes Commandes</a></li>
+      </ng-container>
+
+    </ul>
+
+    <div class="logout-wrapper" *ngIf="authService.isLoggedIn()">
+      <button class="logout-btn" (click)="logout()">
+        Déconnexion
+      </button>
+    </div>
+
+  </div>
+</nav>

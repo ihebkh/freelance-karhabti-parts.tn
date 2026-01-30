@@ -1,0 +1,102 @@
+<div class="dashboard-wrapper">
+  <div class="profile-container">
+    <!-- Added sidebar with more left spacing -->
+    <aside class="profile-sidebar">
+      <div class="avatar-section">
+        <div class="avatar-circle">
+          <img *ngIf="profilePictureUrl; else defaultAvatar" [src]="profilePictureUrl" alt="Profile" />
+          <ng-template #defaultAvatar>
+            <div class="avatar-placeholder">{{ user.username?.charAt(0) }}</div>
+          </ng-template>
+        </div>
+        <label class="camera-icon">
+          <input type="file" (change)="onProfilePictureSelected($event)" accept="image/*" />
+          <span>📷</span>
+        </label>
+      </div>
+
+      <h3 class="profile-name">{{ user.username }}</h3>
+      <p class="profile-email">{{ user.email }}</p>
+
+      <button
+        class="btn-upload"
+        (click)="uploadProfilePicture()"
+        [disabled]="!profilePictureFile || isUploading">
+        Upload Photo
+      </button>
+
+    </aside>
+
+    <!-- Main form section with clean design -->
+    <main class="profile-form" [formGroup]="profileForm">
+      <h2 class="form-title">Profile Settings</h2>
+
+      <div class="form-field">
+        <label>Display Name</label>
+        <input formControlName="username" placeholder="e.g. GearHead99" />
+        <small class="error-text"
+               *ngIf="profileForm.get('username')?.invalid && profileForm.get('username')?.touched">
+          3 caractères minimum, sans espaces
+        </small>
+
+      </div>
+
+      <div class="form-field">
+        <label>Phone Number</label>
+        <div class="input-with-icon">
+          <input
+            formControlName="phone"
+            type="tel"
+            placeholder="12345678"
+            (keypress)="onlyNumbers($event)"
+            maxlength="8" />
+        </div>
+        <small class="error-text"
+               *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched">
+          Numéro tunisien invalide (8 chiffres)
+        </small>
+
+      </div>
+
+      <div class="form-field">
+        <label>Whatsapp Number</label>
+        <div class="input-with-icon">
+          <input
+            formControlName="whatsapp"
+            type="tel"
+            placeholder="23456789"
+            (keypress)="onlyNumbers($event)"
+            maxlength="8" />
+        </div>
+        <small class="error-text"
+               *ngIf="profileForm.get('whatsapp')?.invalid && profileForm.get('whatsapp')?.touched">
+          Numéro WhatsApp invalide
+        </small>
+
+      </div>
+
+
+      <div class="form-field">
+        <label>Email Address</label>
+        <div class="input-with-icon">
+          <input [value]="user.email" disabled class="disabled-input" />
+          <span class="lock-icon">🔒</span>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Role</label>
+        <div class="role-badge">{{ user.role }}</div>
+      </div>
+
+      <div class="form-actions">
+        <button
+          class="btn-save"
+          (click)="updateProfile()"
+          [disabled]="profileForm.invalid || profileForm.pristine">
+          Save Changes
+        </button>
+      </div>
+    </main>
+  </div>
+</div>

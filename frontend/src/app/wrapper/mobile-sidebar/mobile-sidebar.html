@@ -1,0 +1,125 @@
+<nav class="horizontal-navbar">
+  <div class="navbar-container">
+
+    <!-- Hamburger Menu Button -->
+    <button class="hamburger-btn" (click)="toggleMenu()" [class.active]="isMenuOpen"
+            aria-label="Basculer le menu de navigation" [attr.aria-expanded]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Brand Logo -->
+    <div class="navbar-brand">
+      <div class="logo-circle">
+        <img src="/assets/zoraga.jpg" alt="Logo Zoraga" class="logo-image">
+      </div>
+    </div>
+
+    <!-- Overlay for closing menu -->
+    <div class="menu-overlay" [class.open]="isMenuOpen" (click)="closeMenu()"></div>
+
+    <!-- Sliding Navigation Menu -->
+    <div class="nav-menu" [class.open]="isMenuOpen">
+      <ul class="nav-links">
+
+        <!-- Profile Link -->
+        <li><a routerLink="/user/profile" routerLinkActive="active" (click)="closeMenu()">Mon Profil</a></li>
+
+        <!-- Home Link -->
+        <li><a routerLink="/home" routerLinkActive="active" (click)="closeMenu()">Accueil</a></li>
+
+        <!-- Admin Links -->
+        <ng-container *ngIf="authService.isAdmin()">
+          <li><a routerLink="/admin/cars/brands" routerLinkActive="active" (click)="closeMenu()">Gérer les véhicules</a></li>
+          <li><a routerLink="/user/users" routerLinkActive="active" (click)="closeMenu()">Liste des utilisateurs</a></li>
+          <li><a routerLink="/admin/cars/categories" routerLinkActive="active" (click)="closeMenu()">Catégories</a></li>
+          <li><a routerLink="/admin/cars/parts" routerLinkActive="active" (click)="closeMenu()">Pièces</a></li>
+          <li><a routerLink="/admin/cars/sales" routerLinkActive="active" (click)="closeMenu()">Promotions</a></li>
+          <li><a routerLink="/admin/cars/orders" routerLinkActive="active" (click)="closeMenu()">Commandes</a></li>
+        </ng-container>
+
+        <!-- User Links -->
+        <ng-container *ngIf="!authService.isAdmin()">
+          <li><a routerLink="/cars/brands" routerLinkActive="active" (click)="closeMenu()">Parcourir les véhicules</a></li>
+          <li><a routerLink="/cars/categories" routerLinkActive="active" (click)="closeMenu()">Catégories</a></li>
+          <li><a routerLink="/cars/parts" routerLinkActive="active" (click)="closeMenu()">Pièces</a></li>
+          <li><a routerLink="/cars/orders" routerLinkActive="active" (click)="closeMenu()">Mes Commandes</a></li>
+        </ng-container>
+
+        <!-- Logout Button (only if logged in) -->
+        <li *ngIf="authService.isLoggedIn()" class="logout-wrapper">
+          <button class="logout-btn" (click)="logout()">
+            Déconnexion
+          </button>
+        </li>
+
+      </ul>
+    </div>
+
+  </div>
+</nav>
+
+<!-- Part Details Modal -->
+<ng-template #userModal let-modal>
+  <div class="garage-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">{{ selectedPart?.categoryName }}</span>
+        <h5 class="modal-title">{{ selectedPart?.name }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <div class="product-detail-grid">
+        <!-- Product Image -->
+        <div class="detail-image-box">
+          <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded"
+               [alt]="selectedPart?.name || 'Image du produit'">
+          <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="detail-info-box">
+          <div class="compatibility-tag">
+            <span class="info-label">Modèle de voiture :</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Référence :</span>
+            <span class="info-value">#REF-{{ selectedPart?.id }}</span>
+          </div>
+
+          <div class="price-highlight">
+            <span class="currency">TND</span>
+            <span class="amount">{{ selectedPart?.price | number:'1.0-0' }}</span>
+          </div>
+
+          <div class="stock-status" [class.out]="!selectedPart?.inStock">
+            <span class="dot"></span>
+            {{ selectedPart?.inStock ? 'Disponible en stock' : 'Actuellement en rupture de stock' }}
+          </div>
+
+          <hr class="divider">
+
+          <!-- Add to Cart Section (only for non-admin users and in-stock items) -->
+          <div *ngIf="selectedPart?.inStock && !authService.isAdmin()" class="cart-action-area">
+            <label class="friendly-label">Quantité</label>
+            <div class="d-flex gap-3">
+              <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select"
+                      aria-label="Sélectionner la quantité">
+                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [value]="q">{{ q }} Article{{ q > 1 ? 's' : '' }}</option>
+              </select>
+              <button class="btn-action-primary flex-grow-1"
+                      (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()"
+                      [disabled]="!selectedPart">
+                AJOUTER AU PANIER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

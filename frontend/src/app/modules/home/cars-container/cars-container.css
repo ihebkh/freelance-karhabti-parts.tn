@@ -1,0 +1,89 @@
+/* Logo Marquee Styles */
+.logo-marquee {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto 50px;
+  overflow: hidden;
+  position: relative;
+  padding: 25px 0;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-marquee:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-color: #00c853;
+}
+
+/* Effet de fondu sur les côtés */
+.logo-marquee::before,
+.logo-marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 100px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.logo-marquee::before {
+  left: 0;
+  background: linear-gradient(to right, white 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.logo-marquee::after {
+  right: 0;
+  background: linear-gradient(to left, white 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee 25s linear infinite;
+}
+
+.logo-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 0 32px;
+}
+
+.brand-logo {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  opacity: 0.5;
+
+  transition: all 0.3s ease;
+}
+
+.brand-logo:hover {
+  opacity: 1;
+
+  transform: translateY(-3px) scale(1.08);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}

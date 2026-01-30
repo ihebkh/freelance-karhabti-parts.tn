@@ -1,0 +1,25 @@
+<!-- Single notification -->
+<div class="notification-wrapper" *ngIf="currentNotification && showNotification">
+  <div class="notification-container" [class.closing]="!showNotification">
+
+    <button class="close-btn" (click)="closeNotification()">×</button>
+
+    <div class="product-avatar" [style.background-color]="getAvatarColor()">
+      <span class="avatar-letter">{{ getFirstLetter() }}</span>
+    </div>
+
+    <div class="product-info">
+      <div class="notification-text">
+        <strong>NOW</strong> the client
+        <span class="client-name">({{ currentNotification.client }})</span> from
+        <span class="location">{{ currentNotification.location }}</span> purchased
+        <span class="product-name">{{ currentNotification.product }}</span>
+      </div>
+
+      <div class="price-container">
+        <span class="price-label">Price:</span>
+        <span class="price">{{ currentNotification.price }}</span>
+      </div>
+    </div>
+  </div>
+</div>

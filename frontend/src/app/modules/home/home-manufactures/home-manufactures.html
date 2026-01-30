@@ -1,0 +1,75 @@
+<div class="manufacturers-section">
+  <div class="logo-grid-container">
+    <div class="logo-grid-wrapper">
+      <div class="logo-grid-track">
+
+        <!-- Première rangée (défilement normal) -->
+        <div class="logo-grid-row">
+          <!-- Groupe 1 - Première moitié des logos -->
+          <div class="logo-row-group">
+            <div class="manufacturer-card"
+                 *ngFor="let item of getFirstHalfLogos()">
+              <div class="logo-container">
+                <img
+                  [src]="item.fullUrl || 'assets/images/placeholder-logo.png'"
+                  [alt]="item.item.name"
+                  class="manufacturer-logo"
+                  draggable="false"
+                />
+              </div>
+            </div>
+          </div>
+
+<!--          &lt;!&ndash; Groupe 2 (clone) - Pour la boucle infinie &ndash;&gt;-->
+<!--          <div class="logo-row-group" aria-hidden="true">-->
+<!--            <div class="manufacturer-card"-->
+<!--                 *ngFor="let item of getFirstHalfLogos()">-->
+<!--              <div class="logo-container">-->
+<!--                <img-->
+<!--                  [src]="item.fullUrl || 'assets/images/placeholder-logo.png'"-->
+<!--                  [alt]="item.item.name"-->
+<!--                  class="manufacturer-logo"-->
+<!--                  draggable="false"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+
+        <!-- Deuxième rangée (défilement inversé) -->
+        <div class="logo-grid-row">
+          <!-- Groupe 1 - Deuxième moitié des logos -->
+          <div class="logo-row-group">
+            <div class="manufacturer-card"
+                 *ngFor="let item of getSecondHalfLogos()">
+              <div class="logo-container">
+                <img
+                  [src]="item.fullUrl || 'assets/images/placeholder-logo.png'"
+                  [alt]="item.item.name"
+                  class="manufacturer-logo"
+                  draggable="false"
+                />
+              </div>
+            </div>
+          </div>
+
+<!--          &lt;!&ndash; Groupe 2 (clone) - Pour la boucle infinie &ndash;&gt;-->
+<!--          <div class="logo-row-group" aria-hidden="true">-->
+<!--            <div class="manufacturer-card"-->
+<!--                 *ngFor="let item of getSecondHalfLogos()">-->
+<!--              <div class="logo-container">-->
+<!--                <img-->
+<!--                  [src]="item.fullUrl || 'assets/images/placeholder-logo.png'"-->
+<!--                  [alt]="item.item.name"-->
+<!--                  class="manufacturer-logo"-->
+<!--                  draggable="false"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

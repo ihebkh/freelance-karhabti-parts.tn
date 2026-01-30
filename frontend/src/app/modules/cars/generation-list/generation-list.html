@@ -1,0 +1,80 @@
+<div class="page-wrapper">
+
+  <div class="brand-grid-header">
+    <h2>Sélectionner la génération</h2>
+    <div class="header-line"></div>
+  </div>
+
+  <div class="generation-container">
+    <div class="generation-card" *ngFor="let g of generationsWithUrl">
+      <div class="gen-logo-area" (click)="viewParts(g.generation.id)">
+        <div class="gen-cadre">
+          <img *ngIf="g.fullLogoUrl; else noImg" [src]="g.fullLogoUrl" [alt]="g.generation.name" />
+          <ng-template #noImg><div class="logo-placeholder">🛠️</div></ng-template>
+        </div>
+        <h4>{{ g.generation.name }}</h4>
+      </div>
+
+      <div class="generation-actions">
+        <div class="admin-controls" *ngIf="authService.isAdmin()">
+          <button class="btn-edit" (click)="openModal(content, g.generation)" title="Modifier">✏️</button>
+          <button class="btn-delete" (click)="deleteGeneration(g.generation.id)" title="Supprimer">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="authService.isAdmin()" class="generation-card add-gen-card" (click)="openModal(content)">
+      <div class="add-icon-wrapper">
+        <span>+</span>
+      </div>
+      <h4>Nouvelle génération</h4>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="garage-modal friendly-modal">
+      <div class="modal-header-clean">
+        <div class="header-content">
+          <span class="category-tag">{{ editingGenerationId ? 'Mise à jour des archives' : 'Nouvelle lignée' }}</span>
+          <h5 class="modal-title">{{ editingGenerationId ? 'Modifier la génération' : 'Enregistrer la génération' }}</h5>
+        </div>
+        <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+      </div>
+
+      <div class="modal-body-friendly">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="modern-form">
+
+          <div class="form-group">
+            <label class="friendly-label">Nom de la génération ou série</label>
+            <input
+              formControlName="name"
+              type="text"
+              class="friendly-input"
+              placeholder="ex: MK4 (1997–2006) ou E46"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="friendly-label">Image de référence du châssis</label>
+            <div class="custom-file-upload">
+              <input type="file" (change)="onFileChange($event)" id="genImg" class="hidden-file"/>
+              <label for="genImg" class="file-dropzone">
+                <div class="dropzone-content">
+                  <span class="upload-icon">🖼️</span>
+                  <span>{{ form.get('image')?.value ? 'Image sélectionnée !' : 'Cliquez pour choisir un schéma ou une photo' }}</span>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="modal-footer-friendly">
+            <button type="button" class="btn-ghost" (click)="modal.dismiss()">Annuler</button>
+            <button type="submit" class="btn-action-primary">
+              {{ editingGenerationId ? 'Enregistrer les modifications' : 'Créer la génération' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+</div>

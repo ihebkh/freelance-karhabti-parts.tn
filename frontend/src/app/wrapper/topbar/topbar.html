@@ -1,0 +1,212 @@
+<nav class="topbar">
+
+  <div class="topbar-logo">
+    <div class="logo-circle">
+      <img src="/assets/zoraga.jpg" alt="Logo" class="logo-image">
+    </div>
+    <div class="logo-brand">
+      <h1 class="brand-name">ZORЯAGA</h1>
+      <p class="brand-tagline">Vos besoins, notre priorité !</p>
+    </div>
+  </div>
+
+  <div class="topbar-search-container">
+    <div class="search-input-wrapper">
+      <select class="search-mode-select" [(ngModel)]="searchMode" (change)="clearSearch()">
+        <option value="PART">Pièces</option>
+        <option value="VIN">VIN</option>
+      </select>
+
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [ngModel]="searchQuery"
+        (input)="onSearchInput($any($event.target).value)"
+        (keyup.enter)="handleSearchEnter()"
+        [placeholder]="searchMode === 'PART' ? 'Rechercher une pièce...' : 'Entrez votre code VIN'"
+      />
+
+      <span *ngIf="isSearching" class="loading-dots">...</span>
+
+      <button *ngIf="searchQuery" class="clear-search" (click)="clearSearch()">✕</button>
+    </div>
+
+    <div class="search-results-dropdown" *ngIf="searchMode === 'PART' && searchResults.length > 0">
+
+      <div class="result-item"
+           *ngFor="let part of searchResults"
+           (click)="openPartDetails(userModal, part)">
+
+        <div class="result-img">
+          <img *ngIf="getPartImageUrl(part.image) as url; else noSearchImg"
+               [src]="url"
+               [alt]="part.name"
+               class="search-thumb" />
+          <ng-template #noSearchImg><span class="placeholder-icon">⚙️</span></ng-template>
+        </div>
+
+        <div class="result-meta">
+          <span class="part-name">{{ part.name }}</span>
+        </div>
+
+        <div class="result-price">
+          {{ (part.onSale ? part.priceAfterSale : part.price) | number:'1.0-0' }} TND
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="topbar-phone">
+      <span class="phone-icon">📞</span>
+      <div class="phone-info">
+        <span class="phone-label">Téléphone :</span>
+        <span class="phone-number">28 299 447</span>
+      </div>
+    </div>
+
+    <div *ngIf="!authService.isAdmin()" class="cart-section" (click)="openCartModal(cartModal)">
+      <span class="cart-icon">🛒</span>
+      <div class="cart-info">
+        <span class="cart-label">Mon Panier</span>
+        <span class="cart-amount">{{ getCartTotalPrice() | number:'1.2-2' }} TND</span>
+      </div>
+      <span class="cart-badge">{{ getCartTotal() }}</span>
+    </div>
+  </div>
+</nav>
+
+<ng-template #userModal let-modal>
+  <div class="garage-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">{{ selectedPart?.categoryName }}</span>
+        <h5 class="modal-title">{{ selectedPart?.name }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <div class="product-detail-grid">
+        <div class="detail-image-box">
+          <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded" alt="Image produit">
+          <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+        </div>
+
+        <div class="detail-info-box">
+          <div class="compatibility-tag">
+            <span class="info-label">Modèle :</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Référence :</span>
+            <span class="info-value">#REF-{{ selectedPart?.id }}</span>
+          </div>
+
+          <div class="price-highlight">
+            <span class="currency">TND</span>
+            <span class="amount">{{ selectedPart?.priceAfterSale | number:'1.0-0' }}</span>
+          </div>
+
+          <div class="stock-status" [class.out]="!selectedPart?.inStock">
+            <span class="dot"></span>
+            {{ selectedPart?.inStock ? 'Disponible en stock' : 'En rupture de stock' }}
+          </div>
+
+          <hr class="divider">
+
+          <div *ngIf="selectedPart?.inStock && !authService.isAdmin()" class="cart-action-area">
+            <label class="friendly-label">Quantité</label>
+            <div class="d-flex gap-3">
+             <!-- Dans le modal de détails du produit -->
+              <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select">
+                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="q">
+                 {{ q }} Article{{ q > 1 ? 's' : '' }}
+                </option>
+              </select>
+              <button class="btn-action-primary flex-grow-1"
+                      (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()">
+                AJOUTER AU PANIER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #cartModal let-modal>
+  <div class="garage-modal shipping-cart-ui">
+
+    <div class="cart-header-main">
+      <h5>Mon Panier <span>({{ cart.length }} article{{ cart.length > 1 ? 's' : '' }})</span></h5>
+      <button class="close-icon" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="cart-scroll-area">
+      <div class="cart-section">
+        <div *ngIf="cart.length === 0" class="empty-cart-state">
+          Votre panier est vide
+        </div>
+
+        <div *ngFor="let item of cart" class="checkout-item-card">
+          <div class="item-img-placeholder">
+            <img *ngIf="getPartImageUrl(item.part.image) as url; else noCartImg"
+                 [src]="url" [alt]="item.part.name" class="cart-thumb" />
+            <ng-template #noCartImg>⚙️</ng-template>
+          </div>
+
+          <div class="item-info">
+            <span class="item-title">{{ item.part.name }}</span>
+            <div class="item-controls">
+              <span class="item-qty">Qté : <strong>{{ item.quantity }}</strong></span>
+              <button class="remove-btn" (click)="removeItem(item.part.id!)">Supprimer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="shipping-details-box" *ngIf="cart.length > 0">
+        <h6 class="section-title">Informations de livraison</h6>
+        <form [formGroup]="orderForm" class="shipping-grid-form">
+          <div class="input-wrap full">
+            <label>Adresse de livraison</label>
+            <input formControlName="deliveryAddress" placeholder="Rue, Ville, Code Postal">
+
+            <small class="text-danger" *ngIf="isLoggedIn && orderForm.get('deliveryAddress')?.invalid && orderForm.get('deliveryAddress')?.touched">
+              Une adresse de livraison est requise pour finaliser votre commande.
+            </small>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="cart-summary-footer" *ngIf="cart.length > 0">
+      <div class="summary-line">
+        <span>Sous-total</span>
+        <span class="price-val">{{ getCartTotalPrice() | number:'1.2-2' }} TND</span>
+      </div>
+
+      <div class="summary-line total">
+        <span>Total</span>
+        <span class="price-val">{{ getCartTotalPrice() | number:'1.2-2' }} TND</span>
+      </div>
+
+      <div class="action-buttons">
+        <button class="btn-clear" (click)="clearCart()">Vider le panier</button>
+
+        <button
+          class="btn-checkout"
+          (click)="handleCheckout(modal)"
+          [disabled]="isLoggedIn && orderForm.invalid">
+          {{ isLoggedIn ? 'Confirmer la commande' : 'Se connecter pour commander' }}
+        </button>
+      </div>
+
+      <p *ngIf="!isLoggedIn" class="login-prompt-text">
+        * Veuillez vous connecter pour finaliser votre commande.
+      </p>
+    </div>
+  </div>
+</ng-template>

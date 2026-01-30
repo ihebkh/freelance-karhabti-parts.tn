@@ -1,0 +1,41 @@
+<div class="auth-container">
+  <div class="auth-card">
+
+    <h2>Vérification du compte</h2>
+
+    <p *ngIf="loading" class="info">
+      Vérification de votre compte en cours, veuillez patienter...
+    </p>
+
+    <p *ngIf="success" class="success">
+      {{ success }}
+    </p>
+
+    <p *ngIf="error" class="error">
+      {{ error }}
+    </p>
+
+    <div *ngIf="showResend" class="resend-box">
+      <p>Votre lien de vérification a expiré.</p>
+
+      <input
+        type="email"
+        placeholder="Saisissez votre e-mail"
+        [(ngModel)]="email"
+        [disabled]="resendLoading"
+      />
+
+      <button
+        (click)="resend()"
+        [disabled]="resendLoading || !email"
+      >
+        {{ resendLoading ? 'Envoi en cours...' : 'Renvoyer le lien de vérification' }}
+      </button>
+    </div>
+
+    <p class="success" *ngIf="resendMessage">
+      {{ resendMessage }}
+    </p>
+
+  </div>
+</div>

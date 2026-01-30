@@ -1,0 +1,70 @@
+<div class="page-wrapper">
+
+  <div class="brand-grid-header">
+    <h2>Catégories</h2>
+    <div class="header-line"></div>
+  </div>
+
+  <div class="brand-container">
+    <div class="brand-card" *ngFor="let item of categories">
+      <div (click)="toSubCategory(item.category.id)">
+        <div class="brand-logo-area">
+          <div class="logo-cadre">
+            <img *ngIf="item.fullImageUrl; else noImage" [src]="item.fullImageUrl" [alt]="item.category.name">
+            <ng-template #noImage><div class="logo-placeholder">📦</div></ng-template>
+          </div>
+          <h4>{{ item.category.name }}</h4>
+        </div>
+      </div>
+
+      <div class="brand-actions">
+        <div class="admin-controls">
+          <button *ngIf="authService.isAdmin()" class="btn-edit" (click)="openModal(content, item.category)" title="Modifier">✏️</button>
+          <button *ngIf="authService.isAdmin()" class="btn-delete" (click)="deleteCategory(item.category.id)" title="Supprimer">🗑️</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="authService.isAdmin()" class="brand-card add-brand-card" (click)="openModal(content)">
+      <div class="add-icon-wrapper"><span>+</span></div>
+      <h4>Ajouter une catégorie</h4>
+    </div>
+  </div>
+
+  <ng-template #content let-modal>
+    <div class="garage-modal friendly-modal">
+      <div class="modal-header-clean">
+        <div class="header-content">
+          <span class="category-tag">{{ editingCategoryId ? 'Profil de la catégorie' : 'Nouvelle catégorie' }}</span>
+          <h5 class="modal-title">{{ editingCategoryId ? 'Modifier la catégorie' : 'Créer une catégorie' }}</h5>
+        </div>
+        <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+      </div>
+
+      <div class="modal-body-friendly">
+        <form [formGroup]="form" (ngSubmit)="submit()" class="modern-form">
+          <div class="form-group">
+            <label class="friendly-label">Nom de la catégorie</label>
+            <input formControlName="name" type="text" class="friendly-input" placeholder="Nom de la catégorie" />
+          </div>
+
+          <div class="form-group">
+            <label class="friendly-label">Image de la catégorie</label>
+            <input type="file" (change)="onFileChange($event)" class="hidden-file" id="categoryImage" />
+            <label for="categoryImage" class="file-dropzone">
+              <div class="dropzone-content">
+                <span class="upload-icon">📁</span>
+                <span>{{ form.get('image')?.value ? 'Image jointe !' : 'Cliquez pour sélectionner une image' }}</span>
+              </div>
+            </label>
+          </div>
+
+          <div class="modal-footer-friendly">
+            <button type="button" class="btn-ghost" (click)="modal.dismiss()">Annuler</button>
+            <button type="submit" class="btn-action-primary">{{ editingCategoryId ? 'Mettre à jour' : 'Enregistrer' }}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+</div>

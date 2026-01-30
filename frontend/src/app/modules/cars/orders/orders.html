@@ -1,0 +1,192 @@
+<div class="orders-page-wrapper">
+  <div class="orders-header">
+    <div class="header-content">
+      <h2>Gestion des commandes</h2>
+      <div class="header-line"></div>
+
+      <div class="status-filter-bar">
+        <button
+          *ngFor="let opt of filterOptions"
+          [class.active]="selectedStatus === opt"
+          (click)="onFilterChange(opt)"
+          class="filter-btn">
+          {{ opt }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="orders-container">
+    <table class="industrial-table">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>E-mail</th>
+        <th>Téléphone</th>
+        <th>WhatsApp</th>
+        <th>Adresse</th>
+        <th>Statut</th>
+        <th>Détails (Manifeste)</th>
+        <th>Montant Total</th>
+        <th *ngIf="isAdmin" class="text-center">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let order of orders"
+          [class.row-pending]="order.status === 'PENDING'"
+          (click)="openOrderDetails(orderDetailModal, order)"
+          class="clickable-row">
+
+        <td class="order-id">#{{ order.id }}</td>
+        <td class="user-email">{{ order.userEmail }}</td>
+        <td class="user-email">{{ order.phone }}</td>
+        <td class="user-email">{{ order.whatsapp }}</td>
+        <td class="user-email">{{ order.deliveryAddress }}</td>
+        <td>
+        <span class="status-badge" [attr.data-status]="order.status">
+            {{ order.status }}
+        </span>
+        </td>
+
+        <td>
+          <div class="items-list">
+            <div *ngFor="let item of order.items" class="item-tag">
+              <span class="qty">{{ item.quantity }}x</span> {{ item.partName }}
+            </div>
+          </div>
+        </td>
+
+        <td class="order-total">{{ getOrderTotal(order) | number:'1.2-2' }} TND</td>
+
+        <td *ngIf="isAdmin" class="text-center" (click)="$event.stopPropagation()">
+          <div class="admin-action-container">
+            <!-- Affichage normal du select -->
+            <div class="admin-select-wrapper" *ngIf="pendingUpdate?.orderId !== order.id">
+              <select *ngIf="isEditable(order.status)"
+                      class="status-select"
+                      [value]="order.status"
+                      (change)="onStatusChange(order.id, $any($event.target).value)">
+                <option *ngFor="let s of statuses" [value]="s">{{ s }}</option>
+              </select>
+              <span *ngIf="!isEditable(order.status)" class="locked-status">VERROUILLÉ</span>
+            </div>
+
+           <div class="confirmation-buttons" *ngIf="pendingUpdate?.orderId === order.id">
+  <button class="icon-btn confirm-btn" (click)="confirmUpdate()" title="Confirmer">
+    ✓
+  </button>
+  <button class="icon-btn cancel-btn" (click)="cancelUpdate()" title="Annuler">
+    ✕
+  </button>
+</div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="pagination-wrapper" *ngIf="totalPages > 0">
+      <div class="pagination-info">
+        Affichage de la page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages || 1 }}
+      </div>
+      <div class="pagination-buttons">
+        <button class="pag-btn" [disabled]="currentPage === 0" (click)="loadData(currentPage - 1)">Précédent</button>
+        <button *ngFor="let p of getPagesArray()" class="pag-btn page-num" [class.active]="p === currentPage" (click)="loadData(p)">{{ p + 1 }}</button>
+        <button class="pag-btn" [disabled]="currentPage === totalPages - 1 || totalPages === 0" (click)="loadData(currentPage + 1)">Suivant</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #orderDetailModal let-modal>
+  <div class="garage-modal detailed-order-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+    <span class="status-pill" [attr.data-status]="selectedOrder?.status">
+      {{ selectedOrder?.status }}
+    </span>
+        <h5 class="modal-title">Commande #{{ selectedOrder?.id }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <div class="customer-info-card">
+        <div class="info-block">
+          <span class="info-icon">📧</span>
+          <div class="info-text">
+            <label>Client</label>
+            <span>{{ selectedOrder?.userEmail }}</span>
+          </div>
+        </div>
+        <div class="info-block">
+          <span class="info-icon">📞</span>
+          <div class="info-text">
+            <label>Contact</label>
+            <span>{{ selectedOrder?.phone }} <small *ngIf="selectedOrder?.whatsapp">(WhatsApp)</small></span>
+          </div>
+        </div>
+        <div class="info-block full-width">
+          <span class="info-icon">📍</span>
+          <div class="info-text">
+            <label>Adresse de livraison</label>
+            <span>{{ selectedOrder?.deliveryAddress }}</span>
+          </div>
+        </div>
+      </div>
+
+      <h6 class="section-title">Manifeste des pièces</h6>
+
+      <div class="manifest-list custom-scrollbar">
+        <div *ngFor="let detail of detailedItems" class="manifest-item-card">
+          <div class="item-img-container">
+            <img [src]="detail.image || 'assets/no-image.png'" alt="part">
+          </div>
+
+          <div class="item-main-info">
+            <div class="item-title-row">
+              <span class="part-name">{{ detail.item.partName }}</span>
+              <span class="part-ref">#{{ detail.reference || 'REF-PENDING' }}</span>
+            </div>
+
+            <div class="item-pricing-row">
+              <div class="qty-badge">{{ detail.item.quantity }} Unité(s)</div>
+              <div class="unit-price">
+                <small>Prix unitaire:</small> {{ detail.item.partPrice | number:'1.2-2' }} TND
+              </div>
+            </div>
+          </div>
+
+          <div class="item-total-price">
+            {{ (detail.item.partPrice * detail.item.quantity) | number:'1.2-2' }} <small>TND</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="order-footer-summary" *ngIf="selectedOrder">
+        <div class="summary-line">
+          <span>Sous-total</span>
+          <span>{{ getSubtotal(selectedOrder) | number:'1.2-2' }} TND</span>
+        </div>
+
+        <div class="summary-line">
+          <span>Livraison</span>
+          <ng-container *ngIf="getDeliveryFee(selectedOrder) === 0; else paidDelivery">
+            <span class="free-text">Gratuite</span>
+          </ng-container>
+          <ng-template #paidDelivery>
+            <span>{{ getDeliveryFee(selectedOrder) | number:'1.2-2' }} TND</span>
+          </ng-template>
+        </div>
+
+        <div class="summary-line total">
+          <span>MONTANT TOTAL</span>
+          <span class="grand-total">
+      {{ getTotalAmount(selectedOrder) | number:'1.2-2' }} TND
+    </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

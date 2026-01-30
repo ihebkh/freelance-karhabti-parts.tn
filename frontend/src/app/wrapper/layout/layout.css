@@ -1,0 +1,204 @@
+.horizontal-navbar {
+  width: 100%;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  position: relative;
+  z-index: 1000;
+}
+
+.navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 32px;
+  position: relative;
+}
+
+/* BRAND/LOGO */
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 700;
+  color: #00C853;
+}
+
+/* HAMBURGER BUTTON - Toujours visible */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  position: relative;
+}
+
+.hamburger-btn span {
+  width: 100%;
+  height: 3px;
+  background: #2c2c2c;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Animation du burger vers X */
+.hamburger-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(8px, 8px);
+  background: #e53935;
+}
+
+.hamburger-btn.active span:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+  background: #e53935;
+}
+
+/* OVERLAY */
+.menu-overlay {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* NAVIGATION MENU - Sidebar style */
+.nav-menu {
+  position: fixed;
+  top: 64px;
+  left: -320px;
+  width: 280px;
+  height: calc(100vh - 64px);
+  background: #ffffff;
+  box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.nav-menu.open {
+  left: 0;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  list-style: none;
+  gap: 0;
+  margin: 0;
+  padding: 24px;
+  width: 100%;
+}
+
+.nav-links li {
+  width: 100%;
+  border-bottom: 1px solid #f0f0f0;
+  animation: slideIn 0.4s ease forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Animation d'apparition des items */
+.nav-menu.open .nav-links li:nth-child(1) { animation-delay: 0.05s; }
+.nav-menu.open .nav-links li:nth-child(2) { animation-delay: 0.1s; }
+.nav-menu.open .nav-links li:nth-child(3) { animation-delay: 0.15s; }
+.nav-menu.open .nav-links li:nth-child(4) { animation-delay: 0.2s; }
+.nav-menu.open .nav-links li:nth-child(5) { animation-delay: 0.25s; }
+.nav-menu.open .nav-links li:nth-child(6) { animation-delay: 0.3s; }
+.nav-menu.open .nav-links li:nth-child(7) { animation-delay: 0.35s; }
+
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-links a {
+  display: block;
+  text-decoration: none;
+  color: #2c2c2c;
+  font-weight: 500;
+  font-size: 15px;
+  padding: 16px 0;
+  transition: color 0.25s ease;
+}
+
+.nav-links a:hover {
+  color: #00C853;
+}
+
+.nav-links a.active {
+  color: #00C853;
+  font-weight: 600;
+}
+
+/* LOGOUT BUTTON dans le menu */
+.mobile-logout {
+  display: block;
+  border-bottom: none;
+  padding-top: 16px;
+}
+
+.mobile-logout .logout-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 20px;
+  border: 1px solid #e53935;
+  background: transparent;
+  color: #e53935;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.mobile-logout .logout-btn:hover {
+  background: #e53935;
+  color: white;
+  box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25);
+}
+
+/* LOGOUT DESKTOP - Caché car on utilise le menu hamburger */
+.logout-wrapper.desktop-logout {
+  display: none;
+}
+
+/* Scrollbar personnalisée pour le menu */
+.nav-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}

@@ -1,0 +1,376 @@
+/* Header styling to match profile */
+.brand-grid-header {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+.header-line {
+  width: 50px;
+  height: 4px;
+  background: #00c853; /* Using your global red */
+}
+
+.brand-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 25px;
+  padding: 20px;
+  border-radius: 12px;  /* arrondi */
+  background: #fafafa;
+}
+
+/* The Card */
+.brand-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-card:hover {
+  border-color: #00c853;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: translateY(-4px);
+}
+
+/* Logo Presentation */
+.logo-cadre {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.brand-card img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+    /* Optional: makes logos look unified */
+  transition: filter 0.3s;
+  opacity: 0.8;
+}
+
+.brand-card:hover img {
+
+  opacity: 1;
+}
+
+.brand-card h4 {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: #222;
+}
+
+/* Actions Area */
+.brand-actions {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-view {
+  background: #f8f9fa;
+  color: #444;
+  border: 1px solid #ddd;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.brand-card:hover .btn-view {
+  background: var(--dark-steel);
+  color: #fff;
+  border-color: var(--dark-steel);
+}
+
+.admin-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.admin-controls button:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* The Add New Brand Card */
+.add-brand-card {
+  border: 2px dashed #ccc;
+  background: transparent;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.add-brand-card:hover {
+  border-color: #00c853;
+  background: #fff;
+}
+
+.add-icon-wrapper {
+  font-size: 40px;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+
+
+/* --- MODAL WRAPPER FIXES --- */
+/* Ensure the backdrop doesn't hide the modal */
+::ng-deep .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  backdrop-filter: blur(4px);
+}
+
+::ng-deep .modal-content {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* --- INDUSTRIAL MODAL DESIGN --- */
+.garage-modal {
+  background: #fff;
+  border-top: 4px solid #00c853;
+  border-radius: 4px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modal-header-industrial {
+  padding: 20px 25px;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 900;
+  font-size: 1rem;
+  color: var(--dark-steel);
+  margin: 0;
+}
+
+.accent-bolt {
+  width: 12px;
+  height: 12px;
+  background: #00c853;
+  transform: rotate(45deg);
+}
+
+.close-x {
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #aaa;
+}
+
+/* --- FORM STYLING INSIDE MODAL --- */
+.modal-body-industrial {
+  padding: 25px;
+}
+
+.industrial-form .form-field {
+  margin-bottom: 20px;
+}
+
+.industrial-form label {
+  display: block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.industrial-form input[type="text"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #eee;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.industrial-form input:focus {
+  border-color: var(--dark-steel);
+  outline: none;
+}
+
+/* CUSTOM FILE UPLOAD LOOK */
+.custom-file-label {
+  display: block;
+  padding: 12px;
+  background: #f1f1f1;
+  border: 1px dashed #ccc;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  color: #777;
+}
+
+.hidden-file {
+  display: none;
+}
+
+/* --- FRIENDLY MODAL DESIGN (Consistent with Generations/Models) --- */
+
+.friendly-modal {
+  border-radius: 16px !important;
+  background: #ffffff;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border: none !important;
+}
+
+.modal-header-clean {
+  padding: 24px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.category-tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #00c853;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.modal-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
+.modal-body-friendly {
+  padding: 20px 24px 24px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.friendly-label {
+  display: block;
+  font-weight: 700;
+  font-size: 13px;
+  color: #4a5568;
+  margin-bottom: 8px;
+}
+
+.friendly-input {
+  width: 100%;
+  padding: 14px;
+  border: 2px solid #edf2f7;
+  border-radius: 12px;
+  background: #f8fafc;
+  transition: all 0.2s;
+}
+
+.friendly-input:focus {
+  outline: none;
+  background: #fff;
+  border-color: #1a202c;
+  box-shadow: 0 0 0 4px rgba(26, 32, 44, 0.05);
+}
+
+.file-dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  border: 2px dashed #cbd5e0;
+  border-radius: 12px;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: 0.2s;
+}
+
+.file-dropzone:hover {
+  border-color: #00c853;
+  background: #fff5f5;
+}
+
+.hidden-file { display: none; }
+
+.upload-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  display: block;
+  text-align: center;
+}
+
+.modal-footer-friendly {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-action-primary {
+  background: #1a202c;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-action-primary:hover {
+  background: #000;
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: none;
+  color: #718096;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 14px 20px;
+}
+
+.btn-close-circle {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,17 @@
+<!-- Logo Marquee Section -->
+<section class="logo-marquee" aria-label="Car brands">
+  <div class="marquee-track">
+    <!-- Groupe 1 -->
+    <div class="marquee-group">
+      <img
+        *ngFor="let item of brandsWithUrl"
+        class="brand-logo"
+        [src]="item.fullLogoUrl || '/assets/default-brand.png'"
+        [alt]="item.brand.name"
+        (click)="viewModels(item.brand.id)"
+        style="cursor: pointer;"
+        [title]="'View ' + item.brand.name + ' models'"
+      />
+    </div>
+  </div>
+</section>

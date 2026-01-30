@@ -1,0 +1,325 @@
+.orders-page-wrapper {
+  padding: 30px;
+  background: #f4f7f9;
+  min-height: auto;
+}
+@media (max-width: 768px) {
+  .orders-page-wrapper {
+    padding: 15px; /* Less padding on mobile to give table more room */
+  }
+
+  .industrial-table th,
+  .industrial-table td {
+    padding: 12px 10px; /* Tighter cells for mobile */
+  }
+}
+.orders-header {
+  margin-bottom: 30px;
+}
+
+.header-line {
+  width: 50px;
+  height: 4px;
+  background: #00C853; /* Using your global red */
+}
+
+.orders-header h2 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin: 5px 0;
+  color: #1a202c;
+}
+
+/* Table Container */
+.orders-container {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.industrial-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+
+  min-width: 800px;
+}
+
+.industrial-table thead {
+  background: #1a202c;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.industrial-table th {
+  padding: 15px 20px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.industrial-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #edf2f7;
+  vertical-align: middle;
+}
+
+/* Row Styling */
+.industrial-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.order-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.user-email {
+  font-weight: 500;
+  color: #1a202c;
+}
+
+.order-total {
+  font-weight: 800;
+  color: #d32f2f; /* Racing Red */
+  font-size: 15px;
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: inline-block;
+}
+
+.status-badge[data-status="PENDING"] { background: #fef3c7; color: #92400e; }
+.status-badge[data-status="SHIPPED"] { background: #dcfce7; color: #166534; }
+.status-badge[data-status="CANCELLED"] { background: #fee2e2; color: #991b1b; }
+.status-badge[data-status="DELIVERED"] { background: #e0e7ff; color: #3730a3; }
+
+/* Items Manifest */
+.items-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.item-tag {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.item-tag .qty {
+  font-weight: 800;
+  color: #1a202c;
+  margin-right: 4px;
+}
+
+/* Admin Dropdown */
+.status-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  background: #fff;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.status-select:focus {
+  border-color: #1a202c;
+  outline: none;
+}
+
+.admin-select-wrapper {
+  min-width: 140px;
+}
+
+
+
+/* Pagination Wrapper - matches your .orders-container style */
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #fff;
+  border-top: 1px solid #edf2f7; /* Matches your td border */
+}
+
+.pagination-info {
+  font-size: 13px;
+  color: #64748b; /* Matches your .order-id color */
+  font-weight: 500;
+}
+
+.pagination-info strong {
+  color: #1a202c;
+  font-weight: 700;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+/* Updated button styles for icon buttons displayed inline */
+.confirm-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.icon-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+}
+
+.icon-btn:active {
+  transform: translateY(0);
+}
+
+.confirm-btn {
+  background: #00c853;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background: #00a843;
+}
+
+.cancel-btn {
+  background: #d32f2f;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: #b71c1c;
+}
+
+
+/* Pagination Buttons */
+.pag-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pag-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #1a202c;
+}
+
+/* Active Page - Matches your Header background */
+.pag-btn.active {
+  background: #1a202c;
+  color: #fff;
+  border-color: #1a202c;
+}
+
+.pag-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #f1f5f9;
+}
+
+/* Page numbers specific styling */
+.page-num {
+  min-width: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.status-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  padding: 6px 15px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+}
+
+.filter-btn:hover {
+  background: #f1f5f9;
+  color: #1a202c;
+}
+
+.filter-btn.active {
+  background: #00C853; /* Racing dark */
+  color: white;
+  border-color: #00C853;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+/* Container to lock the size */
+.avatar-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden; /* This crops the image */
+  border: 2px solid #e2e8f0;
+  background: #f1f5f9; /* Placeholder color while loading */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Image behavior inside the container */
+.user-avatar-mini {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* This is the secret: it fills the circle without distortion */
+  display: block;
+}
+
+/* Optional: Add a slight hover effect to the row to make the pfp "pop" */
+.industrial-table tbody tr:hover .avatar-container {
+  border-color: #00C853; /* Matches your green theme */
+  transition: border-color 0.2s ease;
+}

@@ -1,0 +1,442 @@
+<div class="brand-grid-header search-header">
+  <div class="header-titles">
+  </div>
+
+  <div class="search-box">
+    <input
+      type="text"
+      [ngModel]="searchQuery"
+      (input)="onSearchInput($any($event.target).value)"
+      placeholder="Rechercher une marque, un modèle, une catégorie..."
+      class="search-input"
+    />
+    <button (click)="onSearch()" class="search-btn">
+      <span class="search-icon">🔍</span>
+    </button>
+  </div>
+</div>
+
+<div *ngIf="!this.subcategoryId">
+  <div class="brand-grid-header search-header">
+    <div class="header-titles">
+      <h2>Catégories</h2>
+      <div class="header-line"></div>
+    </div>
+
+
+  </div>
+  <div class="manufacturers-container" >
+    <div class="manufacturer-card clickable-brand"
+         *ngFor="let d of categoriesForFilterWithUrl"
+         [class.active-filter]="selectedCategoryId === d.item.id"
+         (click)="toggleCategoryFilter(d.item.id!)">
+
+      <div class="manufacturer-logo">
+        <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
+        <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
+      </div>
+
+      <div class="manufacturer-name">
+        <h4>{{ d.item.name }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="!this.subcategoryId && this.selectedCategoryId">
+  <div class="brand-grid-header search-header">
+    <div class="header-titles">
+      <h2>Sous-catégories</h2>
+      <div class="header-line"></div>
+    </div>
+
+  </div>
+
+  <div class="manufacturers-container" *ngIf="!this.subcategoryId">
+    <div class="manufacturer-card clickable-brand"
+         *ngFor="let d of subCategoriesForFilterWithUrl"
+         [class.active-filter]="selectedSubCategoryId === d.item.id"
+         (click)="toggleSubCategoryFilter(d.item.id!)">
+
+      <div class="manufacturer-logo">
+        <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
+        <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
+      </div>
+
+      <div class="manufacturer-name">
+        <h4>{{ d.item.name }}</h4>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="brand-grid-header search-header">
+  <div class="header-titles">
+    <h2>CONSTRUCTEURS OFFICIELS</h2>
+    <div class="header-line"></div>
+  </div>
+
+<!--  <div class="search-box">-->
+<!--    <input-->
+<!--      type="text"-->
+<!--      [ngModel]="searchQuery"-->
+<!--      (input)="onSearchInput($any($event.target).value)"-->
+<!--      placeholder="Rechercher une marque, un modèle, une catégorie..."-->
+<!--      class="search-input"-->
+<!--    />-->
+<!--    <button (click)="onSearch()" class="search-btn">-->
+<!--      <span class="search-icon">🔍</span>-->
+<!--    </button>-->
+<!--  </div>-->
+</div>
+
+
+
+<div class="manufacturers-container">
+  <div class="manufacturer-card clickable-brand"
+       *ngFor="let d of designationsWithUrl"
+       [class.active-filter]="selectedDesignationId === d.item.id"
+       (click)="toggleDesignationFilter(d.item.id!)">
+
+    <div class="manufacturer-logo">
+      <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
+      <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
+    </div>
+
+    <div class="manufacturer-name">
+      <h4>{{ d.item.name }}</h4>
+    </div>
+
+    <div class="admin-btns-fixed" *ngIf="authService.isAdmin()">
+      <button (click)="openDesignationModal(designationModal, d.item); $event.stopPropagation()" title="Modifier">✏️</button>
+      <button class="del" (click)="deleteDesignation(d.item.id!); $event.stopPropagation()" title="Supprimer">🗑️</button>
+    </div>
+  </div>
+
+  <div *ngIf="authService.isAdmin()"
+       class="manufacturer-card add-manufacturer-card"
+       (click)="openDesignationModal(designationModal)">
+    <div class="add-icon">+</div>
+    <h4 class="small-text">AJOUTER CONSTRUCTEUR</h4>
+  </div>
+</div>
+
+<div class="brand-grid-header">
+  <div class="header-titles">
+    <h2>CATALOGUE DES PIÈCES EN VENTE</h2>
+    <div class="header-line"></div>
+  </div>
+</div>
+
+<div class="part-container">
+  <div class="part-card" *ngFor="let p of partsWithUrl"
+       [class.is-out]="!p.parts.inStock"
+       [class.has-sale]="p.parts.onSale"
+       (click)="!authService.isAdmin() ? openUserModal(userModal, p.parts) : null">
+
+    <div class="sale-corner" *ngIf="p.parts.onSale">
+      <span class="sale-text">PROMO</span>
+    </div>
+
+    <div class="part-img-cadre">
+      <img *ngIf="p.fullLogoUrl" [src]="p.fullLogoUrl" [alt]="p.parts.name" />
+      <div *ngIf="!p.fullLogoUrl" class="logo-placeholder">
+        <span class="placeholder-text">AUCUNE IMAGE</span>
+      </div>
+    </div>
+
+    <div class="part-data">
+      <h4 class="part-name">{{ p.parts.name }}</h4>
+
+      <div class="availability-status" [class.out-of-stock]="!p.parts.inStock">
+        {{ p.parts.inStock ? 'Disponible' : 'Indisponible' }}
+      </div>
+
+      <div class="price-row" [class.on-sale]="p.parts.onSale">
+  <span class="current-price">
+    {{ (p.parts.onSale ? p.parts.priceAfterSale : p.parts.price) | number:'1.2-2' }} TND
+  </span>
+
+        <span class="old-price" *ngIf="!p.parts.onSale">
+    {{ p.parts.price | number:'1.2-2' }} TND
+  </span>
+      </div>
+    </div>
+
+    <div class="card-overlay-static">
+      <button class="view-details" *ngIf="!authService.isAdmin()">DÉTAILS</button>
+      <div class="admin-btns-fixed" *ngIf="authService.isAdmin()">
+        <button class="btn-edit" (click)="openModal(adminModal, p.parts); $event.stopPropagation()">✏️</button>
+        <button class="btn-delete" (click)="deletePart(p.parts.id!); $event.stopPropagation()">🗑️</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="authService.isAdmin()" class="part-card add-part-card" (click)="openModal(adminModal)">
+    <div class="add-icon">+</div>
+    <h4 class="small-text">AJOUTER AU CATALOGUE</h4>
+  </div>
+</div>
+
+<div class="pagination-wrapper" *ngIf="totalPages > 1">
+  <div class="pagination-info">
+    Page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages }}
+  </div>
+
+  <div class="pagination-buttons">
+    <button class="pag-btn" [disabled]="currentPage === 0" (click)="loadParts(currentPage - 1)">Préc.</button>
+    <button *ngFor="let p of getPagesArray()" class="pag-btn page-num" [class.active]="p === currentPage" (click)="loadParts(p)">{{ p + 1 }}</button>
+    <button class="pag-btn" [disabled]="currentPage === totalPages - 1" (click)="loadParts(currentPage + 1)">Suivant</button>
+  </div>
+</div>
+
+<ng-template #adminModal let-modal>
+  <div class="garage-modal friendly-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">{{ editingPartId ? 'Gestion de l\'inventaire' : 'Développement du catalogue' }}</span>
+        <h5 class="modal-title">{{ editingPartId ? 'Modifier la pièce' : 'Ajouter une nouvelle pièce' }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="modern-form">
+        <div class="form-row split">
+          <div class="form-group half">
+            <label class="friendly-label">Nom de la pièce</label>
+            <input formControlName="name" type="text" class="friendly-input" placeholder="ex: Plaquettes de frein performance" />
+          </div>
+          <div class="form-group half">
+            <label class="friendly-label">Constructeur (Désignation)</label>
+            <select formControlName="designationId" class="friendly-input">
+              <option [ngValue]="null" disabled>Sélectionner un fabricant</option>
+              <option *ngFor="let d of designations" [value]="d.id">{{ d.name }}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row split sale-row-highlight">
+          <div class="form-group half">
+            <label class="friendly-label">Prix original (TND)</label>
+            <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" />
+          </div>
+          <div class="form-group half">
+            <label class="friendly-label">Promotion / Vente</label>
+            <div class="toggle-spacer">
+              <div class="toggle-container" style="width: 100%;">
+                <input formControlName="onSale" type="checkbox" id="onSaleToggle" class="toggle-input" />
+                <label for="onSaleToggle" class="toggle-label">
+                  <span class="toggle-text">{{ form.get('onSale')?.value ? '🔥 En Promotion' : 'Prix Régulier' }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row split animate-fade-in" *ngIf="form.get('onSale')?.value">
+          <div class="form-group half">
+            <label class="friendly-label">Pourcentage de remise (%)</label>
+            <input formControlName="salePercentage" type="number" class="friendly-input" placeholder="20" min="0" max="100" />
+          </div>
+          <div class="form-group half">
+            <label class="friendly-label">Prix de vente calculé</label>
+            <div class="price-preview-badge matched-height">
+              {{ (form.get('price')?.value * (1 - (form.get('salePercentage')?.value || 0) / 100)) | number:'1.2-2' }} TND
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="friendly-label">Référence de la pièce</label>
+          <input formControlName="reference" type="text" class="friendly-input" placeholder="ex: BOSH-9921-X" />
+        </div>
+
+        <div class="form-group">
+          <label class="friendly-label">Description technique</label>
+          <textarea formControlName="description" class="friendly-input" rows="3" placeholder="Spécifications techniques..."></textarea>
+        </div>
+
+        <div class="form-row split">
+          <div class="form-group half" *ngIf="!isSubcategoryContext">
+            <label class="friendly-label">Catégorie</label>
+            <select class="friendly-input" (change)="onCategoryChange($event)">
+              <option value="" disabled selected>Choisir une catégorie</option>
+              <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label class="friendly-label">Disponibilité</label>
+            <div class="toggle-container">
+              <input formControlName="inStock" type="checkbox" id="inStockToggle" class="toggle-input" />
+              <label for="inStockToggle" class="toggle-label">
+                <span class="toggle-text">{{ form.get('inStock')?.value ? '✅ En stock' : '❌ Rupture de stock' }}</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="!isSubcategoryContext && subCategories.length > 0">
+          <label class="friendly-label">Sous-catégorie</label>
+          <select formControlName="subCategoryId" class="friendly-input">
+            <option [ngValue]="null" disabled selected>Choisir une sous-catégorie</option>
+            <option *ngFor="let sub of subCategories" [value]="sub.id">{{ sub.name }}</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+          <label class="friendly-label">Générations de voitures compatibles</label>
+          <div class="checklist-frame">
+            <div class="generation-grid">
+              <div *ngFor="let gen of generations" class="gen-item">
+                <label class="custom-checkbox">
+                  <input type="checkbox" [checked]="form.get('generationIds')?.value?.includes(gen.id)" (change)="onGenerationToggle(gen.id)" />
+                  <span class="checkmark"></span>
+                  <span class="gen-label">{{ gen.name }}</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="friendly-label">Image de la pièce</label>
+          <div class="custom-file-upload">
+            <input type="file" (change)="onFileChange($event)" id="partFile" />
+            <label for="partFile" class="file-dropzone">
+              <span>{{ selectedFile ? selectedFile.name : 'Cliquez pour télécharger une photo claire' }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer-friendly">
+          <button type="button" class="btn-ghost" (click)="modal.dismiss()">Retour</button>
+          <button type="submit" class="btn-action-primary">{{ editingPartId ? 'Appliquer les modifications' : 'Ajouter au catalogue' }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #userModal let-modal>
+  <div class="garage-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">
+          {{ selectedPart?.categoryName }}
+          <span *ngIf="selectedPart?.onSale" class="sale-text-inline">| PROMOTION</span>
+        </span>
+        <h5 class="modal-title">{{ selectedPart?.name }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <div class="product-detail-grid">
+        <div class="detail-image-box">
+          <div class="sale-corner small-corner" *ngIf="selectedPart?.onSale">
+            <span class="sale-text">-{{ selectedPart?.salePercentage }}%</span>
+          </div>
+          <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded" />
+          <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+        </div>
+
+        <div class="detail-info-box">
+          <div class="compatibility-tag">
+            <span class="info-label">Désignation : </span>
+            {{ selectedPart?.designationName }}
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Référence :</span>
+            <span class="info-value">#REF-{{ selectedPart?.reference }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Catégorie :</span>
+            <span class="info-value">{{ selectedPart?.categoryName }} > {{ selectedPart?.subCategoryName }}</span>
+          </div>
+
+          <div class="price-highlight-container">
+            <div class="price-highlight on-sale" *ngIf="selectedPart?.onSale">
+              <div class="old-price-wrapper">
+                <span class="currency-small">TND</span>
+                <span class="amount-old">{{ selectedPart?.price | number:'1.2-2' }}</span>
+              </div>
+              <div class="new-price-wrapper">
+                <span class="currency">TND</span>
+                <span class="amount">{{ selectedPart?.priceAfterSale | number:'1.2-2' }}</span>
+                <span class="sale-badge-pill">ÉCONOMISEZ {{ selectedPart?.salePercentage }}%</span>
+              </div>
+            </div>
+
+            <div class="price-highlight" *ngIf="!selectedPart?.onSale">
+              <span class="currency">TND</span>
+              <span class="amount">{{ selectedPart?.price | number:'1.2-2' }}</span>
+            </div>
+          </div>
+
+          <div class="stock-status" [class.out]="!selectedPart?.inStock">
+            <span class="dot"></span>
+            {{ selectedPart?.inStock ? 'Disponible en stock' : 'Actuellement en rupture de stock' }}
+          </div>
+
+          <hr class="divider" />
+
+          <div *ngIf="selectedPart?.inStock" class="cart-action-area">
+            <label class="friendly-label">Quantité</label>
+            <div class="d-flex gap-3">
+              <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select">
+                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [value]="q">{{ q }} Unité(s)</option>
+              </select>
+              <button class="btn-action-primary flex-grow-1" (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()">
+                AJOUTER AU PANIER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #designationModal let-modal>
+  <div class="garage-modal friendly-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">Gestion des marques</span>
+        <h5 class="modal-title">{{ editingDesignationId ? 'Modifier le fabricant' : 'Nouveau fabricant' }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <form [formGroup]="designationForm" (ngSubmit)="submitDesignation(modal)" class="modern-form">
+        <div class="form-group">
+          <label class="friendly-label">Nom de la marque</label>
+          <input formControlName="name" type="text" class="friendly-input" placeholder="ex: Bosch, Brembo, Motul..." />
+        </div>
+
+        <div class="form-group">
+          <label class="friendly-label">Logo de la marque</label>
+          <div class="custom-file-upload">
+            <input type="file" (change)="onFileChange($event)" id="desFile" accept="image/*" />
+            <label for="desFile" class="file-dropzone">
+              <span>{{ selectedFile ? selectedFile.name : 'Télécharger le logo (PNG de préférence)' }}</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer-friendly">
+          <button type="button" class="btn-ghost" (click)="modal.dismiss()">Annuler</button>
+          <button type="submit" class="btn-action-primary" [disabled]="!designationForm.value.name">
+            {{ editingDesignationId ? 'Mettre à jour la marque' : 'Enregistrer la marque' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ng-template>

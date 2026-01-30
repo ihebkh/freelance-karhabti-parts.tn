@@ -1,0 +1,68 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Ravi de vous revoir</h2>
+    <p class="subtitle">Connectez-vous pour gérer vos pièces automobiles</p>
+
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" novalidate>
+
+      <!-- EMAIL -->
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        #emailCtrl="ngModel"
+        placeholder="E-mail"
+        required
+        email
+      />
+
+      <small class="error"
+             *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+    <span *ngIf="emailCtrl.errors?.['required']">
+      L’e-mail est obligatoire
+    </span>
+        <span *ngIf="emailCtrl.errors?.['email']">
+      Format d’e-mail invalide
+    </span>
+      </small>
+
+      <!-- PASSWORD -->
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="password"
+        #passwordCtrl="ngModel"
+        placeholder="Mot de passe"
+        required
+        minlength="8"
+      />
+
+      <small class="error"
+             *ngIf="passwordCtrl.invalid && (passwordCtrl.dirty || passwordCtrl.touched)">
+    <span *ngIf="passwordCtrl.errors?.['required']">
+      Le mot de passe est obligatoire
+    </span>
+        <span *ngIf="passwordCtrl.errors?.['minlength']">
+      Minimum 8 caractères
+    </span>
+      </small>
+
+      <button type="submit" [disabled]="loginForm.invalid">
+        Se connecter
+      </button>
+
+    </form>
+
+    <p *ngIf="message" style="color: green">{{ message }}</p>
+    <p *ngIf="error" style="color: red">{{ error }}</p>
+
+    <p class="switch">
+      Vous n’avez pas de compte ?
+      <a routerLink="/auth/signup">En créer un</a>
+    </p>
+
+    <div style="text-align: right; margin-bottom: 15px;">
+      <a routerLink="/auth/forgot-password" style="font-size: 0.85rem; color: #666;">Mot de passe oublié ?</a>
+    </div>
+  </div>
+</div>

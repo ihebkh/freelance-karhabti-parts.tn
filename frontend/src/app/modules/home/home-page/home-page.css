@@ -1,0 +1,177 @@
+.welcome-screen {
+  padding: 60px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.welcome-header h1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #1a202c;
+  letter-spacing: -1px;
+  margin-bottom: 10px;
+}
+
+.welcome-header p {
+  color: #718096;
+  margin-bottom: 50px;
+  font-size: 1.1rem;
+}
+
+/* Section titles */
+.welcome-screen h4 {
+  text-align: left;
+  margin: 40px 0 20px 0;
+  padding: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1a202c;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* The Grid */
+.navigation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 25px;
+  margin-bottom: 60px;
+}
+
+/* Individual Square */
+.nav-square {
+  background: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  text-decoration: none !important;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: relative;
+  min-height: 280px;
+}
+
+.nav-square::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+  z-index: 1;
+  transition: background 0.3s;
+}
+
+.square-content {
+  padding: 20px 20px 40px 20px;
+  flex: 1;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.nav-square h3 {
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.nav-square p {
+  color: #f0f0f0;
+  font-size: 0.9rem;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.square-footer {
+  background: rgba(248, 250, 252, 0.95);
+  padding: 15px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1a202c;
+  border-top: 1px solid #e2e8f0;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+/* Hover Effects */
+.nav-square:hover {
+  transform: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border-color: #e2e8f0;
+}
+
+.nav-square:hover::before {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+}
+
+.nav-square:hover .square-footer {
+  background: #00c853;
+  color: white;
+  border-color: #00c853;
+}
+
+/* Special styling for Sales card */
+.sale-card:hover {
+  border-color: #e2e8f0;
+}
+
+.sale-card:hover::before {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.6));
+}
+
+.sale-card:hover .square-footer {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .welcome-screen {
+    padding: 40px 15px;
+  }
+
+  .welcome-header h1 {
+    font-size: 2rem;
+  }
+
+  .welcome-header p {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  
+  .welcome-screen h4 {
+    font-size: 1.25rem;
+    margin: 30px 0 15px 0;
+  }
+  
+  .navigation-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .square-content {
+    padding: 30px 15px;
+  }
+
+  .nav-square h3 {
+    font-size: 1.1rem;
+  }
+
+  .nav-square p {
+    font-size: 0.85rem;
+  }
+}

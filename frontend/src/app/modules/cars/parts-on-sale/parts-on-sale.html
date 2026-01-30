@@ -1,0 +1,149 @@
+<div class="brand-grid-header search-header">
+  <div class="header-titles">
+    <h2>CATALOGUE DES PIÈCES EN VENTE</h2>
+    <div class="header-line"></div>
+  </div>
+</div>
+
+<div class="part-container">
+  <div class="part-card" *ngFor="let p of partsWithUrl"
+       [class.is-out]="!p.parts.inStock"
+       (click)="!authService.isAdmin() ? openUserModal(userModal, p.parts) : null">
+
+    <div class="sale-ribbon" *ngIf="p.parts.onSale">
+      <span>Promo</span>
+    </div>
+
+    <div class="part-img-wrapper">
+      <img *ngIf="p.fullLogoUrl" [src]="p.fullLogoUrl" [alt]="p.parts.name" />
+      <div *ngIf="!p.fullLogoUrl" class="logo-placeholder">AUCUNE IMAGE</div>
+    </div>
+
+    <div class="part-info">
+      <h4 class="part-name">{{ p.parts.name }}</h4>
+
+      <p class="stock-label" [class.disponible]="p.parts.inStock" [class.indisponible]="!p.parts.inStock">
+        {{ p.parts.inStock ? 'Disponible' : 'Pas disponible' }}
+      </p>
+
+      <div class="price-section">
+        <span class="price-current" [class.on-sale]="p.parts.onSale">
+          {{ p.parts.onSale ? (p.parts.priceAfterSale | number:'1.2-2') : (p.parts.price | number:'1.2-2') }} TND
+        </span>
+
+        <span class="price-original" *ngIf="p.parts.onSale">
+          {{ p.parts.price | number:'1.2-2' }} TND
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="pagination-wrapper" *ngIf="totalPages > 1">
+  <div class="pagination-info">
+    Page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages }}
+  </div>
+
+  <div class="pagination-buttons">
+    <button
+      class="pag-btn"
+      [disabled]="currentPage === 0"
+      (click)="loadParts(currentPage - 1)">
+      Préc.
+    </button>
+
+    <button
+      *ngFor="let p of getPagesArray()"
+      class="pag-btn page-num"
+      [class.active]="p === currentPage"
+      (click)="loadParts(p)">
+      {{ p + 1 }}
+    </button>
+
+    <button
+      class="pag-btn"
+      [disabled]="currentPage === totalPages - 1"
+      (click)="loadParts(currentPage + 1)">
+      Suivant
+    </button>
+  </div>
+</div>
+
+<ng-template #userModal let-modal>
+  <div class="garage-modal">
+    <div class="modal-header-clean">
+      <div class="header-content">
+        <span class="category-tag">
+          {{ selectedPart?.categoryName }}
+          <span *ngIf="selectedPart?.onSale" class="sale-text-inline">| PROMOTION</span>
+        </span>
+        <h5 class="modal-title">{{ selectedPart?.name }}</h5>
+      </div>
+      <button type="button" class="btn-close-circle" (click)="modal.dismiss()">✕</button>
+    </div>
+
+    <div class="modal-body-friendly">
+      <div class="product-detail-grid">
+        <div class="detail-image-box">
+          <div class="sale-badge-corner" *ngIf="selectedPart?.onSale">
+            <span>-{{ selectedPart?.salePercentage }}%</span>
+          </div>
+          <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded" />
+          <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+        </div>
+
+        <div class="detail-info-box">
+          <div class="compatibility-tag">
+            <span class="info-label">Désignation : </span>
+            {{ selectedPart?.designationName }}
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Référence :</span>
+            <span class="info-value">#REF-{{ selectedPart?.reference }}</span>
+          </div>
+
+          <div class="info-row">
+            <span class="info-label">Catégorie :</span>
+            <span class="info-value">{{ selectedPart?.categoryName }} > {{ selectedPart?.subCategoryName }}</span>
+          </div>
+
+          <div class="price-highlight-container">
+            <div class="price-highlight on-sale" *ngIf="selectedPart?.onSale">
+              <div class="old-price-wrapper">
+                <span class="amount-old">{{ selectedPart?.price | number:'1.2-2' }} TND</span>
+              </div>
+              <div class="new-price-wrapper">
+                <span class="amount">{{ selectedPart?.priceAfterSale | number:'1.2-2' }} TND</span>
+                <span class="sale-badge-pill">ÉCONOMISEZ {{ selectedPart?.salePercentage }}%</span>
+              </div>
+            </div>
+
+            <div class="price-highlight" *ngIf="!selectedPart?.onSale">
+              <span class="amount">{{ selectedPart?.price | number:'1.2-2' }} TND</span>
+            </div>
+          </div>
+
+          <div class="stock-status-modal" [class.out]="!selectedPart?.inStock">
+            <span class="dot"></span>
+            {{ selectedPart?.inStock ? 'Disponible en stock' : 'Actuellement en rupture de stock' }}
+          </div>
+
+          <hr class="divider" />
+
+          <div *ngIf="selectedPart?.inStock" class="cart-action-area">
+            <label class="friendly-label">Quantité</label>
+            <div class="d-flex gap-3">
+              <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select">
+                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [value]="q">{{ q }} Article{{ q > 1 ? 's' : '' }}</option>
+              </select>
+              <button class="btn-action-primary flex-grow-1" (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()">
+                AJOUTER AU PANIER
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
