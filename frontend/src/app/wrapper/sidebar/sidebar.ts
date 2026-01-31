@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
-import {AuthService} from '../../services/auth-service';
-import {UserService} from '../../services/user-service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PublicCarService } from '../../services/public-car-service';
+import { CarBrand } from '../../models/CarBrand';
+import { AuthService } from '../../services/auth-service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,26 +10,52 @@ import {Router} from '@angular/router';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar {
-  isMenuOpen = false;
+export class Sidebar implements OnInit {
+  brandsWithUrl: { brand: CarBrand, fullLogoUrl?: string }[] = [];
+  isLoading: boolean = true;
+  showBrandsDropdown: boolean = false;
 
   constructor(
-    public authService: AuthService,
-    private userService: UserService,
-    private router: Router
+    private publicService: PublicCarService,
+    private router: Router,
+    public authService: AuthService
   ) {}
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  ngOnInit(): void {
+    this.loadBrands();
   }
 
-  closeMenu() {
-    this.isMenuOpen = false;
+  loadBrands(): void {
+    this.isLoading = true;
+    this.publicService.getBrands().subscribe({
+      next: (data) => {
+        this.brandsWithUrl = data.map(b => ({
+          brand: b,
+          fullLogoUrl: b.logo ? this.publicService.getImageUrl(b.logo) : undefined
+        }));
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des marques:', error);
+        this.isLoading = false;
+      }
+    });
   }
 
-  logout() {
-    this.closeMenu();
-    this.userService.logout();
-    this.router.navigate(['/auth/signin']);
+  viewModels(brandId: number): void {
+    if (this.authService.isAdmin()) {
+      this.router.navigate(['/admin/cars/brands', brandId, 'models']);
+    } else {
+      this.router.navigate(['/cars/brands', brandId, 'models']);
+    }
+    this.showBrandsDropdown = false;
+  }
+
+  onBrandsMenuEnter(): void {
+    this.showBrandsDropdown = true;
+  }
+
+  onBrandsMenuLeave(): void {
+    this.showBrandsDropdown = false;
   }
 }

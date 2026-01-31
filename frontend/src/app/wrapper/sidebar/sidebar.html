@@ -15,7 +15,51 @@
       </ng-container>
 
       <ng-container *ngIf="!authService.isAdmin()">
-        <li><a routerLink="/cars/brands" routerLinkActive="active">Parcourir les véhicules</a></li>
+        <!-- Menu avec dropdown pour les marques -->
+        <li class="dropdown-menu-item" 
+            (mouseenter)="onBrandsMenuEnter()" 
+            (mouseleave)="onBrandsMenuLeave()">
+          <a routerLink="/cars/brands" routerLinkActive="active" class="dropdown-trigger">
+            Parcourir les véhicules
+            <span class="dropdown-arrow">▼</span>
+          </a>
+
+          <!-- Dropdown des marques -->
+          <div class="brands-dropdown" *ngIf="showBrandsDropdown">
+            <div class="dropdown-header">
+              <h4>Sélectionnez une marque</h4>
+            </div>
+
+            <div class="brands-grid" *ngIf="!isLoading">
+              <div class="brand-card" 
+                   *ngFor="let item of brandsWithUrl" 
+                   (click)="viewModels(item.brand.id!)">
+                <div class="brand-logo">
+                  <img *ngIf="item.fullLogoUrl" 
+                       [src]="item.fullLogoUrl" 
+                       [alt]="item.brand.name"
+                       class="brand-image" />
+                  <div *ngIf="!item.fullLogoUrl" class="brand-placeholder">
+                    {{ item.brand.name.charAt(0) }}
+                  </div>
+                </div>
+                <span class="brand-name">{{ item.brand.name }}</span>
+              </div>
+            </div>
+
+            <div class="loading-state" *ngIf="isLoading">
+              <div class="spinner"></div>
+              <p>Chargement des marques...</p>
+            </div>
+
+            <div class="dropdown-footer">
+              <a routerLink="/cars/brands" class="view-all-link">
+                Voir toutes les marques →
+              </a>
+            </div>
+          </div>
+        </li>
+
         <li><a routerLink="/cars/categories" routerLinkActive="active">Catégories</a></li>
         <li><a routerLink="/cars/parts" routerLinkActive="active">Pièces</a></li>
         <li><a routerLink="/cars/orders" routerLinkActive="active">Mes Commandes</a></li>

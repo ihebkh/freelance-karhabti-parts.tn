@@ -20,7 +20,6 @@
     <table class="industrial-table">
       <thead>
       <tr>
-        <th>ID</th>
         <th>Profile</th>
         <th>Username</th>
         <th>Email</th>
@@ -32,7 +31,6 @@
       </thead>
       <tbody>
       <tr *ngFor="let user of users">
-        <td class="order-id">#{{ user.id }}</td>
         <td>
           <div class="avatar-container">
             <img [src]="getProfileImageUrl(user.profilePicture)"
