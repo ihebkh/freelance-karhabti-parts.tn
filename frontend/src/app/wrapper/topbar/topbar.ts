@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
   styleUrl: './topbar.css',
 })
 export class Topbar implements OnInit {
+  isMenuOpen = false;
   selectedPart?: CarPart;
   selectedPartUrl?: string;
   quantityToAdd: number = 1;
@@ -29,6 +30,7 @@ export class Topbar implements OnInit {
   @Input() cart: CartItem[] = [];
   orderForm: FormGroup;
   searchMode: 'PART' | 'VIN' = 'PART';
+  
   constructor(
     private cartService: CartService,
     private modalService: NgbModal,
@@ -82,7 +84,7 @@ export class Topbar implements OnInit {
     const request = {
       items: this.cart.map(item => ({
         partId: item.part.id,
-        quantity: Number(item.quantity) // Convertir en nombre
+        quantity: Number(item.quantity)
       })),
       ...this.orderForm.value
     };
@@ -94,7 +96,6 @@ export class Topbar implements OnInit {
     });
   }
 
-  // CORRIGÉ : Conversion en nombre
   getCartTotal(): number {
     return this.cart?.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0) || 0;
   }
@@ -107,6 +108,7 @@ export class Topbar implements OnInit {
       this.searchResults = [];
     }
   }
+
   handleSearchEnter() {
     const query = this.searchQuery.trim();
     if (!query) return;
@@ -116,28 +118,23 @@ export class Topbar implements OnInit {
       this.publicCarService.lookupVin(query).subscribe({
         next: (res: any) => {
           this.isSearching = false;
-
-
           const isAdmin = this.authService.isAdmin();
           const base = isAdmin ? '/admin/cars' : '/cars';
-
-
           const targetUrl = res.type === 'brand'
             ? `${base}/brands/${res.id}/models`
             : `${base}/models/${res.id}/generations`;
-
           this.router.navigate([targetUrl]);
           this.clearSearch();
         },
         error: (err) => {
           this.isSearching = false;
-          // Check if the backend returned our custom 404 message
           const errorMsg = err.error?.message || "VIN non trouvé ou marque non supportée.";
           alert(errorMsg);
         }
       });
     }
   }
+
   clearSearch() {
     this.searchQuery = '';
     this.searchResults = [];
@@ -163,20 +160,17 @@ export class Topbar implements OnInit {
 
   addToCart(part: CarPart, quantity: number) {
     if (this.selectedPart) {
-      // S'assurer que quantity est un nombre
       this.cartService.addItem(this.selectedPart, Number(quantity));
     }
   }
 
-  // CORRIGÉ : Conversion en nombre
   getCartTotalPrice(): number {
     if (!this.cart || this.cart.length === 0) return 0;
     return this.cart.reduce((total, item) => {
       const activePrice = item.part.onSale
         ? (item.part.priceAfterSale || 0)
         : (item.part.price || 0);
-
-      const qty = Number(item.quantity) || 0; // Convertir en nombre
+      const qty = Number(item.quantity) || 0;
       return total + (activePrice * qty);
     }, 0);
   }
@@ -205,5 +199,27 @@ export class Topbar implements OnInit {
         queryParams: { returnUrl: this.router.url }
       });
     }
+  }
+
+  // Nouvelles méthodes pour le menu utilisateur
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
+  logout() {
+    this.closeMenu();
+    this.userService.logout();
+    this.router.navigate(['/auth/signin']);
+  }
+
+  // Méthode pour naviguer vers la page de login
+  navigateToLogin() {
+    this.router.navigate(['/auth/signin'], {
+      queryParams: { returnUrl: this.router.url }
+    });
   }
 }

@@ -13,9 +13,6 @@
         (keyup.enter)="handleSearchEnter()"
         [placeholder]="searchMode === 'PART' ? 'Rechercher une pièce...' : 'Entrez votre code VIN'"
       />
-
-      <button type="button" class="search-btn" (click)="handleSearchEnter()" [disabled]="!searchQuery || isSearching">🔍</button>
-
       <span *ngIf="isSearching" class="loading-dots">...</span>
 
       <button *ngIf="searchQuery" class="clear-search" (click)="clearSearch()">✕</button>
@@ -48,19 +45,46 @@
 
   <div class="topbar-actions">
    
-
-    <div class="action-item" *ngIf="!authService.isAdmin()">
-      <span class="action-icon">👤</span>
-      <span class="action-label">Me connecter</span>
-    </div>
-
+    <!-- Panier (visible seulement pour les non-admins) -->
     <div *ngIf="!authService.isAdmin()" class="action-item cart-section" (click)="openCartModal(cartModal)">
       <span class="action-icon">🛒</span>
       <span class="action-label">Mon panier</span>
       <span class="cart-badge">{{ getCartTotal() }}</span>
     </div>
+
+    <!-- Menu utilisateur avec dropdown -->
+    <div class="user-menu-container" *ngIf="authService.isLoggedIn()">
+      <div class="action-item" (click)="toggleMenu()">
+        <span class="action-icon">👤</span>
+        <span class="action-label">Mon compte</span>
+      </div>
+
+      <!-- Dropdown menu -->
+      <div class="user-dropdown" *ngIf="isMenuOpen" (click)="$event.stopPropagation()">
+        <button class="dropdown-item" routerLink="/user/profile" (click)="closeMenu()">
+          <span class="dropdown-icon">👤</span>
+          Mon profil
+        </button>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item" (click)="logout()">
+          <span class="dropdown-icon">🚪</span>
+          Se déconnecter
+        </button>
+      </div>
+    </div>
+
+    <!-- Bouton de connexion (visible seulement si non connecté) -->
+    <div class="action-item" *ngIf="!authService.isLoggedIn()" (click)="navigateToLogin()">
+      <span class="action-icon">🔑</span>
+      <span class="action-label">Se connecter</span>
+    </div>
+
   </div>
 
+</nav>
+
+<!-- Overlay pour fermer le menu quand on clique ailleurs -->
+<div class="menu-overlay" *ngIf="isMenuOpen" (click)="closeMenu()"></div>
 
 <ng-template #userModal let-modal>
   <div class="garage-modal">
@@ -104,7 +128,6 @@
           <div *ngIf="selectedPart?.inStock && !authService.isAdmin()" class="cart-action-area">
             <label class="friendly-label">Quantité</label>
             <div class="d-flex gap-3">
-             <!-- Dans le modal de détails du produit -->
               <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select">
                 <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [ngValue]="q">
                  {{ q }} Article{{ q > 1 ? 's' : '' }}

@@ -50,31 +50,7 @@
   width: 100%;
 }
 
-/* ZONE DROITE */
-.logout-wrapper {
-  margin-left: auto;
-}
 
-/* SIGN OUT MODERNE */
-.logout-btn {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 1px solid #e53935;
-  background: transparent;
-  color: #e53935;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.logout-btn:hover {
-  background: #e53935;
-  color: white;
-  box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25);
-}
-
-/* Responsive navbar for tablets and mobile devices */
 
 /* Tablet view */
 @media (max-width: 968px) {
@@ -90,10 +66,7 @@
     font-size: 14px;
   }
 
-  .logout-btn {
-    padding: 7px 15px;
-    font-size: 13px;
-  }
+ 
 }
 
 /* Mobile landscape */
@@ -124,15 +97,4 @@
     bottom: -4px;
   }
 
-  .logout-wrapper {
-    margin-left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .logout-btn {
-    width: 100%;
-    max-width: 200px;
-  }
 }

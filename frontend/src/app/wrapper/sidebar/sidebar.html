@@ -3,7 +3,6 @@
 
     <ul class="nav-links center-links">
 
-      <li><a routerLink="/user/profile" routerLinkActive="active">Mon Profil</a></li>
       <li><a routerLink="/home" routerLinkActive="active">Accueil</a></li>
 
       <ng-container *ngIf="authService.isAdmin()">
@@ -23,12 +22,6 @@
       </ng-container>
 
     </ul>
-
-    <div class="logout-wrapper" *ngIf="authService.isLoggedIn()">
-      <button class="logout-btn" (click)="logout()">
-        Déconnexion
-      </button>
-    </div>
 
   </div>
 </nav>

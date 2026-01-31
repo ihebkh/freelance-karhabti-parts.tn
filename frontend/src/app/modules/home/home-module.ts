@@ -9,6 +9,8 @@ import { AlertHome } from './alert-home/alert-home';
 import { BrandListConstante } from './brand-list-constante/brand-list-constante';
 import { CategoryList } from './category-list/category-list';
 import { Vin } from './vin/vin';
+import { PicturesWelcome } from './pictures-welcome/pictures-welcome';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,11 +20,13 @@ import { Vin } from './vin/vin';
     AlertHome,
     BrandListConstante,
     CategoryList,
-    Vin
+    Vin,
+    PicturesWelcome,
   ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    FormsModule
   ]
 })
 export class HomeModule { }
