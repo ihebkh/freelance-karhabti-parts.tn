@@ -1,1 +1,78 @@
-<p>pictures-welcome works!</p>
+<div class="welcome-section">
+  <div class="carousel-container">
+    <div class="carousel-wrapper">
+      <!-- Slide 1 -->
+      <div class="carousel-slide active">
+        <div class="slide-content">
+          <div class="text-side">
+            <span class="offer-badge">Offre Limitée -30%</span>
+            <h1 class="hero-title">
+              Découvrez Notre Gamme<br>
+              Complète de Pièces Auto
+            </h1>
+            <div class="button-group">
+              <button class="btn btn-buy">Acheter Maintenant</button>
+              <button class="btn btn-more">
+                En Savoir Plus →
+              </button>
+            </div>
+          </div>
+          <div class="image-side">
+            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80" alt="Pièces Auto" class="hero-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="carousel-slide">
+        <div class="slide-content">
+          <div class="text-side">
+            <span class="offer-badge new">Nouveau Arrivage</span>
+            <h1 class="hero-title">
+              Équipez Votre Moto<br>
+              Avec Les Meilleurs Produits
+            </h1>
+            <div class="button-group">
+              <button class="btn btn-buy">Voir La Collection</button>
+              <button class="btn btn-more">
+                Catalogue →
+              </button>
+            </div>
+          </div>
+          <div class="image-side">
+            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80" alt="Moto" class="hero-image">
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="carousel-slide">
+        <div class="slide-content">
+          <div class="text-side">
+            <span class="offer-badge promo">Promo Flash</span>
+            <h1 class="hero-title">
+              Service Technique<br>
+              Expertise & Conseil Gratuit
+            </h1>
+            <div class="button-group">
+              <button class="btn btn-buy">Contactez-Nous</button>
+              <button class="btn btn-more">
+                28 299 447 →
+              </button>
+            </div>
+          </div>
+          <div class="image-side">
+            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80" alt="Service" class="hero-image">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel Dots -->
+    <div class="carousel-dots">
+      <span class="dot active" (click)="goToSlide(0)"></span>
+      <span class="dot" (click)="goToSlide(1)"></span>
+      <span class="dot" (click)="goToSlide(2)"></span>
+    </div>
+  </div>
+</div>

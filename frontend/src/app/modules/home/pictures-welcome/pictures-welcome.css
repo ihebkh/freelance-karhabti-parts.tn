@@ -1,0 +1,248 @@
+/* Welcome Section - Simple & Clean */
+.welcome-section {
+  width: 100%;
+  background: #e8ecf1;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Carousel Container */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 500px;
+}
+
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Carousel Slides */
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+/* Slide Content Layout */
+.slide-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 60px 80px;
+  gap: 60px;
+}
+
+/* Text Side */
+.text-side {
+  flex: 1;
+  max-width: 550px;
+}
+
+.offer-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  background: #D4AF37;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.offer-badge.new {
+  background: #4caf50;
+}
+
+.offer-badge.promo {
+  background: #e53935;
+}
+
+.hero-title {
+  font-size: 48px;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1.2;
+  margin: 0 0 35px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.btn-buy {
+  background: #D4AF37;
+  color: white;
+}
+
+.btn-buy:hover {
+  background: #e55a00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+
+.btn-more {
+  background: transparent;
+  color: #2c3e50;
+  border: 2px solid transparent;
+}
+
+.btn-more:hover {
+  color: #D4AF37;
+}
+
+/* Image Side */
+.image-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-image {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.1));
+}
+
+/* Carousel Dots */
+.carousel-dots {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(44, 62, 80, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background: #D4AF37;
+  width: 30px;
+  border-radius: 5px;
+}
+
+.dot:hover {
+  background: rgba(255, 102, 0, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .slide-content {
+    padding: 40px 60px;
+    gap: 40px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-image {
+    max-height: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-container {
+    height: auto;
+    min-height: 500px;
+  }
+
+  .slide-content {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 30px;
+    gap: 30px;
+  }
+
+  .text-side {
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .button-group {
+    justify-content: center;
+  }
+
+  .hero-image {
+    max-height: 300px;
+  }
+
+  .carousel-dots {
+    bottom: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slide-content {
+    padding: 30px 20px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    font-size: 14px;
+    width: 100%;
+  }
+
+  .button-group {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .hero-image {
+    max-height: 250px;
+  }
+}

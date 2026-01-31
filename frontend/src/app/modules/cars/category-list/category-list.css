@@ -4,11 +4,24 @@
   padding: 0 20px;
 }
 
+.brand-grid-header {
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+.brand-grid-header h2 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  margin: 5px 0;
+  color: #1a202c;
+}
+
 
 .header-line {
   width: 50px;
   height: 3px;
-  background: #10b981;
+  background: #D4AF37;
   margin-top: 8px;
 }
 
@@ -43,7 +56,7 @@
 }
 
 .brand-card:hover {
-  border-color: #00c853;
+  border-color: #D4AF37;
   transform: translateY(-4px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
@@ -107,9 +120,9 @@
 }
 
 .btn-view:hover {
-  background: #00C853;
+  background: #D4AF37;
   color: #ffffff;
-  border-color: #00C853;
+  border-color: #D4AF37;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -134,13 +147,13 @@
 
 .btn-edit:hover {
   background: transparent !important;
-  color: #00c853;
+  color: #D4AF37;
   transform: scale(1.1);
 }
 
 .btn-delete:hover {
   background: transparent !important;
-  color: #00c853;
+  color: #D4AF37;
   transform: scale(1.1);
 }
 
@@ -155,7 +168,7 @@
 }
 
 .add-brand-card:hover {
-  border-color: #00c853;
+  border-color: #D4AF37;
   background: #fff;
 }
 
@@ -192,7 +205,7 @@
 .category-tag {
   font-size: 11px;
   text-transform: uppercase;
-  color: #00c853;
+  color: #D4AF37;
   font-weight: 800;
   letter-spacing: 1.2px;
   display: block;
@@ -252,7 +265,7 @@
 }
 
 .file-dropzone:hover {
-  border-color: #00c853;
+  border-color: #D4AF37;
   background: #f0fff4;
 }
 

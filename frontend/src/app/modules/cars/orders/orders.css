@@ -20,7 +20,7 @@
 .header-line {
   width: 50px;
   height: 4px;
-  background: #00C853; /* Using your global red */
+  background: #D4AF37; /* Using your global red */
 }
 
 .orders-header h2 {
@@ -310,9 +310,9 @@
 }
 
 .filter-btn.active {
-  background: #00C853; /* Racing dark */
+  background: #D4AF37; /* Racing dark */
   color: white;
-  border-color: #00C853;
+  border-color: #D4AF37;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 /* Container to lock the size */

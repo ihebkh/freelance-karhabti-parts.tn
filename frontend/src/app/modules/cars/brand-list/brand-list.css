@@ -15,7 +15,7 @@
 .header-line {
   width: 50px;
   height: 4px;
-  background: #00C853;
+  background: #D4AF37;
 }
 
 .brand-container {
@@ -33,7 +33,7 @@
 .brand-card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 16px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -43,7 +43,7 @@
 }
 
 .brand-card:hover {
-  border-color: #00C853;
+  border-color: #D4AF37;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px);
 }
@@ -110,9 +110,9 @@
 }
 
 .btn-view:hover {
-  background: #00C853;
+  background: #D4AF37;
   color: #ffffff;
-  border-color: #00C853;
+  border-color: #D4AF37;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
@@ -157,7 +157,7 @@
 }
 
 .add-brand-card:hover {
-  border-color: #00C853;
+  border-color: #D4AF37;
   background: #fff;
 }
 
@@ -202,7 +202,7 @@
 .category-tag {
   font-size: 11px;
   text-transform: uppercase;
-  color: #00C853;
+  color: #D4AF37;
   font-weight: 800;
   letter-spacing: 1.2px;
   display: block;
@@ -263,7 +263,7 @@
 }
 
 .file-dropzone:hover {
-  border-color: #00C853;
+  border-color: #D4AF37;
   background: #fff5f5;
 }
 
