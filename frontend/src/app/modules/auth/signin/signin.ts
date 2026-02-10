@@ -15,7 +15,13 @@ export class Signin {
   message = '';
   error = '';
 
-  constructor(private userService: UserService,     private router: Router   ) {}
+  showPassword = false;
+
+  constructor(private userService: UserService, private router: Router) {}
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   login(form: any) {
     if (form.invalid) return;

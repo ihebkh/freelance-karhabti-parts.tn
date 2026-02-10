@@ -1,4 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { PublicCarService } from '../../../services/public-car-service';
+import { AuthService } from '../../../services/auth-service';
 
 @Component({
   selector: 'app-pictures-welcome',
@@ -7,10 +10,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
   styleUrl: './pictures-welcome.css',
 })
 export class PicturesWelcome implements OnInit, OnDestroy {
+  vinNumber: string = '';
+  isSearching: boolean = false;
+
   currentSlide = 0;
   totalSlides = 3;
   autoPlayInterval: any;
-  autoPlayDuration = 5000; // 5 seconds
+  autoPlayDuration = 5000;
+
+  constructor(
+    private publicCarService: PublicCarService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.startAutoPlay();
@@ -18,6 +30,42 @@ export class PicturesWelcome implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopAutoPlay();
+  }
+
+  searchByVin() {
+    const query = this.vinNumber.trim().toUpperCase();
+    
+    if (!query) {
+      alert('Veuillez entrer un numéro VIN');
+      return;
+    }
+
+    this.isSearching = true;
+    
+    this.publicCarService.lookupVin(query).subscribe({
+      next: (res: any) => {
+        this.isSearching = false;
+
+        const isAdmin = this.authService.isAdmin();
+        const base = isAdmin ? '/admin/cars' : '/cars';
+
+        const targetUrl = res.type === 'brand'
+          ? `${base}/brands/${res.id}/models`
+          : `${base}/models/${res.id}/generations`;
+
+        this.router.navigate([targetUrl]);
+        this.vinNumber = '';
+      },
+      error: (err) => {
+        this.isSearching = false;
+        const errorMsg = err.error?.message || "VIN non trouvé ou marque non supportée.";
+        alert(errorMsg);
+      }
+    });
+  }
+
+  onEnterPress() {
+    this.searchByVin();
   }
 
   startAutoPlay(): void {
@@ -45,7 +93,6 @@ export class PicturesWelcome implements OnInit, OnDestroy {
   goToSlide(index: number): void {
     this.currentSlide = index;
     this.updateSlides();
-    // Reset auto play
     this.stopAutoPlay();
     this.startAutoPlay();
   }

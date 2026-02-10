@@ -1,6 +1,6 @@
 .welcome-banner {
   width: 100%;
-  background: #D4AF37;
+  background: #5B21B6;
   padding: 10px 16px;
   position: sticky;
   top: 0;
@@ -31,7 +31,7 @@
   transform: translateX(-50%);
   font-weight: 700;
   font-size: 14px;
-  color: #000;
+  color: #ffffff;
   letter-spacing: 0.5px;
   opacity: 0;
   white-space: nowrap;
@@ -57,7 +57,7 @@
 
   background: transparent;
   border: none;
-  color: #000;
+  color: #ffffff;
   font-size: 18px;
   cursor: pointer;
   width: 28px;

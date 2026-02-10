@@ -1,78 +1,76 @@
-<div class="welcome-section">
-  <div class="carousel-container">
-    <div class="carousel-wrapper">
-      <!-- Slide 1 -->
-      <div class="carousel-slide active">
-        <div class="slide-content">
-          <div class="text-side">
-            <span class="offer-badge">Offre Limitée -30%</span>
-            <h1 class="hero-title">
-              Découvrez Notre Gamme<br>
-              Complète de Pièces Auto
-            </h1>
-            <div class="button-group">
-              <button class="btn btn-buy">Acheter Maintenant</button>
-              <button class="btn btn-more">
-                En Savoir Plus →
-              </button>
-            </div>
-          </div>
-          <div class="image-side">
-            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80" alt="Pièces Auto" class="hero-image">
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 2 -->
-      <div class="carousel-slide">
-        <div class="slide-content">
-          <div class="text-side">
-            <span class="offer-badge new">Nouveau Arrivage</span>
-            <h1 class="hero-title">
-              Équipez Votre Moto<br>
-              Avec Les Meilleurs Produits
-            </h1>
-            <div class="button-group">
-              <button class="btn btn-buy">Voir La Collection</button>
-              <button class="btn btn-more">
-                Catalogue →
-              </button>
-            </div>
-          </div>
-          <div class="image-side">
-            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80" alt="Moto" class="hero-image">
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="carousel-slide">
-        <div class="slide-content">
-          <div class="text-side">
-            <span class="offer-badge promo">Promo Flash</span>
-            <h1 class="hero-title">
-              Service Technique<br>
-              Expertise & Conseil Gratuit
-            </h1>
-            <div class="button-group">
-              <button class="btn btn-buy">Contactez-Nous</button>
-              <button class="btn btn-more">
-                28 299 447 →
-              </button>
-            </div>
-          </div>
-          <div class="image-side">
-            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80" alt="Service" class="hero-image">
-          </div>
-        </div>
-      </div>
+<section class="hero-section">
+  <!-- Image de fond -->
+  <div class="hero-background">
+    <img src="assets/hero-bg.jpg" alt="Pièces automobiles">
+    <div class="hero-overlay"></div>
+  </div>
+  
+  <div class="hero-content">
+    <!-- Badge -->
+    <div class="delivery-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Livraison rapide partout en Algérie</span>
     </div>
 
-    <!-- Carousel Dots -->
-    <div class="carousel-dots">
-      <span class="dot active" (click)="goToSlide(0)"></span>
-      <span class="dot" (click)="goToSlide(1)"></span>
-      <span class="dot" (click)="goToSlide(2)"></span>
+    <!-- Titre principal -->
+    <h1 class="hero-title">
+      Pièces de Rechange
+      <span class="hero-title-gold">Automobile</span>
+    </h1>
+
+    <!-- Sous-titre -->
+    <p class="hero-subtitle">
+      Trouvez la pièce qu'il vous faut parmi des milliers de références.<br>
+      Qualité garantie, prix compétitifs.
+    </p>
+
+    <!-- Boutons CTA -->
+    <div class="hero-buttons">
+      <button class="btn-primary">
+        Explorer les marques
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      
+      <button class="btn-secondary">
+        Voir les promotions
+      </button>
     </div>
   </div>
-</div>
+
+  <!-- VIN Search Card -->
+  <div class="vin-search-card">
+    <h3 class="vin-title">Recherche par numéro VIN</h3>
+    
+    <div class="vin-input-group">
+      <svg class="vin-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="11" cy="11" r="8" stroke-width="2"></circle>
+        <path d="M21 21l-4.35-4.35" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <input
+        type="text"
+        class="vin-input"
+        placeholder="Ex: 1HGBH41JXMN109186"
+        [(ngModel)]="vinNumber"
+        (keyup.enter)="onEnterPress()"
+        [disabled]="isSearching"
+        maxlength="17"
+      />
+    </div>
+
+    <button 
+      class="btn-search"
+      (click)="searchByVin()"
+      [disabled]="isSearching || !vinNumber"
+    >
+      {{ isSearching ? 'Recherche...' : 'Rechercher' }}
+    </button>
+
+    <p class="vin-hint">
+      Entrez votre VIN (17 caractères) pour trouver les pièces compatibles.
+    </p>
+  </div>
+</section>

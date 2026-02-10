@@ -1,33 +1,11 @@
-/* Header styling to match profile */
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-
-.brand-grid-header h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  color: #1a202c;
-}
-
-.header-line {
-  width: 50px;
-  height: 4px;
-  background: #D4AF37;
-}
-
 .brand-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 10px;
   padding: 10px;
-
-  border-radius: 12px;      /* arrondi */
-  background: #fafafa;      /* optionnel pour voir l'arrondi */
+  border-radius: 12px;
+  background: transparent; /* Changé de #fafafa à transparent */
 }
-
 
 /* The Card */
 .brand-card {
@@ -48,14 +26,13 @@
   transform: translateY(-4px);
 }
 
-/* Added cursor pointer to logo area for better UX */
 .brand-logo-area {
   cursor: pointer;
 }
 
 /* Logo Presentation */
 .logo-cadre {
-  height: 80px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,13 +43,11 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-
   transition: filter 0.3s;
   opacity: 0.8;
 }
 
 .brand-card:hover img {
-
   opacity: 1;
 }
 
@@ -94,7 +69,6 @@
   gap: 8px;
 }
 
-/* Fixed button visibility with better colors and contrast */
 .btn-view {
   background: #f8f9fa;
   color: #2d3748;
@@ -138,7 +112,6 @@
   transform: scale(1.2);
 }
 
-/* Added specific styles for edit and delete buttons */
 .btn-edit:hover {
   color: #3182ce;
 }
@@ -167,9 +140,8 @@
   margin-bottom: 10px;
 }
 
-/* Added logo placeholder styling */
 .logo-placeholder {
-  font-size: 48px;
+  font-size: 60px;
   opacity: 0.3;
 }
 
@@ -336,4 +308,27 @@
 .btn-close-circle:hover {
   background: #e2e8f0;
   color: #2d3748;
+}
+
+/* Page wrapper */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  background: transparent; /* Ajouté pour s'assurer qu'il n'y a pas de fond */
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 1rem;
+  }
+
+  .logo-cadre {
+    height: 120px;
+  }
+
+  .logo-placeholder {
+    font-size: 50px;
+  }
 }

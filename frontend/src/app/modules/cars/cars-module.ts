@@ -12,6 +12,7 @@ import { Orders } from './orders/orders';
 import { SubcategoryList } from './subcategory-list/subcategory-list';
 import { CategoryList } from './category-list/category-list';
 import { PartsOnSale } from './parts-on-sale/parts-on-sale';
+import { BrandsHeader } from './brands-header/brands-header';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { PartsOnSale } from './parts-on-sale/parts-on-sale';
     SubcategoryList,
     CategoryList,
     PartsOnSale,
+    BrandsHeader,
   ],
   imports: [
     NgbModule,

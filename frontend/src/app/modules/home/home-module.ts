@@ -8,7 +8,6 @@ import { HomeManufactures } from './home-manufactures/home-manufactures';
 import { AlertHome } from './alert-home/alert-home';
 import { BrandListConstante } from './brand-list-constante/brand-list-constante';
 import { CategoryList } from './category-list/category-list';
-import { Vin } from './vin/vin';
 import { PicturesWelcome } from './pictures-welcome/pictures-welcome';
 import { FormsModule } from '@angular/forms';
 
@@ -20,7 +19,6 @@ import { FormsModule } from '@angular/forms';
     AlertHome,
     BrandListConstante,
     CategoryList,
-    Vin,
     PicturesWelcome,
   ],
   imports: [
