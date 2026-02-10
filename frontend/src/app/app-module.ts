@@ -22,7 +22,9 @@ import {MobileSidebar} from './wrapper/mobile-sidebar/mobile-sidebar';
     Sidebar,
     Welcomebar,
     Footer,
-    MobileSidebar,],
+    MobileSidebar,
+
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

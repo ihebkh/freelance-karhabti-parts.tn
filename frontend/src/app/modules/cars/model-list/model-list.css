@@ -2,33 +2,11 @@
 .model-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;
-  padding: 15px;
-
-  border-radius: 12px;  /* arrondi */
-  background: #fafafa;  /* optionnel pour voir l'arrondi */
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: transparent; /* Changé de #fafafa à transparent */
 }
-
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-
-.brand-grid-header h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  color: #1a202c;
-}
-
-
-.header-line {
-  width: 50px;
-  height: 4px;
-  background: #D4AF37;
-}
-
 
 
 /* The Card */
@@ -36,11 +14,12 @@
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 16px;
-  padding: 15px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   position: relative;
+  overflow: hidden;
 }
 
 .model-card:hover {
@@ -62,12 +41,11 @@
 }
 
 .model-card img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-
-  opacity: 1;
-  transition: all 0.3s;
+  transition: filter 0.3s;
+  opacity: 0.8;
 }
 
 .model-card:hover img {

@@ -8,25 +8,7 @@
   background: #fafafa;
 }
 
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
 
-.brand-grid-header h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  color: #1a202c;
-}
-
-.header-line {
-  width: 50px;
-  height: 4px;
-  background: #D4AF37;
-  margin-top: 8px;
-}
 
 
 /* The Card */

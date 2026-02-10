@@ -1,10 +1,5 @@
+<app-model-header></app-model-header>
 <div class="page-wrapper">
-
-  <div class="brand-grid-header">
-    <h2>Sélectionner le modèle</h2>
-    <div class="header-line"></div>
-  </div>
-
   <div class="model-container">
     <div class="model-card" *ngFor="let m of modelsWithUrl">
       <div class="model-logo-area" (click)="viewGenerations(m.model.id)">

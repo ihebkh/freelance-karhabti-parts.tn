@@ -13,6 +13,8 @@ import { SubcategoryList } from './subcategory-list/subcategory-list';
 import { CategoryList } from './category-list/category-list';
 import { PartsOnSale } from './parts-on-sale/parts-on-sale';
 import { BrandsHeader } from './brands-header/brands-header';
+import { ModelHeader } from './model-header/model-header';
+import { GenerationHeader } from './generation-header/generation-header';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import { BrandsHeader } from './brands-header/brands-header';
     CategoryList,
     PartsOnSale,
     BrandsHeader,
+    ModelHeader,
+    GenerationHeader,
   ],
   imports: [
     NgbModule,
