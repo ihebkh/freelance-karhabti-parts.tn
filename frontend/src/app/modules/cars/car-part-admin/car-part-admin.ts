@@ -1,19 +1,20 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {CarPart} from '../../../models/CarPart';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {PublicCarService} from '../../../services/public-car-service';
-import {CarPartsService} from '../../../services/car-parts-service';
-import {CarGeneration} from '../../../models/CarGeneration';
-import {ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../../services/auth-service';
-import {CartService} from '../../../services/cart-service';
-import {Category} from '../../../models/Category';
-import {SubCategory} from '../../../models/SubCategory';
-import {PublicCategoryService} from '../../../services/public-category-service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { CarPart } from '../../../models/CarPart';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PublicCarService } from '../../../services/public-car-service';
+import { CarPartsService } from '../../../services/car-parts-service';
+import { CarGeneration } from '../../../models/CarGeneration';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../services/auth-service';
+import { CartService } from '../../../services/cart-service';
+import { Category } from '../../../models/Category';
+import { SubCategory } from '../../../models/SubCategory';
+import { PublicCategoryService } from '../../../services/public-category-service';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
-import {Designation} from '../../../models/Designation';
-import {DesignationService} from '../../../services/designation-service';
+import { Designation } from '../../../models/Designation';
+import { DesignationService } from '../../../services/designation-service';
+
 @Component({
   selector: 'app-car-part-admin',
   standalone: false,
@@ -29,8 +30,7 @@ export class CarPartAdmin implements OnInit {
   categoriesForFilterWithUrl: { item: Category, fullUrl?: string }[] = [];
   subCategoriesForFilterWithUrl: { item: SubCategory, fullUrl?: string }[] = [];
 
-
-  selectedDesignationId?: number
+  selectedDesignationId?: number;
   designations: Designation[] = [];
   designationsWithUrl: { item: Designation, fullUrl?: string }[] = [];
   selectedPartUrl?: string;
@@ -74,8 +74,10 @@ export class CarPartAdmin implements OnInit {
     this.form = this.fb.group({
       name: [''],
       price: [0],
+      costPrice: [0],
       inStock: [true],
       generationIds: [[]],
+      categoryId: [null],
       subCategoryId: [null],
       designationId: [null],
       reference: [''],
@@ -84,10 +86,10 @@ export class CarPartAdmin implements OnInit {
       salePercentage: [0],
     });
 
-
     this.designationForm = this.fb.group({
       name: [''],
     });
+
     this.searchSubject.pipe(
       debounceTime(400),
       distinctUntilChanged()
@@ -119,12 +121,12 @@ export class CarPartAdmin implements OnInit {
     this.loadCategories();
     this.loadDesignations();
   }
+
   loadCategories() {
     this.publicCategoryService.getCategories().subscribe(data => {
       this.categories = data;
     });
   }
-
 
   loadDesignations() {
     this.designationService.findAll().subscribe(data => {
@@ -139,6 +141,7 @@ export class CarPartAdmin implements OnInit {
       }));
     });
   }
+
   loadCategoriesForFilter() {
     this.publicCategoryService.getCategories().subscribe(data => {
       this.categoriesForFilter = data;
@@ -151,21 +154,18 @@ export class CarPartAdmin implements OnInit {
 
   loadSubCategories(catId: number) {
     if (this.selectedCategoryId === undefined) {
-      this.subCategoriesForFilter=[];
-      this.subCategoriesForFilterWithUrl=[];
+      this.subCategoriesForFilter = [];
+      this.subCategoriesForFilterWithUrl = [];
       return;
     }
-    else {
 
-
-      this.publicCategoryService.getSubCategoriesByCategory(catId).subscribe(data => {
-        this.subCategoriesForFilter = data;
-        this.subCategoriesForFilterWithUrl = data.map(sc => ({
-          item: sc,
-          fullUrl: sc.image ? this.publicCarService.getImageUrl(sc.image) : undefined
-        }));
-      });
-    }
+    this.publicCategoryService.getSubCategoriesByCategory(catId).subscribe(data => {
+      this.subCategoriesForFilter = data;
+      this.subCategoriesForFilterWithUrl = data.map(sc => ({
+        item: sc,
+        fullUrl: sc.image ? this.publicCarService.getImageUrl(sc.image) : undefined
+      }));
+    });
   }
 
   loadGenerations() {
@@ -173,6 +173,7 @@ export class CarPartAdmin implements OnInit {
       this.generations = data;
     });
   }
+
   onCategoryChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement | null;
 
@@ -184,9 +185,11 @@ export class CarPartAdmin implements OnInit {
 
     if (!categoryId) {
       this.subCategories = [];
-      this.form.patchValue({ subCategoryId: null });
+      this.form.patchValue({ categoryId: null, subCategoryId: null });
       return;
     }
+
+    this.form.patchValue({ categoryId: categoryId });
 
     this.publicCategoryService
       .getSubCategoriesByCategory(categoryId)
@@ -195,30 +198,31 @@ export class CarPartAdmin implements OnInit {
         this.form.patchValue({ subCategoryId: null });
       });
   }
+
   onSearchInput(query: string) {
     this.searchSubject.next(query);
   }
+
   onSearch() {
     this.currentPage = 0;
     this.loadParts();
   }
+
   loadParts(page: number = this.currentPage) {
     this.currentPage = page;
     let obs$;
-    const desId = this.selectedDesignationId; // Our current filter
+    const desId = this.selectedDesignationId;
     const catId = this.selectedCategoryId;
     const subCatId = this.selectedSubCategoryId;
 
     if (this.searchQuery && this.searchQuery.trim() !== '') {
-      // Note: You may want to update your searchParts API to also accept designationId
       obs$ = this.partService.searchParts(this.searchQuery, page);
     } else {
-      // Pass desId to all context-based calls
       obs$ = this.generationId
-        ? this.partService.getPartsByGeneration(this.generationId, page, desId,catId,subCatId)
+        ? this.partService.getPartsByGeneration(this.generationId, page, desId, catId, subCatId)
         : this.subcategoryId
           ? this.partService.getPartsBySubCategory(this.subcategoryId, page, desId)
-          : this.partService.getAllParts(page, desId,catId,subCatId);
+          : this.partService.getAllParts(page, desId, catId, subCatId);
     }
 
     obs$.subscribe(data => {
@@ -230,22 +234,20 @@ export class CarPartAdmin implements OnInit {
     });
   }
 
-  toggleCategoryFilter(id:number){
+  toggleCategoryFilter(id: number) {
     if (this.selectedCategoryId === id) {
       this.selectedCategoryId = undefined;
-      this.selectedSubCategoryId=undefined;
-
+      this.selectedSubCategoryId = undefined;
     } else {
       this.selectedCategoryId = id;
-      this.selectedSubCategoryId=undefined;
-
+      this.selectedSubCategoryId = undefined;
     }
     this.currentPage = 0;
     this.loadSubCategories(id);
     this.loadParts();
-
   }
-  toggleSubCategoryFilter(id:number){
+
+  toggleSubCategoryFilter(id: number) {
     if (this.selectedSubCategoryId === id) {
       this.selectedSubCategoryId = undefined;
     } else {
@@ -253,24 +255,22 @@ export class CarPartAdmin implements OnInit {
     }
     this.currentPage = 0;
     this.loadParts();
-
   }
 
-
-// The click handler for the brand cards
   toggleDesignationFilter(id: number) {
     if (this.selectedDesignationId === id) {
-      this.selectedDesignationId = undefined; // Turn off if clicked again
+      this.selectedDesignationId = undefined;
     } else {
-      this.selectedDesignationId = id; // Set new active filter
+      this.selectedDesignationId = id;
     }
-    this.currentPage = 0; // Reset pagination to first page
+    this.currentPage = 0;
     this.loadParts();
   }
 
   getPagesArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
+
   openModal(content: TemplateRef<any>, part?: CarPart) {
     this.editingPartId = part?.id;
     let initialGenIds = part?.compatibility?.map(c => c.id) ||
@@ -279,21 +279,23 @@ export class CarPartAdmin implements OnInit {
     this.form.reset({
       name: part?.name || '',
       price: part?.price || 0,
+      costPrice: part?.costPrice || 0,
       inStock: part?.inStock ?? true,
       generationIds: initialGenIds,
+      categoryId: part?.categoryId || null,
       subCategoryId: part?.subCategoryId || this.subcategoryId || null,
       designationId: part?.designationId || null,
       reference: part?.reference || '',
       description: part?.description || '',
       onSale: part?.onSale ?? false,
-      salePercentage: part?.salePercentage || 0});
+      salePercentage: part?.salePercentage || 0
+    });
 
     if (this.modalRef) this.modalRef.close();
     this.modalRef = this.modalService.open(content, {
       centered: true, size: 'lg', backdrop: 'static', keyboard: false
     });
   }
-
 
   onFileChange(event: any) {
     if (event.target.files.length) {
@@ -303,6 +305,22 @@ export class CarPartAdmin implements OnInit {
 
   submit() {
     const part: CarPart = this.form.value;
+
+    // Debug: Afficher les données du formulaire
+    console.log('=== DONNÉES DU FORMULAIRE ===');
+    console.log('Valeurs du formulaire:', this.form.value);
+    console.log('Part object:', part);
+    console.log('subCategoryId:', part.subCategoryId);
+    console.log('categoryId:', part.categoryId);
+    console.log('Fichier sélectionné:', this.selectedFile);
+    console.log('============================');
+
+    // Validation: ensure subCategoryId is provided
+    if (!part.subCategoryId) {
+      alert('Veuillez sélectionner une sous-catégorie');
+      return;
+    }
+
     const request = this.editingPartId
       ? this.partService.updatePart({ ...part, id: this.editingPartId }, this.selectedFile)
       : this.partService.createPart(part, this.selectedFile);
@@ -320,9 +338,6 @@ export class CarPartAdmin implements OnInit {
       this.loadParts();
     });
   }
-
-
-
 
   openUserModal(content: TemplateRef<any>, part: CarPart) {
     this.quantityToAdd = 1;
@@ -347,8 +362,6 @@ export class CarPartAdmin implements OnInit {
     }
   }
 
-
-
   onGenerationToggle(genId: number) {
     const currentIds: number[] = this.form.get('generationIds')?.value || [];
     const index = currentIds.indexOf(genId);
@@ -358,25 +371,13 @@ export class CarPartAdmin implements OnInit {
     } else {
       currentIds.push(genId);
     }
-    this.form.get('generationIds')?.setValue([...currentIds]); // spread to trigger change detection
+    this.form.get('generationIds')?.setValue([...currentIds]);
   }
 
-
-
-
-
-
-
-
-
-
-
-
   /**
-   * DESIGNATION
-   * */
+   * DESIGNATION METHODS
+   */
 
-  // Open modal for Designation (Add or Edit)
   openDesignationModal(content: TemplateRef<any>, des?: Designation) {
     this.editingDesignationId = des?.id;
     this.selectedFile = undefined;
@@ -387,7 +388,6 @@ export class CarPartAdmin implements OnInit {
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
-// Submit Designation
   submitDesignation(modal: any) {
     const { name } = this.designationForm.value;
 
@@ -397,7 +397,7 @@ export class CarPartAdmin implements OnInit {
 
     request.subscribe({
       next: () => {
-        this.loadDesignations(); // Refresh the list
+        this.loadDesignations();
         modal.close();
         this.selectedFile = undefined;
       },
@@ -405,7 +405,6 @@ export class CarPartAdmin implements OnInit {
     });
   }
 
-// Delete Designation
   deleteDesignation(id: number) {
     if (confirm('Are you sure? This might affect parts linked to this brand.')) {
       this.designationService.delete(id).subscribe(() => this.loadDesignations());

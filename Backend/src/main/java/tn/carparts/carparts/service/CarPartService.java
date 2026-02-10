@@ -36,6 +36,7 @@ public class CarPartService {
             Long subCategoryId,
             String name,
             double price,
+            double costPrice,
             boolean inStock,
             Long desId,
             String ref,
@@ -60,6 +61,7 @@ public class CarPartService {
         CarPart part = new CarPart();
         part.setName(name);
         part.setPrice(price);
+        part.setCostPrice(costPrice);
         part.setInStock(inStock);
         part.setReference(ref);
         part.setDescription(desc);
@@ -85,6 +87,7 @@ public class CarPartService {
             Long id,
             String name,
             double price,
+            double costPrice,
             boolean inStock,
             List<Long> generationIds, // Accept a list of IDs now
             Long subCategoryId,
@@ -102,6 +105,7 @@ public class CarPartService {
 
         part.setName(name);
         part.setPrice(price);
+        part.setCostPrice(costPrice);
         part.setInStock(inStock);
         part.setDescription(desc);
         part.setReference(ref);

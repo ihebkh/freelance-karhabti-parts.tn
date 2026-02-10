@@ -37,7 +37,7 @@ public class UserService {
     private final FileUploadService fileUploadService;
 
 
-    @Value("${app.frontend.url}")
+    @Value("http://localhost:4200/")
     private String frontendUrl;
     public void register(User user) {
 

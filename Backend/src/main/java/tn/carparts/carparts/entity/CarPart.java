@@ -24,6 +24,7 @@ public class CarPart {
     private String name;
 
     private double price;
+    private double costPrice;
 
 
     private boolean inStock;

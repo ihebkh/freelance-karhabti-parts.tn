@@ -219,11 +219,21 @@
           </div>
         </div>
 
+             <div class="form-group half">
+            <label class="friendly-label">Prix d'achat (TND)</label>
+            <input formControlName="costPrice" type="number" class="friendly-input" placeholder="0.00" />
+          </div>
+
         <div class="form-row split sale-row-highlight">
           <div class="form-group half">
-            <label class="friendly-label">Prix original (TND)</label>
+            <label class="friendly-label">Prix de vente sans remise (TND)</label>
             <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" />
           </div>
+
+        
+
+      
+
           <div class="form-group half">
             <label class="friendly-label">Promotion / Vente</label>
             <div class="toggle-spacer">
@@ -263,8 +273,8 @@
         <div class="form-row split">
           <div class="form-group half" *ngIf="!isSubcategoryContext">
             <label class="friendly-label">Catégorie</label>
-            <select class="friendly-input" (change)="onCategoryChange($event)">
-              <option value="" disabled selected>Choisir une catégorie</option>
+            <select formControlName="categoryId" class="friendly-input" (change)="onCategoryChange($event)">
+              <option [ngValue]="null" disabled>Choisir une catégorie</option>
               <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
             </select>
           </div>
@@ -279,10 +289,10 @@
           </div>
         </div>
 
-        <div class="form-group" *ngIf="!isSubcategoryContext && subCategories.length > 0">
-          <label class="friendly-label">Sous-catégorie</label>
-          <select formControlName="subCategoryId" class="friendly-input">
-            <option [ngValue]="null" disabled selected>Choisir une sous-catégorie</option>
+        <div class="form-group" *ngIf="!isSubcategoryContext">
+          <label class="friendly-label">Sous-catégorie *</label>
+          <select formControlName="subCategoryId" class="friendly-input" [disabled]="subCategories.length === 0">
+            <option [ngValue]="null" disabled>{{ subCategories.length === 0 ? 'Sélectionnez d\'abord une catégorie' : 'Choisir une sous-catégorie' }}</option>
             <option *ngFor="let sub of subCategories" [value]="sub.id">{{ sub.name }}</option>
           </select>
         </div>

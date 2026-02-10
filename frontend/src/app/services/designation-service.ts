@@ -7,7 +7,7 @@ import {Designation} from '../models/Designation';
   providedIn: 'root',
 })
 export class DesignationService {
-  private apiUrl = 'http://84.247.131.212:8088/api/v1/designations';
+  private apiUrl = 'http://localhost:8088/api/v1/designations';
 
   constructor(private http: HttpClient) {}
 

@@ -47,90 +47,92 @@
           </small>
         </div>
 
-        <!-- PHONE -->
-        <div class="form-group">
-          <label for="phone">Numéro de téléphone <span class="required">*</span></label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            placeholder="Numéro de téléphone"
-            [(ngModel)]="phone"
-            #phoneCtrl="ngModel"
-            required
-            pattern="^(2|3|4|5|7|9)\d{7}$"
-          />
-          <small class="error"
-                 *ngIf="phoneCtrl.invalid && (phoneCtrl.touched || phoneCtrl.dirty)">
-            <span *ngIf="phoneCtrl.errors?.['required']">Téléphone requis</span>
-            <span *ngIf="phoneCtrl.errors?.['pattern']">
-              Numéro tunisien invalide (8 chiffres)
-            </span>
-          </small>
+        <!-- PHONE + WHATSAPP ROW -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="phone">Numéro de téléphone <span class="required">*</span></label>
+            <input
+              type="text"
+              id="phone"
+              name="phone"
+              placeholder="Numéro de téléphone"
+              [(ngModel)]="phone"
+              #phoneCtrl="ngModel"
+              required
+              pattern="^(2|3|4|5|7|9)\d{7}$"
+            />
+            <small class="error"
+                   *ngIf="phoneCtrl.invalid && (phoneCtrl.touched || phoneCtrl.dirty)">
+              <span *ngIf="phoneCtrl.errors?.['required']">Téléphone requis</span>
+              <span *ngIf="phoneCtrl.errors?.['pattern']">
+                Numéro tunisien invalide (8 chiffres)
+              </span>
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="whatsapp">Numéro WhatsApp <span class="required">*</span></label>
+            <input
+              type="text"
+              id="whatsapp"
+              name="whatsapp"
+              placeholder="Numéro WhatsApp"
+              [(ngModel)]="whatsapp"
+              #whatsappCtrl="ngModel"
+              required
+              pattern="^(2|3|4|5|7|9)\d{7}$"
+            />
+            <small class="error"
+                   *ngIf="whatsappCtrl.invalid && (whatsappCtrl.touched || whatsappCtrl.dirty)">
+              <span *ngIf="whatsappCtrl.errors?.['pattern']">
+                Numéro WhatsApp tunisien invalide
+              </span>
+            </small>
+          </div>
         </div>
 
-        <!-- WHATSAPP -->
-        <div class="form-group">
-          <label for="whatsapp">Numéro WhatsApp <span class="required">*</span></label>
-          <input
-            type="text"
-            id="whatsapp"
-            name="whatsapp"
-            placeholder="Numéro WhatsApp"
-            [(ngModel)]="whatsapp"
-            #whatsappCtrl="ngModel"
-            required
-            pattern="^(2|3|4|5|7|9)\d{7}$"
-          />
-          <small class="error"
-                 *ngIf="whatsappCtrl.invalid && (whatsappCtrl.touched || whatsappCtrl.dirty)">
-            <span *ngIf="whatsappCtrl.errors?.['pattern']">
-              Numéro WhatsApp tunisien invalide
-            </span>
-          </small>
-        </div>
+        <!-- PASSWORD + CONFIRM PASSWORD ROW -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Créer un mot de passe <span class="required">*</span></label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Créer un mot de passe"
+              [(ngModel)]="password"
+              #passwordCtrl="ngModel"
+              required
+              minlength="8"
+              pattern="^(?=.*[A-Za-z])(?=.*\d).+$"
+            />
+            <small class="error"
+                   *ngIf="passwordCtrl.invalid && (passwordCtrl.touched || passwordCtrl.dirty)">
+              <span *ngIf="passwordCtrl.errors?.['minlength']">
+                Minimum 8 caractères
+              </span>
+              <span *ngIf="passwordCtrl.errors?.['pattern']">
+                Au moins une lettre et un chiffre
+              </span>
+            </small>
+          </div>
 
-        <!-- PASSWORD -->
-        <div class="form-group">
-          <label for="password">Créer un mot de passe <span class="required">*</span></label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Créer un mot de passe"
-            [(ngModel)]="password"
-            #passwordCtrl="ngModel"
-            required
-            minlength="8"
-            pattern="^(?=.*[A-Za-z])(?=.*\d).+$"
-          />
-          <small class="error"
-                 *ngIf="passwordCtrl.invalid && (passwordCtrl.touched || passwordCtrl.dirty)">
-            <span *ngIf="passwordCtrl.errors?.['minlength']">
-              Minimum 8 caractères
-            </span>
-            <span *ngIf="passwordCtrl.errors?.['pattern']">
-              Au moins une lettre et un chiffre
-            </span>
-          </small>
-        </div>
-
-        <!-- CONFIRM PASSWORD -->
-        <div class="form-group">
-          <label for="confirmPassword">Confirmer le mot de passe <span class="required">*</span></label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            placeholder="Confirmer le mot de passe"
-            [(ngModel)]="confirmPassword"
-            #confirmCtrl="ngModel"
-            required
-          />
-          <small class="error"
-                 *ngIf="confirmCtrl.touched && password !== confirmPassword">
-            Les mots de passe ne correspondent pas
-          </small>
+          <div class="form-group">
+            <label for="confirmPassword">Confirmer le mot de passe <span class="required">*</span></label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              placeholder="Confirmer le mot de passe"
+              [(ngModel)]="confirmPassword"
+              #confirmCtrl="ngModel"
+              required
+            />
+            <small class="error"
+                   *ngIf="confirmCtrl.touched && password !== confirmPassword">
+              Les mots de passe ne correspondent pas
+            </small>
+          </div>
         </div>
 
         <!-- GLOBAL MESSAGES -->

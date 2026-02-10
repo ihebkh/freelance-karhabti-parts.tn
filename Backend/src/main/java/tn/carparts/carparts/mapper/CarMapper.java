@@ -50,6 +50,7 @@ public class CarMapper {
                 part.getId(),
                 part.getName(),
                 part.getPrice(),
+                part.getCostPrice(),
                 part.isInStock(),
                 part.getImage(),
                 compatibilityList,

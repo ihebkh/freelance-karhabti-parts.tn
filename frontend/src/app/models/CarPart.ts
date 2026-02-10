@@ -1,29 +1,30 @@
-import {CarGeneration} from './CarGeneration';
+import { CarGeneration } from './CarGeneration';
 
 export interface CarPart {
   id?: number;
   name: string;
   price: number;
+  costPrice: number;
   inStock: boolean;
   image?: string;
   compatibility: CarGeneration[];
   generationIds?: number[];
-  subCategoryId: number;
-  subCategoryName: string;
-  categoryId: number;
-  categoryName: string;
+  subCategoryId?: number | null;
+  subCategoryName?: string | null;
+  categoryId?: number | null;
+  categoryName?: string | null;
 
 
 
   reference: string;
-  description:string;
-  designationId:number;
-  designationName:string;
+  description: string;
+  designationId: number;
+  designationName: string;
 
 
 
 
-  onSale:boolean;
+  onSale: boolean;
   salePercentage: number;
   priceAfterSale: number;
 

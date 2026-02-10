@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class PublicCategoryService {
 
-  private baseUrl = 'http://84.247.131.212:8088/api/v1/categories';
+  private baseUrl = 'http://localhost:8088/api/v1/categories';
 
   constructor(private http: HttpClient) {}
 

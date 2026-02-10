@@ -1,8 +1,11 @@
 <div class="app-container">
   <div class="main-content">
+
   <app-welcomebar></app-welcomebar>
+  <app-mobile-sidebar *ngIf="isMobile"></app-mobile-sidebar>
     <app-topbar [cart]="cartItems"></app-topbar>
     <app-sidebar></app-sidebar>
+        
 
     <div class="content-area">
       <div class="router-wrapper">

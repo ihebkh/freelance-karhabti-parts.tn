@@ -9,7 +9,7 @@ import {PageResponse} from '../models/PageResponse';
   providedIn: 'root',
 })
 export class OrdersService {
-  private baseUrl = 'http://84.247.131.212:8088/api/v1/orders';
+  private baseUrl = 'http://localhost:8088/api/v1/orders';
 
   constructor(private http: HttpClient) {}
 

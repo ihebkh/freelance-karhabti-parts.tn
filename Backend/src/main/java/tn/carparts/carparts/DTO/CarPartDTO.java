@@ -6,6 +6,7 @@ public record CarPartDTO(
         Long id,
         String name,
         double price,
+        double costPrice,
         boolean inStock,
         String image,
         List<CarGenerationDTO> compatibility,

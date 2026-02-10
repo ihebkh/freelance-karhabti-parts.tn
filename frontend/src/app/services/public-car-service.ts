@@ -8,7 +8,7 @@ import {CarGeneration} from '../models/CarGeneration';
 @Injectable({ providedIn: 'root' })
 export class PublicCarService {
 
-  private baseUrl = 'http://84.247.131.212:8088/api/v1/cars';
+  private baseUrl = 'http://localhost:8088/api/v1/cars';
   private uploadsUrl = `${this.baseUrl}/uploads`;
   constructor(private http: HttpClient) {}
 

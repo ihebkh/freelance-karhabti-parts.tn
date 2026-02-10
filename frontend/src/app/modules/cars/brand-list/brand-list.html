@@ -6,7 +6,11 @@
   </div>
 
   <div class="brand-container">
+
+
+
     <div class="brand-card" *ngFor="let item of brandsWithUrl">
+      
       <div class="brand-logo-area" (click)="viewModels(item.brand.id)">
         <div class="logo-cadre">
           <img *ngIf="item.fullLogoUrl; else noLogo" [src]="item.fullLogoUrl" [alt]="item.brand.name" />
@@ -14,6 +18,8 @@
         </div>
         <h4>{{ item.brand.name }}</h4>
       </div>
+
+      
 
       <div class="brand-actions">
         <div class="admin-controls" *ngIf="authService.isAdmin()">
@@ -23,13 +29,15 @@
       </div>
     </div>
 
-    <div *ngIf="authService.isAdmin()" class="brand-card add-brand-card" (click)="openModal(content)">
+        <div *ngIf="authService.isAdmin()" class="brand-card add-brand-card" (click)="openModal(content)">
       <div class="add-icon-wrapper">
         <span>+</span>
       </div>
       <h4>Ajouter un constructeur</h4>
     </div>
   </div>
+
+
 
   <ng-template #content let-modal>
     <div class="friendly-modal">
