@@ -1,10 +1,5 @@
 <div class="page-wrapper">
 
-  <div class="brand-grid-header">
-    <h2>Catégories</h2>
-    <div class="header-line"></div>
-  </div>
-
   <div class="brand-container">
     <div class="brand-card" *ngFor="let item of categories">
       <div (click)="toSubCategory(item.category.id)">

@@ -1,6 +1,6 @@
 .welcome-banner {
   width: 100%;
-  background: #5B21B6;
+  background: linear-gradient(135deg, #4a3168 0%, #3d2557 100%);
   padding: 10px 16px;
   position: sticky;
   top: 0;

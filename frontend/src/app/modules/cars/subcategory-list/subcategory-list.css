@@ -1,28 +1,25 @@
-/* Header styling to match profile */
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-.header-line {
-  width: 50px;
-  height: 4px;
-  background: #00c853; /* Using your global red */
+/* Ajout du wrapper pour centrer et contrôler la largeur de la grille */
+.brand-grid-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
 }
 
+/* Container & Grid - HARMONISÉ */
 .brand-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 25px;
-  padding: 20px;
-  border-radius: 12px;  /* arrondi */
-  background: #fafafa;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  background: transparent;
 }
 
-/* The Card */
+/* The Card - HARMONISÉ */
 .brand-card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 16px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -32,14 +29,18 @@
 }
 
 .brand-card:hover {
-  border-color: #00c853;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  border-color: #D4AF37;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px);
 }
 
-/* Logo Presentation */
+.brand-logo-area {
+  cursor: pointer;
+}
+
+/* Logo Presentation - HARMONISÉ */
 .logo-cadre {
-  height: 80px;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,13 +51,11 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-    /* Optional: makes logos look unified */
   transition: filter 0.3s;
   opacity: 0.8;
 }
 
 .brand-card:hover img {
-
   opacity: 1;
 }
 
@@ -67,9 +66,10 @@
   letter-spacing: 0.5px;
   margin: 0;
   color: #222;
+  text-align: center;
 }
 
-/* Actions Area */
+/* Actions Area - HARMONISÉ */
 .brand-actions {
   margin-top: 15px;
   display: flex;
@@ -79,19 +79,24 @@
 
 .btn-view {
   background: #f8f9fa;
-  color: #444;
-  border: 1px solid #ddd;
-  padding: 8px;
-  font-size: 11px;
+  color: #2d3748;
+  border: 2px solid #e2e8f0;
+  padding: 10px 16px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
 }
 
-.brand-card:hover .btn-view {
-  background: var(--dark-steel);
-  color: #fff;
-  border-color: var(--dark-steel);
+.btn-view:hover {
+  background: #D4AF37;
+  color: #ffffff;
+  border-color: #D4AF37;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .admin-controls {
@@ -107,11 +112,20 @@
   padding: 5px;
   font-size: 14px;
   opacity: 0.5;
+  transition: all 0.2s;
 }
 
 .admin-controls button:hover {
   opacity: 1;
   transform: scale(1.2);
+}
+
+.btn-edit:hover {
+  color: #3182ce;
+}
+
+.btn-delete:hover {
+  color: #9de53e;
 }
 
 /* The Add New Brand Card */
@@ -124,7 +138,7 @@
 }
 
 .add-brand-card:hover {
-  border-color: #00c853;
+  border-color: #D4AF37;
   background: #fff;
 }
 
@@ -134,10 +148,12 @@
   margin-bottom: 10px;
 }
 
-
+.logo-placeholder {
+  font-size: 60px;
+  opacity: 0.3;
+}
 
 /* --- MODAL WRAPPER FIXES --- */
-/* Ensure the backdrop doesn't hide the modal */
 ::ng-deep .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.8) !important;
   backdrop-filter: blur(4px);
@@ -148,10 +164,10 @@
   border: none !important;
 }
 
-/* --- INDUSTRIAL MODAL DESIGN --- */
+/* --- INDUSTRIAL MODAL DESIGN (Legacy) --- */
 .garage-modal {
   background: #fff;
-  border-top: 4px solid #00c853;
+  border-top: 4px solid #D4AF37;
   border-radius: 4px;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
@@ -179,7 +195,7 @@
 .accent-bolt {
   width: 12px;
   height: 12px;
-  background: #00c853;
+  background: #D4AF37;
   transform: rotate(45deg);
 }
 
@@ -239,8 +255,7 @@
   display: none;
 }
 
-/* --- FRIENDLY MODAL DESIGN (Consistent with Generations/Models) --- */
-
+/* --- FRIENDLY MODAL DESIGN --- */
 .friendly-modal {
   border-radius: 16px !important;
   background: #ffffff;
@@ -252,12 +267,13 @@
   padding: 24px 24px 10px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .category-tag {
   font-size: 11px;
   text-transform: uppercase;
-  color: #00c853;
+  color: #D4AF37;
   font-weight: 800;
   letter-spacing: 1.2px;
   display: block;
@@ -295,6 +311,7 @@
   border-radius: 12px;
   background: #f8fafc;
   transition: all 0.2s;
+  font-size: 14px;
 }
 
 .friendly-input:focus {
@@ -317,17 +334,24 @@
 }
 
 .file-dropzone:hover {
-  border-color: #00c853;
+  border-color: #D4AF37;
   background: #fff5f5;
 }
 
-.hidden-file { display: none; }
+.dropzone-content {
+  text-align: center;
+  color: #718096;
+  font-size: 14px;
+}
+
+.hidden-file {
+  display: none;
+}
 
 .upload-icon {
   font-size: 24px;
   margin-bottom: 8px;
   display: block;
-  text-align: center;
 }
 
 .modal-footer-friendly {
@@ -362,6 +386,10 @@
   padding: 14px 20px;
 }
 
+.btn-ghost:hover {
+  color: #4a5568;
+}
+
 .btn-close-circle {
   background: #f1f5f9;
   border: none;
@@ -373,4 +401,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-close-circle:hover {
+  background: #e2e8f0;
+  color: #2d3748;
+}
+
+/* Page wrapper */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  background: transparent;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 1rem;
+  }
+
+  .logo-cadre {
+    height: 120px;
+  }
+
+  .logo-placeholder {
+    font-size: 50px;
+  }
 }

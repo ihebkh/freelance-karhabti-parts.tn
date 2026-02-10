@@ -22,9 +22,8 @@
       <h2>Catégories</h2>
       <div class="header-line"></div>
     </div>
-
-
   </div>
+  
   <div class="manufacturers-container" >
     <div class="manufacturer-card clickable-brand"
          *ngFor="let d of categoriesForFilterWithUrl"
@@ -43,14 +42,12 @@
   </div>
 </div>
 
-
 <div *ngIf="!this.subcategoryId && this.selectedCategoryId">
   <div class="brand-grid-header search-header">
     <div class="header-titles">
       <h2>Sous-catégories</h2>
       <div class="header-line"></div>
     </div>
-
   </div>
 
   <div class="manufacturers-container" *ngIf="!this.subcategoryId">
@@ -68,58 +65,41 @@
         <h4>{{ d.item.name }}</h4>
       </div>
     </div>
-
   </div>
 </div>
 
-
+<!-- CONSTRUCTEURS OFFICIELS - NOUVEAU DESIGN -->
 <div class="brand-grid-header search-header">
   <div class="header-titles">
     <h2>CONSTRUCTEURS OFFICIELS</h2>
     <div class="header-line"></div>
   </div>
-
-<!--  <div class="search-box">-->
-<!--    <input-->
-<!--      type="text"-->
-<!--      [ngModel]="searchQuery"-->
-<!--      (input)="onSearchInput($any($event.target).value)"-->
-<!--      placeholder="Rechercher une marque, un modèle, une catégorie..."-->
-<!--      class="search-input"-->
-<!--    />-->
-<!--    <button (click)="onSearch()" class="search-btn">-->
-<!--      <span class="search-icon">🔍</span>-->
-<!--    </button>-->
-<!--  </div>-->
 </div>
 
-
-
-<div class="manufacturers-container">
-  <div class="manufacturer-card clickable-brand"
+<div class="brand-container">
+  <div class="brand-card"
        *ngFor="let d of designationsWithUrl"
        [class.active-filter]="selectedDesignationId === d.item.id"
        (click)="toggleDesignationFilter(d.item.id!)">
 
-    <div class="manufacturer-logo">
-      <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
-      <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
-    </div>
-
-    <div class="manufacturer-name">
+    <div class="brand-logo-area">
+      <div class="logo-cadre">
+        <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
+        <div *ngIf="!d.fullUrl" class="logo-placeholder">🏭</div>
+      </div>
       <h4>{{ d.item.name }}</h4>
     </div>
 
-    <div class="admin-btns-fixed" *ngIf="authService.isAdmin()">
-      <button (click)="openDesignationModal(designationModal, d.item); $event.stopPropagation()" title="Modifier">✏️</button>
-      <button class="del" (click)="deleteDesignation(d.item.id!); $event.stopPropagation()" title="Supprimer">🗑️</button>
+    <div class="admin-controls" *ngIf="authService.isAdmin()">
+      <button class="btn-edit" (click)="openDesignationModal(designationModal, d.item); $event.stopPropagation()" title="Modifier">✏️</button>
+      <button class="btn-delete" (click)="deleteDesignation(d.item.id!); $event.stopPropagation()" title="Supprimer">🗑️</button>
     </div>
   </div>
 
   <div *ngIf="authService.isAdmin()"
-       class="manufacturer-card add-manufacturer-card"
+       class="brand-card add-brand-card"
        (click)="openDesignationModal(designationModal)">
-    <div class="add-icon">+</div>
+    <div class="add-icon-wrapper">+</div>
     <h4 class="small-text">AJOUTER CONSTRUCTEUR</h4>
   </div>
 </div>
@@ -156,13 +136,13 @@
       </div>
 
       <div class="price-row" [class.on-sale]="p.parts.onSale">
-  <span class="current-price">
-    {{ (p.parts.onSale ? p.parts.priceAfterSale : p.parts.price) | number:'1.2-2' }} TND
-  </span>
+        <span class="current-price">
+          {{ (p.parts.onSale ? p.parts.priceAfterSale : p.parts.price) | number:'1.2-2' }} TND
+        </span>
 
         <span class="old-price" *ngIf="!p.parts.onSale">
-    {{ p.parts.price | number:'1.2-2' }} TND
-  </span>
+          {{ p.parts.price | number:'1.2-2' }} TND
+        </span>
       </div>
     </div>
 
@@ -219,20 +199,16 @@
           </div>
         </div>
 
-             <div class="form-group half">
-            <label class="friendly-label">Prix d'achat (TND)</label>
-            <input formControlName="costPrice" type="number" class="friendly-input" placeholder="0.00" />
-          </div>
+        <div class="form-group half">
+          <label class="friendly-label">Prix d'achat (TND)</label>
+          <input formControlName="costPrice" type="number" class="friendly-input" placeholder="0.00" />
+        </div>
 
         <div class="form-row split sale-row-highlight">
           <div class="form-group half">
             <label class="friendly-label">Prix de vente sans remise (TND)</label>
             <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" />
           </div>
-
-        
-
-      
 
           <div class="form-group half">
             <label class="friendly-label">Promotion / Vente</label>

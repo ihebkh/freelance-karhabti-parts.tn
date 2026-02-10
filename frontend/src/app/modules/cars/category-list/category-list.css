@@ -1,30 +1,3 @@
-/* Header styling to match profile */
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-
-.brand-grid-header {
-  margin-bottom: 30px;
-  padding: 0 20px;
-}
-
-.brand-grid-header h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  color: #1a202c;
-}
-
-
-.header-line {
-  width: 50px;
-  height: 3px;
-  background: #D4AF37;
-  margin-top: 8px;
-}
-
 /* Ajout du wrapper pour centrer et contrôler la largeur de la grille */
 .brand-grid-wrapper {
   max-width: 1400px;
@@ -32,22 +5,22 @@
   padding: 0 40px;
 }
 
-/* Container & Grid */
+/* Container & Grid - HARMONISÉ */
 .brand-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 15px;
-  padding: 15px;
+  gap: 10px;
+  padding: 10px;
   border-radius: 12px;
-  background: #fafafa;
+  background: transparent;
 }
 
-/* The Card */
+/* The Card - HARMONISÉ */
 .brand-card {
   background: #fff;
   border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  padding: 15px;
+  border-radius: 16px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -57,52 +30,51 @@
 
 .brand-card:hover {
   border-color: #D4AF37;
-  transform: translateY(-4px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
 }
 
-/* Logo Presentation */
+.brand-logo-area {
+  cursor: pointer;
+}
+
+/* Logo Presentation - HARMONISÉ */
 .logo-cadre {
-  height: 100px;
-  background: #fdfdfd;
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
-  border-radius: 2px;
-  overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .brand-card img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-
-  transition: filter 0.3s, transform 0.3s;
+  transition: filter 0.3s;
   opacity: 0.8;
 }
 
 .brand-card:hover img {
-
   opacity: 1;
-  transform: scale(1.05);
 }
 
 .brand-card h4 {
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  font-size: 0.85rem;
-  margin: 5px 0;
-  color: var(--dark-steel);
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  margin: 0;
+  color: #222;
   text-align: center;
 }
 
-/* Actions Area */
+/* Actions Area - HARMONISÉ */
 .brand-actions {
-  margin-top: 10px;
+  margin-top: 15px;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
 }
 
 .btn-view {
@@ -130,31 +102,30 @@
 .admin-controls {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-top: 5px;
+  gap: 10px;
 }
 
-.btn-edit,
-.btn-delete {
-  background: transparent;
+.admin-controls button {
+  background: none;
   border: none;
-  font-size: 16px;
   cursor: pointer;
-  padding: 8px;
-  color: #4a5568;
-  background-color: transparent !important;
+  padding: 5px;
+  font-size: 14px;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.admin-controls button:hover {
+  opacity: 1;
+  transform: scale(1.2);
 }
 
 .btn-edit:hover {
-  background: transparent !important;
-  color: #D4AF37;
-  transform: scale(1.1);
+  color: #3182ce;
 }
 
 .btn-delete:hover {
-  background: transparent !important;
-  color: #D4AF37;
-  transform: scale(1.1);
+  color: #9de53e;
 }
 
 /* The Add New Brand Card */
@@ -164,7 +135,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  min-height: 200px;
 }
 
 .add-brand-card:hover {
@@ -175,6 +145,12 @@
 .add-icon-wrapper {
   font-size: 40px;
   color: #ccc;
+  margin-bottom: 10px;
+}
+
+.logo-placeholder {
+  font-size: 60px;
+  opacity: 0.3;
 }
 
 /* --- MODAL WRAPPER FIXES --- */
@@ -200,6 +176,7 @@
   padding: 24px 24px 10px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 .category-tag {
@@ -243,6 +220,7 @@
   border-radius: 12px;
   background: #f8fafc;
   transition: all 0.2s;
+  font-size: 14px;
 }
 
 .friendly-input:focus {
@@ -266,7 +244,13 @@
 
 .file-dropzone:hover {
   border-color: #D4AF37;
-  background: #f0fff4;
+  background: #fff5f5;
+}
+
+.dropzone-content {
+  text-align: center;
+  color: #718096;
+  font-size: 14px;
 }
 
 .hidden-file {
@@ -277,7 +261,6 @@
   font-size: 24px;
   margin-bottom: 8px;
   display: block;
-  text-align: center;
 }
 
 .modal-footer-friendly {
@@ -312,6 +295,10 @@
   padding: 14px 20px;
 }
 
+.btn-ghost:hover {
+  color: #4a5568;
+}
+
 .btn-close-circle {
   background: #f1f5f9;
   border: none;
@@ -320,8 +307,36 @@
   border-radius: 50%;
   cursor: pointer;
   color: #64748b;
-  transition: 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s;
+}
+
+.btn-close-circle:hover {
+  background: #e2e8f0;
+  color: #2d3748;
+}
+
+/* Page wrapper */
+.page-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  background: transparent;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 0 1rem;
+  }
+
+  .logo-cadre {
+    height: 120px;
+  }
+
+  .logo-placeholder {
+    font-size: 50px;
+  }
 }
