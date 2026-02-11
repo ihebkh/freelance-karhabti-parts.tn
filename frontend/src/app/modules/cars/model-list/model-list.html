@@ -1,11 +1,14 @@
-<app-model-header></app-model-header>
+<app-car-header title="Modèles"
+  subtitle="Sélectionnez une modèle pour explorer les générations disponibles"></app-car-header>
 <div class="page-wrapper">
   <div class="model-container">
     <div class="model-card" *ngFor="let m of modelsWithUrl">
       <div class="model-logo-area" (click)="viewGenerations(m.model.id)">
         <div class="model-cadre">
           <img *ngIf="m.fullLogoUrl; else noImg" [src]="m.fullLogoUrl" [alt]="m.model.name" />
-          <ng-template #noImg><div class="logo-placeholder">🚗</div></ng-template>
+          <ng-template #noImg>
+            <div class="logo-placeholder">🚗</div>
+          </ng-template>
         </div>
         <h4>{{ m.model.name }}</h4>
       </div>
@@ -42,13 +45,13 @@
 
           <div class="form-group">
             <label class="friendly-label">Nom du modèle</label>
-            <input formControlName="name" type="text" class="friendly-input" placeholder="ex: Golf GTI"/>
+            <input formControlName="name" type="text" class="friendly-input" placeholder="ex: Golf GTI" />
           </div>
 
           <div class="form-group">
             <label class="friendly-label">Image du modèle</label>
             <div class="custom-file-upload">
-              <input type="file" (change)="onFileChange($event)" id="modelImg" class="hidden-file"/>
+              <input type="file" (change)="onFileChange($event)" id="modelImg" class="hidden-file" />
               <label for="modelImg" class="file-dropzone">
                 <div class="dropzone-content">
                   <span class="upload-icon">🏎️</span>

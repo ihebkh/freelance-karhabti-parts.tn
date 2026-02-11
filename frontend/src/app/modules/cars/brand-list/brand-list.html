@@ -1,4 +1,5 @@
-<app-brands-header></app-brands-header>
+<app-car-header title="Marques"
+  subtitle="Sélectionnez une marque pour explorer les modèles disponibles"></app-car-header>
 <div class="page-wrapper">
 
   <div class="brand-container">
@@ -6,16 +7,18 @@
 
 
     <div class="brand-card" *ngFor="let item of brandsWithUrl">
-      
+
       <div class="brand-logo-area" (click)="viewModels(item.brand.id)">
         <div class="logo-cadre">
           <img *ngIf="item.fullLogoUrl; else noLogo" [src]="item.fullLogoUrl" [alt]="item.brand.name" />
-          <ng-template #noLogo><div class="logo-placeholder">🏎️</div></ng-template>
+          <ng-template #noLogo>
+            <div class="logo-placeholder">🏎️</div>
+          </ng-template>
         </div>
         <h4>{{ item.brand.name }}</h4>
       </div>
 
-      
+
 
       <div class="brand-actions">
         <div class="admin-controls" *ngIf="authService.isAdmin()">
@@ -25,7 +28,7 @@
       </div>
     </div>
 
-        <div *ngIf="authService.isAdmin()" class="brand-card add-brand-card" (click)="openModal(content)">
+    <div *ngIf="authService.isAdmin()" class="brand-card add-brand-card" (click)="openModal(content)">
       <div class="add-icon-wrapper">
         <span>+</span>
       </div>
@@ -50,22 +53,19 @@
 
           <div class="form-group">
             <label class="friendly-label">Nom de la marque</label>
-            <input
-              formControlName="name"
-              type="text"
-              class="friendly-input"
-              placeholder="ex: Porsche, BMW, ou Toyota"
-            />
+            <input formControlName="name" type="text" class="friendly-input"
+              placeholder="ex: Porsche, BMW, ou Toyota" />
           </div>
 
           <div class="form-group">
             <label class="friendly-label">Logo du constructeur</label>
             <div class="custom-file-upload">
-              <input type="file" (change)="onFileChange($event)" id="brandLogo" class="hidden-file"/>
+              <input type="file" (change)="onFileChange($event)" id="brandLogo" class="hidden-file" />
               <label for="brandLogo" class="file-dropzone">
                 <div class="dropzone-content">
                   <span class="upload-icon">🏷️</span>
-                  <span>{{ form.get('image')?.value ? 'Logo joint !' : 'Cliquez pour sélectionner le logo de la marque' }}</span>
+                  <span>{{ form.get('image')?.value ? 'Logo joint !' : 'Cliquez pour sélectionner le logo de la marque'
+                    }}</span>
                 </div>
               </label>
             </div>

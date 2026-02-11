@@ -2,19 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { CarsRoutingModule } from './cars-routing-module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrandList } from './brand-list/brand-list';
 import { ModelList } from './model-list/model-list';
 import { GenerationList } from './generation-list/generation-list';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarPartAdmin } from './car-part-admin/car-part-admin';
 import { Orders } from './orders/orders';
 import { SubcategoryList } from './subcategory-list/subcategory-list';
 import { CategoryList } from './category-list/category-list';
 import { PartsOnSale } from './parts-on-sale/parts-on-sale';
-import { BrandsHeader } from './brands-header/brands-header';
-import { ModelHeader } from './model-header/model-header';
-import { GenerationHeader } from './generation-header/generation-header';
+import { CarHeader } from './car-header/car-header';
 
 
 @NgModule({
@@ -27,9 +25,7 @@ import { GenerationHeader } from './generation-header/generation-header';
     SubcategoryList,
     CategoryList,
     PartsOnSale,
-    BrandsHeader,
-    ModelHeader,
-    GenerationHeader,
+    CarHeader,
   ],
   imports: [
     NgbModule,
