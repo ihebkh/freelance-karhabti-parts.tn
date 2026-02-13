@@ -8,8 +8,8 @@
 /* Container & Grid - HARMONISÉ */
 .brand-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
   padding: 10px;
   border-radius: 12px;
   background: transparent;
@@ -418,7 +418,23 @@
 }
 
 /* RESPONSIVE */
+@media (max-width: 1200px) {
+  .brand-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .brand-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
+  .brand-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .page-wrapper {
     padding: 0 1rem;
   }
@@ -429,5 +445,11 @@
 
   .logo-placeholder {
     font-size: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-container {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

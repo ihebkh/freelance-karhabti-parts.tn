@@ -24,8 +24,8 @@ public class CarPartOrderService {
     private final UserRepository userRepository;
 
     public CarPartOrderService(CarPartOrderRepository orderRepository,
-                               CarPartRepository partRepository,
-                               UserRepository userRepository) {
+            CarPartRepository partRepository,
+            UserRepository userRepository) {
         this.orderRepository = orderRepository;
         this.partRepository = partRepository;
         this.userRepository = userRepository;
@@ -55,8 +55,7 @@ public class CarPartOrderService {
             orderItem.setPartNameSnapshot(part.getName());
             if (!part.isOnSale()) {
                 orderItem.setPriceSnapshot(part.getPrice());
-            }
-            else{
+            } else {
                 orderItem.setPriceSnapshot(part.getPriceAfterSale());
             }
             order.getItems().add(orderItem);
@@ -67,13 +66,15 @@ public class CarPartOrderService {
         // Return DTO to prevent JSON nesting depth errors
         return toDTO(savedOrder);
     }
+
     @Transactional
     public Page<CarPartOrderDTO> getAllOrders(OrderStatus status, int page) {
         // UPDATED: Added sorting here
         Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<Long> orderIdsPage = orderRepository.findOrderIdsByStatus(status, pageable);
-        if (orderIdsPage.isEmpty()) return Page.empty();
+        if (orderIdsPage.isEmpty())
+            return Page.empty();
 
         List<CarPartOrder> orders = orderRepository.findOrdersWithItemsByIds(orderIdsPage.getContent());
 
@@ -88,12 +89,14 @@ public class CarPartOrderService {
         Pageable pageable = PageRequest.of(page, 6, Sort.by(Sort.Direction.DESC, "id"));
 
         Page<Long> orderIdsPage = orderRepository.findOrderIdsByUserAndStatus(userEmail, status, pageable);
-        if (orderIdsPage.isEmpty()) return Page.empty();
+        if (orderIdsPage.isEmpty())
+            return Page.empty();
 
         List<CarPartOrder> orders = orderRepository.findOrdersWithItemsByIds(orderIdsPage.getContent());
         List<CarPartOrderDTO> dtos = orders.stream().map(this::toDTO).toList();
         return new PageImpl<>(dtos, pageable, orderIdsPage.getTotalElements());
     }
+
     public CarPartOrderDTO updateStatus(Long orderId, OrderStatus status) {
         CarPartOrder order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -110,7 +113,6 @@ public class CarPartOrderService {
         return toDTO(fullOrder);
     }
 
-
     private CarPartOrderDTO toDTO(CarPartOrder order) {
         var itemsDTO = order.getItems().stream()
                 .map(item -> new OrderItemDTO(
@@ -119,8 +121,7 @@ public class CarPartOrderService {
                         item.getPartNameSnapshot(),
                         item.getPriceSnapshot(),
                         item.getQuantity(),
-                        item.getPriceSnapshot() * item.getQuantity()
-                ))
+                        item.getPriceSnapshot() * item.getQuantity()))
                 .toList();
 
         return new CarPartOrderDTO(
@@ -129,7 +130,8 @@ public class CarPartOrderService {
                 order.getWhatsapp(),
                 order.getPhone(),
                 order.getDeliveryAddress(),
+                order.getDateDelivery(),
                 order.getStatus(),
-                itemsDTO
-        );
-    }}
+                itemsDTO);
+    }
+}

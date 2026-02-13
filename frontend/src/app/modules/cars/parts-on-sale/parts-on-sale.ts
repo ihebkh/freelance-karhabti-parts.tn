@@ -1,18 +1,18 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {debounceTime, distinctUntilChanged, Subject} from 'rxjs';
-import {Category} from '../../../models/Category';
-import {SubCategory} from '../../../models/SubCategory';
-import {CarPart} from '../../../models/CarPart';
-import {CarGeneration} from '../../../models/CarGeneration';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {PublicCategoryService} from '../../../services/public-category-service';
-import {AuthService} from '../../../services/auth-service';
-import {CarPartsService} from '../../../services/car-parts-service';
-import {PublicCarService} from '../../../services/public-car-service';
-import {ActivatedRoute} from '@angular/router';
-import {CartService} from '../../../services/cart-service';
-import {DesignationService} from '../../../services/designation-service';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { Category } from '../../../models/Category';
+import { SubCategory } from '../../../models/SubCategory';
+import { CarPart } from '../../../models/CarPart';
+import { CarGeneration } from '../../../models/CarGeneration';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { PublicCategoryService } from '../../../services/public-category-service';
+import { AuthService } from '../../../services/auth-service';
+import { CarPartsService } from '../../../services/car-parts-service';
+import { PublicCarService } from '../../../services/public-car-service';
+import { ActivatedRoute } from '@angular/router';
+import { CartService } from '../../../services/cart-service';
+import { DesignationService } from '../../../services/designation-service';
 
 @Component({
   selector: 'app-parts-on-sale',
@@ -55,15 +55,15 @@ export class PartsOnSale implements OnInit {
 
   ngOnInit() {
 
-      this.loadParts();
+    this.loadParts();
   }
 
   loadParts(page: number = this.currentPage) {
     this.currentPage = page;
     let obs$;
 
-      // Pass desId to all context-based calls
-this.partService.getAllPartsOnSale(page).subscribe(data => {
+    // Pass desId to all context-based calls
+    this.partService.getAllPartsOnSale(page).subscribe(data => {
       this.totalPages = data.totalPages;
       this.partsWithUrl = data.content.map(p => ({
         parts: p,
@@ -90,8 +90,8 @@ this.partService.getAllPartsOnSale(page).subscribe(data => {
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
   addToCart(part: CarPart, quantity: number) {
-    if (this.selectedPart) {
-      this.cartService.addItem(this.selectedPart, quantity);
+    if (part) {
+      this.cartService.addItem(part, quantity);
     }
   }
 

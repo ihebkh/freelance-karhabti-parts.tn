@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import tn.carparts.carparts.enums.OrderStatus;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,16 @@ public class CarPartOrder {
     private String phone;
     private String deliveryAddress;
 
+    private LocalDateTime dateDelivery;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus status = OrderStatus.PENDING;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CarPartOrderItem> items = new ArrayList<>();
+
+    @PrePersist
+    protected void onCreate() {
+        this.dateDelivery = LocalDateTime.now();
+    }
 }

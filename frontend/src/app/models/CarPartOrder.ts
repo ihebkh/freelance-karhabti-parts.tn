@@ -1,4 +1,4 @@
-import {OrderItem} from './OrderItem';
+import { OrderItem } from './OrderItem';
 
 
 export interface CarPartOrder {
@@ -11,7 +11,9 @@ export interface CarPartOrder {
   phone: string;
   deliveryAddress: string;
 
-  status: 'PENDING' | 'CONFIRMED' | 'DECLINED' ;
+  dateDelivery: string;
+
+  status: 'PENDING' | 'CONFIRMED' | 'DECLINED';
 
   items: OrderItem[];
 }
