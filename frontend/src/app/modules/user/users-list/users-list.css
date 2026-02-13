@@ -1,185 +1,257 @@
+/* ========================================
+   USER MANAGEMENT - MODERN TABLE DESIGN
+   ======================================== */
+
 .orders-page-wrapper {
-  padding: 30px;
+  padding: 40px;
   background: transparent;
   min-height: auto;
 }
+
 @media (max-width: 768px) {
   .orders-page-wrapper {
-    padding: 15px; /* Less padding on mobile to give table more room */
-  }
-
-  .industrial-table th,
-  .industrial-table td {
-    padding: 12px 10px; /* Tighter cells for mobile */
+    padding: 20px;
   }
 }
+
+/* Header Section */
 .orders-header {
   margin-bottom: 30px;
 }
 
-.header-line {
-  width: 50px;
-  height: 4px;
-  background: #D4AF37; /* Using your global red */
+.header-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
 }
 
-.orders-header h2 {
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  margin: 5px 0;
-  color: #1a202c;
+.header-line {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+
+/* Filter Bar */
+.status-filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: capitalize;
+}
+
+.filter-btn:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  color: #1f2937;
+}
+
+.filter-btn.active {
+  background: #8b5cf6;
+  color: white;
+  border-color: #8b5cf6;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
 /* Table Container */
 .orders-container {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e2e8f0;
-
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
 }
 
 .industrial-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-
-  min-width: 800px;
 }
 
+/* Table Header */
 .industrial-table thead {
-  background: #1a202c;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  background: #fafafa;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .industrial-table th {
-  padding: 15px 20px;
+  padding: 16px 20px;
   text-align: left;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+.industrial-table th.text-center {
+  text-align: center;
+}
+
+/* Table Body */
 .industrial-table td {
-  padding: 18px 20px;
-  border-bottom: 1px solid #edf2f7;
+  padding: 20px;
+  border-bottom: 1px solid #f3f4f6;
   vertical-align: middle;
+  color: #1f2937;
 }
 
-/* Row Styling */
+.industrial-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
 .industrial-table tbody tr:hover {
-  background-color: #f8fafc;
+  background-color: #f9fafb;
 }
 
-.order-id {
-  font-family: 'Courier New', monospace;
+.industrial-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Avatar Container */
+.avatar-container {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
-  color: #64748b;
+  font-size: 16px;
+  color: white;
+  border: 2px solid #f3f4f6;
+  transition: transform 0.2s ease;
 }
 
+.industrial-table tbody tr:hover .avatar-container {
+  transform: scale(1.08);
+  border-color: #8b5cf6;
+}
+
+.user-avatar-mini {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* User Info */
 .user-email {
   font-weight: 500;
-  color: #1a202c;
-}
-
-.order-total {
-  font-weight: 800;
-  color: #d32f2f; /* Racing Red */
-  font-size: 15px;
+  color: #1f2937;
+  font-size: 14px;
 }
 
 /* Status Badges */
 .status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 6px 14px;
+  border-radius: 12px;
   font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  display: inline-block;
-}
-
-.status-badge[data-status="PENDING"] { background: #fef3c7; color: #92400e; }
-.status-badge[data-status="SHIPPED"] { background: #dcfce7; color: #166534; }
-.status-badge[data-status="CANCELLED"] { background: #fee2e2; color: #991b1b; }
-.status-badge[data-status="DELIVERED"] { background: #e0e7ff; color: #3730a3; }
-
-/* Items Manifest */
-.items-list {
-  display: flex;
-  flex-wrap: wrap;
+  font-weight: 700;
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
   gap: 6px;
 }
 
-.item-tag {
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  color: #475569;
+.status-badge[data-status="VERIFIED"] {
+  background: #d1fae5;
+  color: #065f46;
 }
 
-.item-tag .qty {
-  font-weight: 800;
-  color: #1a202c;
-  margin-right: 4px;
+.status-badge[data-status="VERIFIED"]::before {
+  content: "●";
+  color: #10b981;
 }
 
-/* Admin Dropdown */
-.status-select {
-  width: 100%;
-  padding: 8px;
-  border-radius: 8px;
-  border: 2px solid #e2e8f0;
-  background: #fff;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
+.status-badge[data-status="PENDING"] {
+  background: #fef3c7;
+  color: #92400e;
 }
 
-.status-select:focus {
-  border-color: #1a202c;
-  outline: none;
+.status-badge[data-status="PENDING"]::before {
+  content: "●";
+  color: #f59e0b;
 }
 
+/* Role Tags */
+.role-tag {
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: lowercase;
+  display: inline-block;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.role-tag.admin-role {
+  background: #ede9fe;
+  color: #6b21a8;
+}
+
+.role-tag.super-admin-role {
+  background: #fce7f3;
+  color: #9f1239;
+}
+
+/* Admin Action Container */
+.admin-action-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 40px;
+}
+
+/* Status Select Dropdown */
 .admin-select-wrapper {
   min-width: 140px;
 }
 
-
-
-/* Pagination Wrapper - matches your .orders-container style */
-.pagination-wrapper {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background: #fff;
-  border-top: 1px solid #edf2f7; /* Matches your td border */
-}
-
-.pagination-info {
+.status-select {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-weight: 600;
   font-size: 13px;
-  color: #64748b; /* Matches your .order-id color */
-  font-weight: 500;
+  color: #1f2937;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
 }
 
-.pagination-info strong {
-  color: #1a202c;
-  font-weight: 700;
+.status-select:hover {
+  border-color: #8b5cf6;
+  background: #fafafa;
 }
 
-.pagination-buttons {
-  display: flex;
-  gap: 5px;
+.status-select:focus {
+  border-color: #8b5cf6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
-/* Updated button styles for icon buttons displayed inline */
+/* Confirm Actions */
 .confirm-actions {
   display: flex;
   gap: 8px;
@@ -190,7 +262,7 @@
 .icon-btn {
   width: 36px;
   height: 36px;
-  border-radius: 6px;
+  border-radius: 8px;
   border: none;
   display: flex;
   align-items: center;
@@ -201,8 +273,8 @@
 }
 
 .icon-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .icon-btn:active {
@@ -210,116 +282,162 @@
 }
 
 .confirm-btn {
-  background: #D4AF37;
+  background: #10b981;
   color: white;
 }
 
 .confirm-btn:hover {
-  background: #00a843;
+  background: #059669;
 }
 
 .cancel-btn {
-  background: #d32f2f;
+  background: #ef4444;
   color: white;
 }
 
 .cancel-btn:hover {
-  background: #b71c1c;
+  background: #dc2626;
 }
 
+/* Locked Status Tag */
+.locked-status-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 12px;
+  background: #fef2f2;
+  color: #991b1b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
 
-/* Pagination Buttons */
+/* Pagination */
+.pagination-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: #fafafa;
+  border-top: 1px solid #f3f4f6;
+}
+
+.pagination-info {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.pagination-info strong {
+  color: #1f2937;
+  font-weight: 700;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 6px;
+}
+
 .pag-btn {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
-  background: #fff;
-  color: #475569;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pag-btn:hover:not(:disabled) {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  color: #1a202c;
+  background: #f9fafb;
+  border-color: #8b5cf6;
+  color: #8b5cf6;
 }
 
-/* Active Page - Matches your Header background */
 .pag-btn.active {
-  background: #1a202c;
-  color: #fff;
-  border-color: #1a202c;
+  background: #8b5cf6;
+  color: #ffffff;
+  border-color: #8b5cf6;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
 }
 
 .pag-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
-  background: #f1f5f9;
+  background: #f9fafb;
 }
 
-/* Page numbers specific styling */
 .page-num {
-  min-width: 35px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.status-filter-bar {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+  min-width: 40px;
 }
 
-.filter-btn {
-  background: transparent;
-  border: 1px solid #e2e8f0;
-  padding: 6px 15px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #64748b;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-transform: uppercase;
+/* Text Alignment Helper */
+.text-center {
+  text-align: center;
 }
 
-.filter-btn:hover {
-  background: #f1f5f9;
-  color: #1a202c;
+/* ========================================
+   RESPONSIVE BREAKPOINTS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .orders-page-wrapper {
+    padding: 15px;
+  }
+
+  .header-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .orders-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .industrial-table {
+    min-width: 800px;
+  }
+
+  .industrial-table th,
+  .industrial-table td {
+    padding: 14px 12px;
+    font-size: 13px;
+  }
+
+  .avatar-container {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .pagination-wrapper {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .pagination-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
-.filter-btn.active {
-  background: #D4AF37; /* Racing dark */
-  color: white;
-  border-color: #D4AF37;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-/* Container to lock the size */
-.avatar-container {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden; /* This crops the image */
-  border: 2px solid #e2e8f0;
-  background: #f1f5f9; /* Placeholder color while loading */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+@media (max-width: 480px) {
+  .filter-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 
-/* Image behavior inside the container */
-.user-avatar-mini {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* This is the secret: it fills the circle without distortion */
-  display: block;
-}
-
-/* Optional: Add a slight hover effect to the row to make the pfp "pop" */
-.industrial-table tbody tr:hover .avatar-container {
-  border-color: #D4AF37; /* Matches your green theme */
-  transition: border-color 0.2s ease;
+  .pag-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+    min-width: 35px;
+  }
 }

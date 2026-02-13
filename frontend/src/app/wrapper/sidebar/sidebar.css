@@ -104,8 +104,10 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  min-width: 900px;  /* ← Augmenté pour 6 colonnes */
-  max-width: 1100px; /* ← Augmenté pour 6 colonnes */
+  min-width: 900px;
+  /* ← Augmenté pour 6 colonnes */
+  max-width: 1100px;
+  /* ← Augmenté pour 6 colonnes */
   z-index: 1000;
   animation: dropdownFadeIn 0.3s ease-out;
   border: 1px solid #e5e5e5;
@@ -129,6 +131,7 @@
     opacity: 0;
     transform: translateX(-50%) translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
@@ -155,7 +158,8 @@
    ======================================== */
 .brands-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);  /* ← 6 COLONNES */
+  grid-template-columns: repeat(6, 1fr);
+  /* ← 6 COLONNES */
   gap: 12px;
   padding: 20px;
   max-height: 400px;
@@ -307,6 +311,12 @@
 
 /* Tablet view */
 @media (max-width: 968px) {
+
+  /* Hide this component on mobile/tablet as app-mobile-sidebar is used */
+  :host {
+    display: none;
+  }
+
   .navbar-container {
     padding: 0 20px;
   }
@@ -325,7 +335,8 @@
   }
 
   .brands-grid {
-    grid-template-columns: repeat(4, 1fr);  /* ← 4 colonnes sur tablette */
+    grid-template-columns: repeat(4, 1fr);
+    /* ← 4 colonnes sur tablette */
   }
 }
 
@@ -374,7 +385,8 @@
   }
 
   .brands-grid {
-    grid-template-columns: repeat(3, 1fr);  /* ← 3 colonnes sur mobile paysage */
+    grid-template-columns: repeat(3, 1fr);
+    /* ← 3 colonnes sur mobile paysage */
     max-height: 50vh;
   }
 
@@ -407,7 +419,8 @@
   }
 
   .brands-grid {
-    grid-template-columns: repeat(2, 1fr);  /* ← 2 colonnes sur petit mobile */
+    grid-template-columns: repeat(2, 1fr);
+    /* ← 2 colonnes sur petit mobile */
     gap: 10px;
     padding: 15px;
   }
@@ -445,7 +458,8 @@
 /* Extra small mobile */
 @media (max-width: 360px) {
   .brands-grid {
-    grid-template-columns: 1fr;  /* ← 1 colonne sur très petit mobile */
+    grid-template-columns: 1fr;
+    /* ← 1 colonne sur très petit mobile */
   }
 
   .brand-card {
@@ -472,7 +486,7 @@
     background: white;
     position: fixed;
   }
-  
+
   /* Overlay derrière le dropdown sur mobile */
   body.dropdown-open::before {
     content: '';

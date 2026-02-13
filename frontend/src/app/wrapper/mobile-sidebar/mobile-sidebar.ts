@@ -31,7 +31,7 @@ export class MobileSidebar implements OnInit {
     private partService: CarPartsService,
     private publicCarService: PublicCarService,
     private cartService: CartService
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Composant simplifié sans recherche
@@ -43,10 +43,20 @@ export class MobileSidebar implements OnInit {
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+    if (this.isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   }
 
   closeMenu() {
     this.isMenuOpen = false;
+    document.body.style.overflow = '';
+  }
+
+  ngOnDestroy() {
+    document.body.style.overflow = '';
   }
 
   logout() {

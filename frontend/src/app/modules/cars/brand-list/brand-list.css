@@ -4,7 +4,13 @@
   gap: 10px;
   padding: 10px;
   border-radius: 12px;
-  background: transparent; /* Changé de #fafafa à transparent */
+  background: transparent;
+}
+
+@media (max-width: 480px) {
+  .brand-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* The Card */
@@ -315,7 +321,8 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
-  background: transparent; /* Ajouté pour s'assurer qu'il n'y a pas de fond */
+  background: transparent;
+  /* Ajouté pour s'assurer qu'il n'y a pas de fond */
 }
 
 /* RESPONSIVE */

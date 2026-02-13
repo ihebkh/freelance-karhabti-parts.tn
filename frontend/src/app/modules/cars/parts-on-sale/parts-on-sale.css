@@ -127,7 +127,7 @@
 }
 
 /* Brand name - Petit texte gris */
-.part-info > p:first-child,
+.part-info>p:first-child,
 .part-card h4:first-of-type {
   font-size: 13px;
   color: #6B7280;
@@ -169,25 +169,32 @@
   background: #FEE2E2;
 }
 
-/* Price Section */
+/* Price Section - MODIFIÉ POUR ALIGNEMENT HORIZONTAL */
 .price-section {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
+/* Prix actuel - MAUVE et même police */
 .price-current {
   font-size: 24px;
   font-weight: 800;
   color: #7C3AED;
   letter-spacing: -0.5px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .price-current.on-sale {
   color: #7C3AED;
 }
 
+/* Prix original barré */
 .price-original {
   font-size: 16px;
   color: #9CA3AF;
@@ -428,7 +435,7 @@
   color: #1F2937;
 }
 
-/* Price Highlight in Modal */
+/* Price Highlight in Modal - MODIFIÉ POUR MAUVE */
 .price-highlight-container {
   margin: 20px 0;
 }
@@ -438,6 +445,9 @@
   padding: 20px;
   border-radius: 16px;
   border: 2px solid #E5E7EB;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .price-highlight.on-sale {
@@ -446,7 +456,9 @@
 }
 
 .old-price-wrapper {
-  margin-bottom: 8px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .amount-old {
@@ -458,15 +470,20 @@
 
 .new-price-wrapper {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   gap: 12px;
+  flex-wrap: wrap;
 }
 
+/* Prix en MAUVE dans le modal */
 .amount {
   font-size: 32px;
   font-weight: 800;
   color: #7C3AED;
   letter-spacing: -1px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
 .sale-badge-pill {
@@ -505,8 +522,15 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .divider {
@@ -611,5 +635,10 @@
   .pagination-wrapper {
     flex-direction: column;
     gap: 16px;
+  }
+
+  .price-section {
+    flex-direction: column;
+    gap: 4px;
   }
 }

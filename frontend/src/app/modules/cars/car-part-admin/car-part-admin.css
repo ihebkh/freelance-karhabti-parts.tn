@@ -75,78 +75,75 @@
    MANUFACTURERS SECTION (Catégories et Sous-catégories)
    ======================================== */
 .manufacturers-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 15px;
-  padding: 25px;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 40px;
+  background: transparent;
   margin: 0 40px 30px;
 }
 
+@media (max-width: 480px) {
+  .manufacturers-container {
+    padding: 10px 15px;
+    margin: 0 0 20px;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+}
+
 .manufacturer-card {
-  background: #fff;
-  border: 2px solid #e5e7eb;
+  background: #f3f4f6;
+  border: none;
   border-radius: 12px;
-  padding: 15px 15px 50px 15px;
+  padding: 15px 30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  position: relative;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
-  min-height: 200px;
+  min-height: auto;
+  min-width: max-content;
 }
 
 .manufacturer-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  border-color: #D4AF37;
-}
-
-.clickable-brand {
-  cursor: pointer;
+  transform: translateY(-2px);
+  background: #e5e7eb;
+  box-shadow: none;
 }
 
 .active-filter {
-  border: 2px solid #D4AF37 !important;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-  transform: translateY(-5px);
+  background: #D4AF37 !important;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+  border: none !important;
+  transform: translateY(0);
+}
+
+.active-filter .manufacturer-name h4 {
+  color: white !important;
 }
 
 .active-filter::after {
-  content: "✓";
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #D4AF37;
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  z-index: 5;
+  content: "";
+  display: none;
 }
 
 .manufacturer-logo {
-  height: 100px;
-  width: 100%;
+  height: 50px;
+  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
+  margin-right: 20px;
+  margin-bottom: 0;
 }
 
 .manufacturer-logo img {
   max-width: 100%;
-  max-height: 85px;
+  max-height: 100%;
   object-fit: contain;
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  opacity: 1;
 }
 
 .manufacturer-card:hover .manufacturer-logo img {
@@ -154,17 +151,17 @@
 }
 
 .manufacturer-name {
-  text-align: center;
+  text-align: left;
   flex: 1;
 }
 
 .manufacturer-name h4 {
   font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  font-size: 1.25rem;
   margin: 0;
-  color: #222;
+  color: #374151;
+  white-space: nowrap;
 }
 
 .add-manufacturer-card {
@@ -183,81 +180,78 @@
 }
 
 /* ========================================
-   CONSTRUCTEURS OFFICIELS - NOUVEAU DESIGN (brand-list style)
+   CONSTRUCTEURS OFFICIELS - MÊME DESIGN QUE CATÉGORIES
    ======================================== */
 .brand-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   padding: 10px 40px;
-  border-radius: 12px;
   background: transparent;
-  margin-bottom: 30px;
+  margin: 0 40px 30px;
 }
 
-/* The Card */
 .brand-card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 16px;
-  padding: 20px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 12px;
+  padding: 15px 30px;
   display: flex;
-  flex-direction: column;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  flex-direction: row;
+  align-items: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  min-height: auto;
+  min-width: max-content;
   position: relative;
-  overflow: hidden;
 }
 
 .brand-card:hover {
-  border-color: #D4AF37;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+  transform: translateY(-2px);
+  background: #e5e7eb;
+  box-shadow: none;
 }
 
-/* Active filter state for brand-card */
 .brand-card.active-filter {
-  border: 2px solid #D4AF37 !important;
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-  transform: translateY(-5px);
+  background: #D4AF37 !important;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(212, 175, 55, 0.3);
+  border: none !important;
+  transform: translateY(0);
+}
+
+.brand-card.active-filter h4 {
+  color: white !important;
 }
 
 .brand-card.active-filter::after {
-  content: "✓";
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: #D4AF37;
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: bold;
-  z-index: 5;
+  content: "";
+  display: none;
 }
 
 .brand-logo-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: pointer;
+  flex: 1;
 }
 
-/* Logo Presentation */
 .logo-cadre {
-  height: 140px;
+  height: 50px;
+  width: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  margin-right: 20px;
+  margin-bottom: 0;
 }
 
 .brand-card img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transition: filter 0.3s;
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .brand-card:hover img {
@@ -266,20 +260,20 @@
 
 .brand-card h4 {
   font-weight: 700;
-  text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 0.5px;
+  text-transform: capitalize;
+  font-size: 1.25rem;
   margin: 0;
-  color: #222;
-  text-align: center;
+  color: #374151;
+  text-align: left;
+  white-space: nowrap;
 }
 
-/* Admin Controls Area */
+/* Admin Controls pour les constructeurs */
 .admin-controls {
-  margin-top: 15px;
+  margin-left: 15px;
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 8px;
+  align-items: center;
 }
 
 .admin-controls button {
@@ -305,28 +299,30 @@
   color: #ef4444;
 }
 
-/* The Add New Brand Card */
 .add-brand-card {
-  border: 2px dashed #ccc;
-  background: transparent;
+  border: 2px dashed #9ca3af;
+  background: #f3f4f6;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  color: #4b5563;
+  padding: 15px 30px;
 }
 
 .add-brand-card:hover {
   border-color: #D4AF37;
+  color: #D4AF37;
   background: #fff;
 }
 
 .add-icon-wrapper {
-  font-size: 40px;
-  color: #ccc;
-  margin-bottom: 10px;
+  font-size: 24px;
+  color: #9ca3af;
+  margin-bottom: 0;
+  margin-right: 10px;
 }
 
 .logo-placeholder {
-  font-size: 60px;
+  font-size: 40px;
   opacity: 0.3;
 }
 
@@ -362,7 +358,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Sale Corner Badge */
 .sale-corner {
   position: absolute;
   top: 0;
@@ -441,7 +436,6 @@
   color: #D4AF37;
 }
 
-/* Container for prices in the card */
 .price-row {
   display: flex;
   flex-direction: column;
@@ -449,26 +443,22 @@
   margin-top: 8px;
 }
 
-/* The discounted price (Big and bold) */
 .current-price {
   font-weight: bold;
   font-size: 1.1rem;
   color: #2c3e50;
 }
 
-/* Red color for current price ONLY when on sale */
 .price-row.on-sale .current-price {
   color: #e74c3c;
 }
 
-/* The original price with strikethrough */
 .old-price {
   text-decoration: line-through;
   color: #95a5a6;
   font-size: 0.9rem;
 }
 
-/* Optional: Horizontal layout when on sale */
 .price-row.on-sale {
   flex-direction: row;
   align-items: baseline;
@@ -483,7 +473,6 @@
   color: #9ca3af;
 }
 
-/* Card Overlay Static */
 .card-overlay-static {
   position: absolute;
   bottom: 0;
@@ -515,7 +504,6 @@
   background: #059669;
 }
 
-/* Admin Buttons */
 .admin-btns-fixed {
   position: absolute;
   bottom: 12px;
@@ -554,7 +542,6 @@
   transform: scale(1.15);
 }
 
-/* Add Part Card */
 .add-part-card {
   border: 2px dashed #9ca3af;
   background: #e5e7eb;
@@ -834,7 +821,6 @@
   margin: 20px 0;
 }
 
-/* Form Elements */
 .friendly-label {
   display: block;
   font-weight: 600;
@@ -878,7 +864,7 @@
   text-align: center;
 }
 
-.toggle-input:checked + .toggle-label {
+.toggle-input:checked+.toggle-label {
   background: #dcfce7;
   color: #166534;
 }
@@ -1050,11 +1036,11 @@
   position: relative;
 }
 
-.custom-checkbox:hover input ~ .checkmark {
+.custom-checkbox:hover input~.checkmark {
   border-color: #D4AF37;
 }
 
-.custom-checkbox input:checked ~ .checkmark {
+.custom-checkbox input:checked~.checkmark {
   background-color: #D4AF37;
   border-color: #D4AF37;
 }
@@ -1065,7 +1051,7 @@
   display: none;
 }
 
-.custom-checkbox input:checked ~ .checkmark:after {
+.custom-checkbox input:checked~.checkmark:after {
   display: block;
 }
 
@@ -1134,7 +1120,6 @@
    RESPONSIVE BREAKPOINTS
    ======================================== */
 
-/* Tablets and smaller desktops (≤1024px) */
 @media (max-width: 1024px) {
   .brand-grid-header {
     padding: 25px 20px;
@@ -1149,34 +1134,11 @@
     max-width: 100%;
   }
 
-  .manufacturers-container {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  .manufacturers-container,
+  .brand-container {
     gap: 12px;
     padding: 20px;
     margin: 0 20px 30px;
-  }
-
-  .manufacturer-card {
-    min-height: 180px;
-    padding: 12px 12px 45px 12px;
-  }
-
-  .manufacturer-logo {
-    height: 85px;
-  }
-
-  .manufacturer-logo img {
-    max-height: 70px;
-  }
-
-  /* Brand container responsive */
-  .brand-container {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    padding: 10px 20px;
-  }
-
-  .logo-cadre {
-    height: 120px;
   }
 
   .part-container {
@@ -1196,7 +1158,6 @@
   }
 }
 
-/* Mobile devices (≤768px) */
 @media (max-width: 768px) {
   .brand-grid-header {
     padding: 20px 15px;
@@ -1206,42 +1167,28 @@
     font-size: 1.3rem;
   }
 
-  .manufacturers-container {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  .manufacturers-container,
+  .brand-container {
     gap: 10px;
     padding: 15px;
     margin: 0 15px 20px;
   }
 
-  .manufacturer-card {
-    min-height: 160px;
-    padding: 10px 10px 40px 10px;
-  }
-
-  .manufacturer-logo {
-    height: 70px;
-  }
-
-  .manufacturer-logo img {
-    max-height: 60px;
-  }
-
-  .manufacturer-name h4 {
-    font-size: 0.8rem;
-  }
-
-  /* Brand container responsive */
-  .brand-container {
-    grid-template-columns: repeat(2, 1fr);
-    padding: 10px 15px;
-  }
-
-  .logo-cadre {
-    height: 100px;
-  }
-
+  .manufacturer-card,
   .brand-card {
-    padding: 15px;
+    padding: 12px 20px;
+  }
+
+  .manufacturer-logo,
+  .logo-cadre {
+    height: 40px;
+    width: 40px;
+    margin-right: 15px;
+  }
+
+  .manufacturer-name h4,
+  .brand-card h4 {
+    font-size: 1rem;
   }
 
   .part-container {
@@ -1292,7 +1239,6 @@
   }
 }
 
-/* Small mobile devices (≤480px) */
 @media (max-width: 480px) {
   .brand-grid-header {
     padding: 15px 10px;
@@ -1311,61 +1257,47 @@
     height: 40px;
   }
 
-  .manufacturers-container {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+  .manufacturers-container,
+  .brand-container {
     padding: 12px;
     margin: 0 10px 15px;
-  }
-
-  .manufacturer-card {
-    min-height: 140px;
-    padding: 8px 8px 35px 8px;
-  }
-
-  .manufacturer-logo {
-    height: 60px;
-  }
-
-  .manufacturer-logo img {
-    max-height: 50px;
-  }
-
-  .manufacturer-name h4 {
-    font-size: 0.7rem;
-  }
-
-  /* Brand container responsive */
-  .brand-container {
-    padding: 10px;
     gap: 8px;
   }
 
-  .logo-cadre {
-    height: 80px;
-  }
-
+  .manufacturer-card,
   .brand-card {
-    padding: 12px;
+    padding: 10px 15px;
   }
 
+  .manufacturer-logo,
+  .logo-cadre {
+    height: 35px;
+    width: 35px;
+    margin-right: 12px;
+  }
+
+  .manufacturer-name h4,
   .brand-card h4 {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
   }
 
-  .btn-view {
-    padding: 8px 12px;
-    font-size: 10px;
+  .admin-controls {
+    margin-left: 10px;
+    gap: 6px;
   }
 
-  .admin-btns-fixed {
-    bottom: 8px;
-    gap: 8px;
-  }
-
-  .admin-btns-fixed button {
+  .admin-controls button {
     font-size: 12px;
-    padding: 3px 6px;
+    padding: 3px;
+  }
+
+  .add-brand-card {
+    padding: 10px 15px;
+  }
+
+  .add-icon-wrapper {
+    font-size: 20px;
+    margin-right: 8px;
   }
 
   .part-container {
@@ -1373,8 +1305,7 @@
     gap: 8px;
   }
 
-  .add-icon,
-  .add-icon-wrapper {
+  .add-icon {
     font-size: 28px;
   }
 
@@ -1393,6 +1324,6 @@
   }
 
   .logo-placeholder {
-    font-size: 40px;
+    font-size: 30px;
   }
 }

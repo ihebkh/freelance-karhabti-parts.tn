@@ -3,7 +3,7 @@
 
     <!-- Hamburger Menu Button -->
     <button class="hamburger-btn" (click)="toggleMenu()" [class.active]="isMenuOpen"
-            aria-label="Basculer le menu de navigation" [attr.aria-expanded]="isMenuOpen">
+      aria-label="Basculer le menu de navigation" [attr.aria-expanded]="isMenuOpen">
       <span></span>
       <span></span>
       <span></span>
@@ -31,8 +31,10 @@
 
         <!-- Admin Links -->
         <ng-container *ngIf="authService.isAdmin()">
-          <li><a routerLink="/admin/cars/brands" routerLinkActive="active" (click)="closeMenu()">Gérer les véhicules</a></li>
-          <li><a routerLink="/user/users" routerLinkActive="active" (click)="closeMenu()">Liste des utilisateurs</a></li>
+          <li><a routerLink="/admin/cars/brands" routerLinkActive="active" (click)="closeMenu()">Gérer les véhicules</a>
+          </li>
+          <li><a routerLink="/user/users" routerLinkActive="active" (click)="closeMenu()">Liste des utilisateurs</a>
+          </li>
           <li><a routerLink="/admin/cars/categories" routerLinkActive="active" (click)="closeMenu()">Catégories</a></li>
           <li><a routerLink="/admin/cars/parts" routerLinkActive="active" (click)="closeMenu()">Pièces</a></li>
           <li><a routerLink="/admin/cars/sales" routerLinkActive="active" (click)="closeMenu()">Promotions</a></li>
@@ -41,7 +43,8 @@
 
         <!-- User Links -->
         <ng-container *ngIf="!authService.isAdmin()">
-          <li><a routerLink="/cars/brands" routerLinkActive="active" (click)="closeMenu()">Parcourir les véhicules</a></li>
+          <li><a routerLink="/cars/brands" routerLinkActive="active" (click)="closeMenu()">Parcourir les véhicules</a>
+          </li>
           <li><a routerLink="/cars/categories" routerLinkActive="active" (click)="closeMenu()">Catégories</a></li>
           <li><a routerLink="/cars/parts" routerLinkActive="active" (click)="closeMenu()">Pièces</a></li>
           <li><a routerLink="/cars/orders" routerLinkActive="active" (click)="closeMenu()">Mes Commandes</a></li>
@@ -76,7 +79,7 @@
         <!-- Product Image -->
         <div class="detail-image-box">
           <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded"
-               [alt]="selectedPart?.name || 'Image du produit'">
+            [alt]="selectedPart?.name || 'Image du produit'">
           <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
         </div>
 
@@ -108,12 +111,13 @@
             <label class="friendly-label">Quantité</label>
             <div class="d-flex gap-3">
               <select [(ngModel)]="quantityToAdd" class="friendly-input qty-select"
-                      aria-label="Sélectionner la quantité">
-                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [value]="q">{{ q }} Article{{ q > 1 ? 's' : '' }}</option>
+                aria-label="Sélectionner la quantité">
+                <option *ngFor="let q of [1,2,3,4,5,6,7,8,9,10]" [value]="q">{{ q }} Article{{ q > 1 ? 's' : '' }}
+                </option>
               </select>
               <button class="btn-action-primary flex-grow-1"
-                      (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()"
-                      [disabled]="!selectedPart">
+                (click)="selectedPart && addToCart(selectedPart, quantityToAdd); modal.close()"
+                [disabled]="!selectedPart">
                 AJOUTER AU PANIER
               </button>
             </div>

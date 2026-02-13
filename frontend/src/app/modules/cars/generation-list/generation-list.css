@@ -8,6 +8,12 @@
   background: transparent;
 }
 
+@media (max-width: 480px) {
+  .generation-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* The Card */
 .generation-card {
   background: #fff;
