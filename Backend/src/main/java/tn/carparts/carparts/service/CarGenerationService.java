@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.carparts.carparts.DTO.CarGenerationDTO;
 import tn.carparts.carparts.DTO.CarGenerationWithModelDTO;
+import tn.carparts.carparts.entity.CarBrand;
 import tn.carparts.carparts.entity.CarGeneration;
 import tn.carparts.carparts.entity.CarModel;
 import tn.carparts.carparts.mapper.CarMapper;
@@ -79,9 +80,16 @@ public class CarGenerationService {
                 .toList();
     }
 
-
-
     public List<CarGenerationWithModelDTO> getAllGenerations() {
         return generationRepository.findAllWithModelName();
     }
+
+    public CarGeneration findByNameAndBrand(String name, String brandName) {
+        return generationRepository.findByNameAndBrandName(name, brandName).orElse(null);
+    }
+
+    public List<CarGeneration> getByBrandEntity(CarBrand brand) {
+        return generationRepository.findByModelBrand(brand);
+    }
+
 }

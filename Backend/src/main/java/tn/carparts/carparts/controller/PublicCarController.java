@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+
 @RestController
 @RequestMapping("/cars")
 @RequiredArgsConstructor
@@ -49,21 +50,15 @@ public class PublicCarController {
         return generationService.getByModel(modelId);
     }
 
-
     @GetMapping("/generations")
     public List<CarGenerationWithModelDTO> getAllGenerations() {
         return generationService.getAllGenerations();
     }
 
-
-
-
-
     @GetMapping("/uploads/{subfolder}/{filename:.+}")
     public ResponseEntity<Resource> serveFile(
             @PathVariable String subfolder,
-            @PathVariable String filename
-    ) {
+            @PathVariable String filename) {
         try {
             Path file = Paths.get("uploads").resolve(subfolder).resolve(filename).normalize();
             Resource resource = new UrlResource(file.toUri());
@@ -73,9 +68,12 @@ public class PublicCarController {
             }
 
             String contentType = "application/octet-stream";
-            if (filename.endsWith(".png")) contentType = "image/png";
-            else if (filename.endsWith(".jpg") || filename.endsWith(".jpeg")) contentType = "image/jpeg";
-            else if (filename.endsWith(".gif")) contentType = "image/gif";
+            if (filename.endsWith(".png"))
+                contentType = "image/png";
+            else if (filename.endsWith(".jpg") || filename.endsWith(".jpeg"))
+                contentType = "image/jpeg";
+            else if (filename.endsWith(".gif"))
+                contentType = "image/gif";
 
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
@@ -86,8 +84,6 @@ public class PublicCarController {
             return ResponseEntity.badRequest().build();
         }
     }
-
-
 
     @GetMapping("/vin-lookup/{vin}")
     public ResponseEntity<?> lookupVin(@PathVariable String vin) {
@@ -101,26 +97,77 @@ public class PublicCarController {
             Map<String, Object> response = restTemplate.postForObject(webhookUrl, requestBody, Map.class);
 
             if (response != null) {
-
                 String brandName = (String) response.get("car brand");
                 String modelName = (String) response.get("car model");
 
-                if (modelName != null && modelName.contains("-")) {
-                    CarBrand brand = brandService.findByName(brandName);
-                    if (brand == null) throw new RuntimeException("Brand not found in DB: " + brandName);
-                    return ResponseEntity.ok(Map.of("type", "brand", "id", brand.getId()));
-                } else {
-                    CarModel model = modelService.findByName(modelName);
-                    if (model == null) throw new RuntimeException("Model not found in DB: " + modelName);
-                    return ResponseEntity.ok(Map.of("type", "model", "id", model.getId()));
+                if (modelName == null) {
+                    return ResponseEntity.badRequest().body("Model name not found in response");
                 }
+
+                // Récupérer la marque
+                CarBrand brand = brandService.findByName(brandName);
+                if (brand == null) {
+                    throw new RuntimeException("Brand not found in DB: " + brandName);
+                }
+
+                // Cas 1: Chercher une correspondance exacte dans les modèles
+                CarModel exactModel = modelService.findByName(modelName);
+                if (exactModel != null && exactModel.getBrand().getId().equals(brand.getId())) {
+                    return ResponseEntity.ok(Map.of("type", "model", "id", exactModel.getId()));
+                }
+
+                // Cas 2: Séparer le nom par tirets et chercher chaque token
+                String[] tokens = modelName.split("-");
+                List<CarModel> brandModels = modelService.getByBrandEntity(brand);
+
+                // Chercher un token qui correspond exactement à un modèle
+                for (String token : tokens) {
+                    for (CarModel model : brandModels) {
+                        if (token.equalsIgnoreCase(model.getName())) {
+                            return ResponseEntity.ok(Map.of("type", "model", "id", model.getId()));
+                        }
+                    }
+                }
+
+                // Cas 3: Chercher correspondance partielle (modèle contenu dans le nom ou vice
+                // versa)
+                for (CarModel model : brandModels) {
+                    if (modelName.toLowerCase().contains(model.getName().toLowerCase()) ||
+                            model.getName().toLowerCase().contains(modelName.toLowerCase())) {
+                        return ResponseEntity.ok(Map.of("type", "model", "id", model.getId()));
+                    }
+                }
+
+                // Cas 4: Chercher dans les générations (recherche par token puis partielle)
+                List<CarGeneration> brandGenerations = generationService.getByBrandEntity(brand);
+                for (String token : tokens) {
+                    for (CarGeneration generation : brandGenerations) {
+                        if (token.equalsIgnoreCase(generation.getName())) {
+                            return ResponseEntity.ok(Map.of("type", "generation", "id", generation.getId()));
+                        }
+                    }
+                }
+                for (CarGeneration generation : brandGenerations) {
+                    if (modelName.toLowerCase().contains(generation.getName().toLowerCase()) ||
+                            generation.getName().toLowerCase().contains(modelName.toLowerCase())) {
+                        return ResponseEntity.ok(Map.of("type", "generation", "id", generation.getId()));
+                    }
+                }
+
+                // Aucune correspondance trouvée → fallback vers la marque
+                return ResponseEntity.ok(Map.of(
+                        "type", "brand",
+                        "id", brand.getId(),
+                        "warning", "Specific model/generation not found, returning brand"));
             }
+
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
-            System.err.println("ERROR: Webhook returned status " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
+            System.err.println(
+                    "ERROR: Webhook returned status " + e.getStatusCode() + " - " + e.getResponseBodyAsString());
             return ResponseEntity.status(e.getStatusCode()).body("Webhook error: " + e.getResponseBodyAsString());
         } catch (Exception e) {
             System.err.println("ERROR: Exception during lookup: ");
-            e.printStackTrace(); // This will show you the exact line number in your IDE console
+            e.printStackTrace();
             return ResponseEntity.status(500).body("Internal Error: " + e.getMessage());
         }
         return ResponseEntity.notFound().build();

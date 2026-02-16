@@ -22,7 +22,7 @@ export class PicturesWelcome implements OnInit, OnDestroy {
     private publicCarService: PublicCarService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.startAutoPlay();
@@ -34,14 +34,14 @@ export class PicturesWelcome implements OnInit, OnDestroy {
 
   searchByVin() {
     const query = this.vinNumber.trim().toUpperCase();
-    
+
     if (!query) {
       alert('Veuillez entrer un numéro VIN');
       return;
     }
 
     this.isSearching = true;
-    
+
     this.publicCarService.lookupVin(query).subscribe({
       next: (res: any) => {
         this.isSearching = false;
@@ -49,9 +49,14 @@ export class PicturesWelcome implements OnInit, OnDestroy {
         const isAdmin = this.authService.isAdmin();
         const base = isAdmin ? '/admin/cars' : '/cars';
 
-        const targetUrl = res.type === 'brand'
-          ? `${base}/brands/${res.id}/models`
-          : `${base}/models/${res.id}/generations`;
+        let targetUrl = '';
+        if (res.type === 'brand') {
+          targetUrl = `${base}/brands/${res.id}/models`;
+        } else if (res.type === 'generation') {
+          targetUrl = `${base}/generations/${res.id}/parts`;
+        } else {
+          targetUrl = `${base}/models/${res.id}/generations`;
+        }
 
         this.router.navigate([targetUrl]);
         this.vinNumber = '';

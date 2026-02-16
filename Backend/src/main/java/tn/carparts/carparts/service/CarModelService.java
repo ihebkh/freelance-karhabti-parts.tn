@@ -78,10 +78,11 @@ public class CarModelService {
                 .toList();
     }
 
-    public CarModel findByName(String name){
-        CarModel brand = modelRepository.findByName(name)
-                .orElseThrow(() -> new RuntimeException("Brand not found"));
+    public CarModel findByName(String name) {
+        return modelRepository.findByName(name).orElse(null);
+    }
 
-        return brand;
+    public List<CarModel> getByBrandEntity(CarBrand brand) {
+        return modelRepository.findByBrand(brand);
     }
 }
