@@ -1,12 +1,12 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
-import {Category} from '../../../models/Category';
-import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
-import {AdminCategoryService} from '../../../services/admin-category-service';
-import {PublicCategoryService} from '../../../services/public-category-service';
-import {PublicCarService} from '../../../services/public-car-service';
-import {AuthService} from '../../../services/auth-service';
-import {Router} from '@angular/router';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Category } from '../../../models/Category';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { AdminCategoryService } from '../../../services/admin-category-service';
+import { PublicCategoryService } from '../../../services/public-category-service';
+import { PublicCarService } from '../../../services/public-car-service';
+import { AuthService } from '../../../services/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-list',
@@ -24,11 +24,11 @@ export class CategoryList implements OnInit {
   constructor(
     public authService: AuthService,
     private adminService: AdminCategoryService,
-    private publicCategoryService : PublicCategoryService,
+    private publicCategoryService: PublicCategoryService,
     private publicService: PublicCarService,
     private modalService: NgbModal,
     private fb: FormBuilder,
-    private router:Router
+    private router: Router
   ) {
     this.form = this.fb.group({ name: [''] });
   }
@@ -82,10 +82,10 @@ export class CategoryList implements OnInit {
 
   deleteCategory(id: number) {
     if (!confirm('Are you sure?')) return;
-     this.adminService.deleteC(id).subscribe(() => this.loadCategories());
+    this.adminService.deleteC(id).subscribe(() => this.loadCategories());
   }
 
-  toSubCategory(categoryId: number){
+  toSubCategory(categoryId: number) {
     if (this.authService.isAdmin()) {
       this.router.navigate(['/admin/cars/categories', categoryId, 'subcategories']);
     }
