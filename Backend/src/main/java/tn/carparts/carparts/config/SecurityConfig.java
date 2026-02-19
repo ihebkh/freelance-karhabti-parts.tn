@@ -51,11 +51,13 @@ public class SecurityConfig {
                                 "/users/forgot-password/**"
                         ).permitAll()
 
-                        .requestMatchers(HttpMethod.GET, "/cars/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/acc/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/designations/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/parts/**").permitAll()
+                        // Public read‑only API – both with and without /api/v1 prefix
+                        .requestMatchers(HttpMethod.GET, "/cars/**", "/api/v1/cars/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/acc/**", "/api/v1/acc/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/categories/**", "/api/v1/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/designations/**", "/api/v1/designations/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/parts/**", "/api/v1/parts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/acc-parts/**", "/api/v1/acc-parts/**").permitAll()
 
                         .requestMatchers("/admin/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                         .requestMatchers("/users/me").authenticated()

@@ -8,7 +8,8 @@ import { CategoryAcc } from '../models/CategoryAcc';
 })
 export class CategorieAccService {
 
-  private baseUrl = 'http://localhost:8088/api/v1/admin/categoriesAcc/categoryacc';
+  // Public endpoint for listing accessory categories
+  private baseUrl = 'http://localhost:8088/api/v1/parts/categoryacc';
 
   constructor(private http: HttpClient) { }
 

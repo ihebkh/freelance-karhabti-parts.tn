@@ -98,8 +98,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: #faf5ff;
-  /* light lavender to match screenshot */
+  background: #ffffff;
 }
 
 .part-img-wrapper img {
@@ -123,6 +122,31 @@
 .logo-placeholder.large {
   font-size: 48px;
   color: #D1D5DB;
+}
+
+/* Section titles and separator */
+.section-title {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+}
+
+.section-title h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.section-separator {
+  grid-column: 1 / -1;
+  margin: 24px 0 8px;
+}
+
+.section-separator hr {
+  border: none;
+  border-top: 2px solid #D1D5DB;
+  margin: 4px 0 8px;
 }
 
 /* ========== INFO SECTION ========== */
@@ -369,24 +393,24 @@
   position: relative;
   background: #F9FAFB;
   border-radius: 16px;
-  padding: 30px;
+  padding: 30px 30px 50px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 350px;
 }
 
-.sale-badge-corner {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: linear-gradient(135deg, #F59E0B, #D97706);
-  color: white;
-  padding: 8px 18px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+/* Purple discount bubble just under the image */
+.sale-badge-bubble {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: #ffffff;
+  padding: 8px 22px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35);
 }
 
 .detail-image-box img {

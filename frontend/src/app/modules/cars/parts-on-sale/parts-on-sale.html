@@ -6,7 +6,13 @@
 </div>
 
 <div class="part-container">
-  <div class="part-card" *ngFor="let p of partsWithUrl" [class.is-out]="!p.parts.inStock"
+
+  <!-- Section: Pièces voiture en promotion -->
+  <div class="section-title">
+    <h3>PIÈCES VOITURE EN PROMOTION</h3>
+  </div>
+
+  <div class="part-card" *ngFor="let p of carPartsWithUrl" [class.is-out]="!p.parts.inStock"
     (click)="!authService.isAdmin() ? openUserModal(userModal, p.parts) : null">
 
     <!-- Discount Badge top-left -->
@@ -27,7 +33,7 @@
 
     <!-- Info Section -->
     <div class="part-info">
-      <span class="brand-name">{{ p.parts.categoryName || 'Pièce Auto' }}</span>
+      <span class="brand-name">{{ p.parts.categoryLabel || 'Pièce Auto' }}</span>
       <h4 class="part-name">{{ p.parts.name }}</h4>
 
       <div class="price-section">
@@ -38,34 +44,81 @@
           {{ p.parts.price | number:'1.0-0' }} TND
         </span>
       </div>
+    </div>
+  </div>
 
-      <div class="pagination-wrapper" *ngIf="totalPages > 1">
-        <div class="pagination-info">
-          Page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages }}
-        </div>
+  <!-- Séparateur entre pièces et accessoires -->
+  <div class="section-separator" *ngIf="accPartsWithUrl?.length">
+    <hr>
+    <div class="section-title">
+      <h3>ACCESSOIRES AUTO EN PROMOTION</h3>
+    </div>
+  </div>
 
-        <div class="pagination-buttons">
-          <button class="pag-btn" [disabled]="currentPage === 0" (click)="loadParts(currentPage - 1)">
-            Préc.
-          </button>
+  <!-- Section: Accessoires auto en promotion -->
+  <div class="part-card" *ngFor="let p of accPartsWithUrl" [class.is-out]="!p.parts.inStock"
+    (click)="!authService.isAdmin() ? openUserModal(userModal, p.parts) : null">
 
-          <button *ngFor="let p of getPagesArray()" class="pag-btn page-num" [class.active]="p === currentPage"
-            (click)="loadParts(p)">
-            {{ p + 1 }}
-          </button>
+    <!-- Discount Badge top-left -->
+    <div class="discount-badge" *ngIf="p.parts.onSale && p.parts.salePercentage">
+      -{{ p.parts.salePercentage }}%
+    </div>
 
-          <button class="pag-btn" [disabled]="currentPage === totalPages - 1" (click)="loadParts(currentPage + 1)">
-            Suivant
-          </button>
-        </div>
+    <!-- Rupture Badge top-right -->
+    <div class="rupture-badge" *ngIf="!p.parts.inStock">
+      Rupture
+    </div>
+
+    <!-- Image Area -->
+    <div class="part-img-wrapper">
+      <img *ngIf="p.fullLogoUrl" [src]="p.fullLogoUrl" [alt]="p.parts.name" />
+      <div *ngIf="!p.fullLogoUrl" class="logo-placeholder">AUCUNE IMAGE</div>
+    </div>
+
+    <!-- Info Section -->
+    <div class="part-info">
+      <span class="brand-name">{{ p.parts.categoryLabel || 'Accessoire Auto' }}</span>
+      <h4 class="part-name">{{ p.parts.name }}</h4>
+
+      <div class="price-section">
+        <span class="price-current" [class.on-sale]="p.parts.onSale">
+          {{ p.parts.onSale ? (p.parts.priceAfterSale | number:'1.0-0') : (p.parts.price | number:'1.0-0') }} TND
+        </span>
+        <span class="price-original" *ngIf="p.parts.onSale">
+          {{ p.parts.price | number:'1.0-0' }} TND
+        </span>
       </div>
+    </div>
+  </div>
 
-      <ng-template #userModal let-modal>
+  <!-- Pagination globale -->
+  <div class="pagination-wrapper" *ngIf="totalPages > 1">
+    <div class="pagination-info">
+      Page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages }}
+    </div>
+
+    <div class="pagination-buttons">
+      <button class="pag-btn" [disabled]="currentPage === 0" (click)="loadParts(currentPage - 1)">
+        Préc.
+      </button>
+
+      <button *ngFor="let p of getPagesArray()" class="pag-btn page-num" [class.active]="p === currentPage"
+        (click)="loadParts(p)">
+        {{ p + 1 }}
+      </button>
+
+      <button class="pag-btn" [disabled]="currentPage === totalPages - 1" (click)="loadParts(currentPage + 1)">
+        Suivant
+      </button>
+    </div>
+  </div>
+
+  <ng-template #userModal let-modal>
         <div class="garage-modal">
           <div class="modal-header-clean">
             <div class="header-content">
               <span class="category-tag">
-                {{ selectedPart?.categoryName }}
+                {{ selectedPart?.categoryLabel }}
                 <span *ngIf="selectedPart?.onSale" class="sale-text-inline">| PROMOTION</span>
               </span>
               <h5 class="modal-title">{{ selectedPart?.name }}</h5>
@@ -76,11 +129,11 @@
           <div class="modal-body-friendly">
             <div class="product-detail-grid">
               <div class="detail-image-box">
-                <div class="sale-badge-corner" *ngIf="selectedPart?.onSale">
-                  <span>-{{ selectedPart?.salePercentage }}%</span>
-                </div>
                 <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded" />
                 <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+                <div class="sale-badge-bubble" *ngIf="selectedPart?.onSale">
+                  -{{ selectedPart?.salePercentage }}%
+                </div>
               </div>
 
               <div class="detail-info-box">
@@ -94,9 +147,14 @@
                   <span class="info-value">#REF-{{ selectedPart?.reference }}</span>
                 </div>
 
-                <div class="info-row">
+                <div class="info-row" *ngIf="selectedPart?.categoryLabel">
                   <span class="info-label">Catégorie :</span>
-                  <span class="info-value">{{ selectedPart?.categoryName }} > {{ selectedPart?.subCategoryName }}</span>
+                  <span class="info-value">
+                    {{ selectedPart?.categoryLabel }}
+                    <ng-container *ngIf="selectedPart?.subCategoryLabel">
+                      > {{ selectedPart?.subCategoryLabel }}
+                    </ng-container>
+                  </span>
                 </div>
 
                 <div class="price-highlight-container">

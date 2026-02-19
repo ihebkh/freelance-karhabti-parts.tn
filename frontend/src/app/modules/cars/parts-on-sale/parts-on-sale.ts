@@ -1,18 +1,30 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { Category } from '../../../models/Category';
-import { SubCategory } from '../../../models/SubCategory';
+import { Subject } from 'rxjs';
 import { CarPart } from '../../../models/CarPart';
-import { CarGeneration } from '../../../models/CarGeneration';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { PublicCategoryService } from '../../../services/public-category-service';
+import { AccPart } from '../../../models/AccPart';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth-service';
 import { CarPartsService } from '../../../services/car-parts-service';
+import { AccPartsService } from '../../../services/acc-parts-service';
 import { PublicCarService } from '../../../services/public-car-service';
-import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../../services/cart-service';
-import { DesignationService } from '../../../services/designation-service';
+
+// Vue unifiée pour pièces et accessoires en promo
+interface SaleItem {
+  id?: number;
+  name: string;
+  price: number;
+  priceAfterSale: number;
+  onSale: boolean;
+  salePercentage: number;
+  inStock: boolean;
+  image?: string;
+  categoryLabel?: string;
+  subCategoryLabel?: string;
+  designationName: string;
+  reference: string;
+  original: CarPart | AccPart;
+}
 
 @Component({
   selector: 'app-parts-on-sale',
@@ -22,31 +34,23 @@ import { DesignationService } from '../../../services/designation-service';
 })
 export class PartsOnSale implements OnInit {
 
-
   selectedPartUrl?: string;
   searchQuery: string = '';
   private searchSubject = new Subject<string>();
   currentPage = 0;
   totalPages = 0;
-  isSubcategoryContext = false;
-  isGenerationContext = false;
-  isGlobalContext = true;
-
-  categories: Category[] = [];
-  subCategories: SubCategory[] = [];
-
-  selectedPart?: CarPart;
+  selectedPart?: SaleItem;
   quantityToAdd = 1;
-  partsWithUrl: { parts: CarPart, fullLogoUrl?: string }[] = [];
-  generations: CarGeneration[] = [];
+  partsWithUrl: { parts: SaleItem, fullLogoUrl?: string }[] = [];
+  carPartsWithUrl: { parts: SaleItem, fullLogoUrl?: string }[] = [];
+  accPartsWithUrl: { parts: SaleItem, fullLogoUrl?: string }[] = [];
 
 
   constructor(
-    private publicCategoryService: PublicCategoryService,
     public authService: AuthService,
     private partService: CarPartsService,
+    private accPartService: AccPartsService,
     private publicCarService: PublicCarService,
-    private fb: FormBuilder,
     private modalService: NgbModal,
     private cartService: CartService,
   ) {
@@ -60,38 +64,73 @@ export class PartsOnSale implements OnInit {
 
   loadParts(page: number = this.currentPage) {
     this.currentPage = page;
-    let obs$;
+    this.partService.getAllPartsOnSale(page).subscribe(carData => {
+      this.accPartService.getAllPartsOnSale(page).subscribe(accData => {
+        this.totalPages = Math.max(carData.totalPages, accData.totalPages);
 
-    // Pass desId to all context-based calls
-    this.partService.getAllPartsOnSale(page).subscribe(data => {
-      this.totalPages = data.totalPages;
-      this.partsWithUrl = data.content.map(p => ({
-        parts: p,
-        fullLogoUrl: p.image ? this.publicCarService.getImageUrl(p.image) : undefined
-      }));
+        const carItems: { parts: SaleItem; fullLogoUrl?: string }[] = carData.content.map((p: CarPart) => ({
+          parts: {
+            id: p.id,
+            name: p.name,
+            price: p.price,
+            priceAfterSale: p.priceAfterSale,
+            onSale: p.onSale,
+            salePercentage: p.salePercentage,
+            inStock: p.inStock,
+            image: p.image,
+            categoryLabel: p.categoryName ?? undefined,
+            subCategoryLabel: p.subCategoryName ?? undefined,
+            designationName: p.designationName,
+            reference: p.reference,
+            original: p,
+          },
+          fullLogoUrl: p.image ? this.publicCarService.getImageUrl(p.image) : undefined,
+        }));
+
+        const accItems: { parts: SaleItem; fullLogoUrl?: string }[] = accData.content.map((a: AccPart) => ({
+          parts: {
+            id: a.id,
+            name: a.name,
+            price: a.price,
+            priceAfterSale: a.priceAfterSale,
+            onSale: a.onSale,
+            salePercentage: a.salePercentage,
+            inStock: a.inStock,
+            image: a.image,
+            categoryLabel: a.categoryAccName ?? undefined,
+            subCategoryLabel: undefined,
+            designationName: a.designationName,
+            reference: a.reference,
+            original: a,
+          },
+          fullLogoUrl: a.image ? this.publicCarService.getImageUrl(a.image) : undefined,
+        }));
+
+        this.carPartsWithUrl = carItems;
+        this.accPartsWithUrl = accItems;
+        this.partsWithUrl = [...carItems, ...accItems];
+      });
     });
   }
   getPagesArray(): number[] {
     return Array.from({ length: this.totalPages }, (_, i) => i);
   }
-  openUserModal(content: TemplateRef<any>, part: CarPart) {
+  openUserModal(content: TemplateRef<any>, part: SaleItem) {
     this.quantityToAdd = 1;
     this.selectedPartUrl = undefined;
     this.selectedPart = part;
-    if (part.id) {
-      this.partService.getPart(part.id).subscribe(detailedPart => {
-        this.selectedPart = detailedPart;
-        this.selectedPartUrl = detailedPart.image
-          ? this.publicCarService.getImageUrl(detailedPart.image)
-          : undefined;
-      });
+
+    if (part.image) {
+      this.selectedPartUrl = this.publicCarService.getImageUrl(part.image);
+    } else {
+      this.selectedPartUrl = undefined;
     }
 
     this.modalService.open(content, { centered: true, size: 'lg' });
   }
-  addToCart(part: CarPart, quantity: number) {
-    if (part) {
-      this.cartService.addItem(part, quantity);
+  addToCart(part: SaleItem, quantity: number) {
+    if (part && part.original) {
+      this.cartService.addItem(part.original, quantity);
     }
   }
 

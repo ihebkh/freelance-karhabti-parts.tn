@@ -324,11 +324,11 @@
     <div class="modal-body-friendly">
       <div class="product-detail-grid">
         <div class="detail-image-box">
-          <div class="sale-corner small-corner" *ngIf="selectedPart?.onSale">
-            <span class="sale-text">-{{ selectedPart?.salePercentage }}%</span>
-          </div>
           <img *ngIf="selectedPartUrl" [src]="selectedPartUrl" class="img-fluid rounded" />
           <div *ngIf="!selectedPartUrl" class="logo-placeholder large">AUCUNE IMAGE</div>
+          <div class="sale-badge-bubble" *ngIf="selectedPart?.onSale">
+            -{{ selectedPart?.salePercentage }}%
+          </div>
         </div>
 
         <div class="detail-info-box">
