@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../../guards/auth.guard';
 import { CategorieaccList } from './categorieacc-list/categorieacc-list';
+import { AccPartAdmin } from './acc-part-admin/acc-part-admin';
 
 const routes: Routes = [
 
-  { path: 'accessoires', component: CategorieaccList },
+  { path: 'categoriesacc', component: CategorieaccList },
+  { path: 'accessoires/:accessoiresId/categoriesacc', component: AccPartAdmin },
+
   /*  
   
     { path: 'brands/:brandId/models', component: ModelList },
