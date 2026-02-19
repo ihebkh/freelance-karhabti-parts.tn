@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -38,8 +35,8 @@ public class AccessoryPart {
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "designation_id")
-    private Designation designation;
+    @JoinColumn(name = "designationPart_id")
+    private DesignationPart designationPart; // ← P majuscule
 
     private boolean onSale;
     private int salePercentage;

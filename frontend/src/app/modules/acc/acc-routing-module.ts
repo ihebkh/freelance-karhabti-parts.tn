@@ -7,18 +7,9 @@ import { AccPartAdmin } from './acc-part-admin/acc-part-admin';
 const routes: Routes = [
 
   { path: 'categoriesacc', component: CategorieaccList },
-  { path: 'accessoires/:accessoiresId/categoriesacc', component: AccPartAdmin },
+  { path: 'categoriesacc/:accessoiresId', component: AccPartAdmin },
 
   /*  
-  
-    { path: 'brands/:brandId/models', component: ModelList },
-  
-    { path: 'models/:modelId/generations', component: GenerationList },
-  
-    { path: 'generations/:generationId/parts', component: CarPartAdmin },
-  
-    { path: 'subcategories/:subcategoryId/parts', component: CarPartAdmin },
-  
   
     { path: 'parts', component: CarPartAdmin },
     { path: 'sales', component: PartsOnSale },

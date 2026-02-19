@@ -83,9 +83,9 @@ export class CategorieaccList implements OnInit {
 
   toCategoryAcc(categoryAccId: number) {
     if (this.authService.isAdmin()) {
-      this.router.navigate(['/admin/acc/accessoires', categoryAccId, 'categoriesacc']);
+      this.router.navigate(['/admin/acc/categoriesacc', categoryAccId]);
     } else {
-      this.router.navigate(['/acc/accessoires', categoryAccId, 'categoriesacc']);
+      this.router.navigate(['/acc/categoriesacc', categoryAccId]);
     }
   }
 

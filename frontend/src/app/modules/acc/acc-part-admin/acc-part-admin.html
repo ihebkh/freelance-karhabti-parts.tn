@@ -1,7 +1,6 @@
 <div class="brand-grid-header search-header">
     <div class="header-titles">
     </div>
-
     <div class="search-box">
         <input type="text" [ngModel]="searchQuery" (input)="onSearchInput($any($event.target).value)"
             placeholder="Rechercher une marque, un modèle, une catégorie..." class="search-input" />
@@ -11,55 +10,7 @@
     </div>
 </div>
 
-<div *ngIf="!this.subcategoryId">
-    <div class="brand-grid-header search-header">
-        <div class="header-titles">
-            <h2>Catégories</h2>
-            <div class="header-line"></div>
-        </div>
-    </div>
-
-    <div class="manufacturers-container">
-        <div class="manufacturer-card clickable-brand" *ngFor="let d of categoriesForFilterWithUrl"
-            [class.active-filter]="selectedCategoryId === d.item.id" (click)="toggleCategoryFilter(d.item.id!)">
-
-            <div class="manufacturer-logo">
-                <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
-                <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
-            </div>
-
-            <div class="manufacturer-name">
-                <h4>{{ d.item.name }}</h4>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div *ngIf="!this.subcategoryId && this.selectedCategoryId">
-    <div class="brand-grid-header search-header">
-        <div class="header-titles">
-            <h2>Sous-catégories</h2>
-            <div class="header-line"></div>
-        </div>
-    </div>
-
-    <div class="manufacturers-container" *ngIf="!this.subcategoryId">
-        <div class="manufacturer-card clickable-brand" *ngFor="let d of subCategoriesForFilterWithUrl"
-            [class.active-filter]="selectedSubCategoryId === d.item.id" (click)="toggleSubCategoryFilter(d.item.id!)">
-
-            <div class="manufacturer-logo">
-                <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
-                <div *ngIf="!d.fullUrl" class="logo-placeholder">SANS LOGO</div>
-            </div>
-
-            <div class="manufacturer-name">
-                <h4>{{ d.item.name }}</h4>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CONSTRUCTEURS OFFICIELS - NOUVEAU DESIGN -->
+<!-- CONSTRUCTEURS OFFICIELS -->
 <div class="brand-grid-header search-header">
     <div class="header-titles">
         <h2>CONSTRUCTEURS OFFICIELS</h2>
@@ -73,10 +24,10 @@
 
         <div class="brand-logo-area">
             <div class="logo-cadre">
-                <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.name" />
+                <img *ngIf="d.fullUrl" [src]="d.fullUrl" [alt]="d.item.namePart" />
                 <div *ngIf="!d.fullUrl" class="logo-placeholder">🏭</div>
             </div>
-            <h4>{{ d.item.name }}</h4>
+            <h4>{{ d.item.namePart }}</h4>
         </div>
 
         <div class="admin-controls" *ngIf="authService.isAdmin()">
@@ -105,17 +56,14 @@
     <div class="part-card" *ngFor="let p of partsWithUrl" [class.is-out]="!p.parts.inStock"
         (click)="!authService.isAdmin() ? openUserModal(userModal, p.parts) : null">
 
-        <!-- Discount Badge top-left -->
         <div class="discount-badge" *ngIf="p.parts.onSale && p.parts.salePercentage">
             -{{ p.parts.salePercentage }}%
         </div>
 
-        <!-- Rupture Badge top-right -->
         <div class="rupture-badge" *ngIf="!p.parts.inStock">
             Rupture
         </div>
 
-        <!-- Image Area -->
         <div class="part-img-cadre">
             <img *ngIf="p.fullLogoUrl" [src]="p.fullLogoUrl" [alt]="p.parts.name" />
             <div *ngIf="!p.fullLogoUrl" class="logo-placeholder">
@@ -123,7 +71,6 @@
             </div>
         </div>
 
-        <!-- Info Section -->
         <div class="part-data">
             <span class="brand-name">{{ p.parts.categoryName || 'Pièce Auto' }}</span>
             <h4 class="part-name">{{ p.parts.name }}</h4>
@@ -137,7 +84,6 @@
                 </span>
             </div>
 
-            <!-- Add to Cart REMOVED - Admin Buttons Only -->
             <div class="card-actions" *ngIf="authService.isAdmin()">
                 <div class="admin-btns-inline">
                     <button class="btn-edit"
@@ -158,7 +104,6 @@
     <div class="pagination-info">
         Page <strong>{{ currentPage + 1 }}</strong> sur {{ totalPages }}
     </div>
-
     <div class="pagination-buttons">
         <button class="pag-btn" [disabled]="currentPage === 0" (click)="loadParts(currentPage - 1)">Préc.</button>
         <button *ngFor="let p of getPagesArray()" class="pag-btn page-num" [class.active]="p === currentPage"
@@ -191,7 +136,7 @@
                         <label class="friendly-label">Constructeur (Désignation)</label>
                         <select formControlName="designationId" class="friendly-input">
                             <option [ngValue]="null" disabled>Sélectionner un fabricant</option>
-                            <option *ngFor="let d of designations" [value]="d.id">{{ d.name }}</option>
+                            <option *ngFor="let d of designations" [value]="d.id">{{ d.namePart }}</option>
                         </select>
                     </div>
                 </div>
@@ -206,7 +151,6 @@
                         <label class="friendly-label">Prix de vente sans remise (TND)</label>
                         <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" />
                     </div>
-
                     <div class="form-group half">
                         <label class="friendly-label">Promotion / Vente</label>
                         <div class="toggle-spacer">
@@ -232,8 +176,7 @@
                         <label class="friendly-label">Prix de vente calculé</label>
                         <div class="price-preview-badge matched-height">
                             {{ (form.get('price')?.value * (1 - (form.get('salePercentage')?.value || 0) / 100)) |
-                            number:'1.2-2' }}
-                            TND
+                            number:'1.2-2' }} TND
                         </div>
                     </div>
                 </div>
@@ -275,8 +218,7 @@
                     <select formControlName="subCategoryId" class="friendly-input"
                         [disabled]="subCategories.length === 0">
                         <option [ngValue]="null" disabled>{{ subCategories.length === 0 ? 'Sélectionnez d\'abord une
-                            catégorie' :
-                            'Choisir une sous-catégorie' }}</option>
+                            catégorie' : 'Choisir une sous-catégorie' }}</option>
                         <option *ngFor="let sub of subCategories" [value]="sub.id">{{ sub.name }}</option>
                     </select>
                 </div>
@@ -312,8 +254,7 @@
                 <div class="modal-footer-friendly">
                     <button type="button" class="btn-ghost" (click)="modal.dismiss()">Retour</button>
                     <button type="submit" class="btn-action-primary">{{ editingPartId ? 'Appliquer les modifications' :
-                        'Ajouter
-                        au catalogue' }}</button>
+                        'Ajouter au catalogue' }}</button>
                 </div>
             </form>
         </div>
@@ -418,7 +359,7 @@
             <form [formGroup]="designationForm" (ngSubmit)="submitDesignation(modal)" class="modern-form">
                 <div class="form-group">
                     <label class="friendly-label">Nom de la marque</label>
-                    <input formControlName="name" type="text" class="friendly-input"
+                    <input formControlName="namePart" type="text" class="friendly-input"
                         placeholder="ex: Bosch, Brembo, Motul..." />
                 </div>
 
@@ -435,7 +376,7 @@
 
                 <div class="modal-footer-friendly">
                     <button type="button" class="btn-ghost" (click)="modal.dismiss()">Annuler</button>
-                    <button type="submit" class="btn-action-primary" [disabled]="!designationForm.value.name">
+                    <button type="submit" class="btn-action-primary" [disabled]="!designationForm.value.namePart">
                         {{ editingDesignationId ? 'Mettre à jour la marque' : 'Enregistrer la marque' }}
                     </button>
                 </div>

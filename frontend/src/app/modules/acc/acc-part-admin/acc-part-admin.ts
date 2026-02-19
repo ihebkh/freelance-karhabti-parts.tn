@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Category } from '../../../models/Category';
 import { SubCategory } from '../../../models/SubCategory';
-import { Designation } from '../../../models/Designation';
+import { DesignationPart } from '../../../models/DesignationPart';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { CarPart } from '../../../models/CarPart';
 import { CarGeneration } from '../../../models/CarGeneration';
@@ -13,7 +13,7 @@ import { CarPartsService } from '../../../services/car-parts-service';
 import { PublicCarService } from '../../../services/public-car-service';
 import { ActivatedRoute } from '@angular/router';
 import { CartService } from '../../../services/cart-service';
-import { DesignationService } from '../../../services/designation-service';
+import { DesignationPartService } from '../../../services/designationpart-service';
 
 @Component({
   selector: 'app-acc-part-admin',
@@ -31,8 +31,8 @@ export class AccPartAdmin implements OnInit {
   subCategoriesForFilterWithUrl: { item: SubCategory, fullUrl?: string }[] = [];
 
   selectedDesignationId?: number;
-  designations: Designation[] = [];
-  designationsWithUrl: { item: Designation, fullUrl?: string }[] = [];
+  designations: DesignationPart[] = [];
+  designationsWithUrl: { item: DesignationPart, fullUrl?: string }[] = [];
   selectedPartUrl?: string;
   searchQuery: string = '';
   private searchSubject = new Subject<string>();
@@ -69,7 +69,7 @@ export class AccPartAdmin implements OnInit {
     private modalService: NgbModal,
     private route: ActivatedRoute,
     private cartService: CartService,
-    private designationService: DesignationService
+    private designationPartService: DesignationPartService
   ) {
     this.form = this.fb.group({
       name: [''],
@@ -87,7 +87,7 @@ export class AccPartAdmin implements OnInit {
     });
 
     this.designationForm = this.fb.group({
-      name: [''],
+      namePart: [''],
     });
 
     this.searchSubject.pipe(
@@ -105,7 +105,7 @@ export class AccPartAdmin implements OnInit {
       const generationId = params.get('generationId');
       const subcategoryId = params.get('subcategoryId');
 
-      this.currentPage = 0; // Reset page on route change
+      this.currentPage = 0;
       this.isSubcategoryContext = !!subcategoryId;
       this.isGenerationContext = !!generationId && !subcategoryId;
       this.isGlobalContext = !subcategoryId && !generationId;
@@ -129,7 +129,7 @@ export class AccPartAdmin implements OnInit {
   }
 
   loadDesignations() {
-    this.designationService.findAll().subscribe(data => {
+    this.designationPartService.findAll().subscribe(data => {
       const filteredData = this.authService.isAdmin()
         ? data
         : data.filter(d => d.partCount > 0);
@@ -176,13 +176,9 @@ export class AccPartAdmin implements OnInit {
 
   onCategoryChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement | null;
-
-    if (!selectElement) {
-      return;
-    }
+    if (!selectElement) return;
 
     const categoryId = Number(selectElement.value);
-
     if (!categoryId) {
       this.subCategories = [];
       this.form.patchValue({ categoryId: null, subCategoryId: null });
@@ -190,13 +186,10 @@ export class AccPartAdmin implements OnInit {
     }
 
     this.form.patchValue({ categoryId: categoryId });
-
-    this.publicCategoryService
-      .getSubCategoriesByCategory(categoryId)
-      .subscribe(subs => {
-        this.subCategories = subs;
-        this.form.patchValue({ subCategoryId: null });
-      });
+    this.publicCategoryService.getSubCategoriesByCategory(categoryId).subscribe(subs => {
+      this.subCategories = subs;
+      this.form.patchValue({ subCategoryId: null });
+    });
   }
 
   onSearchInput(query: string) {
@@ -248,21 +241,13 @@ export class AccPartAdmin implements OnInit {
   }
 
   toggleSubCategoryFilter(id: number) {
-    if (this.selectedSubCategoryId === id) {
-      this.selectedSubCategoryId = undefined;
-    } else {
-      this.selectedSubCategoryId = id;
-    }
+    this.selectedSubCategoryId = this.selectedSubCategoryId === id ? undefined : id;
     this.currentPage = 0;
     this.loadParts();
   }
 
   toggleDesignationFilter(id: number) {
-    if (this.selectedDesignationId === id) {
-      this.selectedDesignationId = undefined;
-    } else {
-      this.selectedDesignationId = id;
-    }
+    this.selectedDesignationId = this.selectedDesignationId === id ? undefined : id;
     this.currentPage = 0;
     this.loadParts();
   }
@@ -306,16 +291,6 @@ export class AccPartAdmin implements OnInit {
   submit() {
     const part: CarPart = this.form.value;
 
-    // Debug: Afficher les données du formulaire
-    console.log('=== DONNÉES DU FORMULAIRE ===');
-    console.log('Valeurs du formulaire:', this.form.value);
-    console.log('Part object:', part);
-    console.log('subCategoryId:', part.subCategoryId);
-    console.log('categoryId:', part.categoryId);
-    console.log('Fichier sélectionné:', this.selectedFile);
-    console.log('============================');
-
-    // Validation: ensure subCategoryId is provided
     if (!part.subCategoryId) {
       alert('Veuillez sélectionner une sous-catégorie');
       return;
@@ -333,10 +308,7 @@ export class AccPartAdmin implements OnInit {
 
   deletePart(id: number) {
     if (!confirm('Are you sure?')) return;
-
-    this.partService.deletePart(id).subscribe(() => {
-      this.loadParts();
-    });
+    this.partService.deletePart(id).subscribe(() => this.loadParts());
   }
 
   openUserModal(content: TemplateRef<any>, part: CarPart) {
@@ -365,7 +337,6 @@ export class AccPartAdmin implements OnInit {
   onGenerationToggle(genId: number) {
     const currentIds: number[] = this.form.get('generationIds')?.value || [];
     const index = currentIds.indexOf(genId);
-
     if (index > -1) {
       currentIds.splice(index, 1);
     } else {
@@ -374,26 +345,23 @@ export class AccPartAdmin implements OnInit {
     this.form.get('generationIds')?.setValue([...currentIds]);
   }
 
-  /**
-   * DESIGNATION METHODS
-   */
+  // ── DESIGNATION PART METHODS ──────────────────────────────────────
 
-  openDesignationModal(content: TemplateRef<any>, des?: Designation) {
+  openDesignationModal(content: TemplateRef<any>, des?: DesignationPart) {
     this.editingDesignationId = des?.id;
     this.selectedFile = undefined;
     this.designationForm.reset({
-      name: des?.name || ''
+      namePart: des?.namePart || ''
     });
-
     this.modalService.open(content, { centered: true, size: 'md' });
   }
 
   submitDesignation(modal: any) {
-    const { name } = this.designationForm.value;
+    const { namePart } = this.designationForm.value;
 
     const request = this.editingDesignationId
-      ? this.designationService.update(this.editingDesignationId, name, this.selectedFile)
-      : this.designationService.create(name, this.selectedFile);
+      ? this.designationPartService.update(this.editingDesignationId, namePart, this.selectedFile)
+      : this.designationPartService.create(namePart, this.selectedFile);
 
     request.subscribe({
       next: () => {
@@ -407,7 +375,7 @@ export class AccPartAdmin implements OnInit {
 
   deleteDesignation(id: number) {
     if (confirm('Are you sure? This might affect parts linked to this brand.')) {
-      this.designationService.delete(id).subscribe(() => this.loadDesignations());
+      this.designationPartService.delete(id).subscribe(() => this.loadDesignations());
     }
   }
 }
