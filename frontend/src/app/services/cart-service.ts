@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { CartItem } from '../models/CartItem';
 import { CarPart } from '../models/CarPart';
+import { AccPart } from '../models/AccPart';
 
 @Injectable({ providedIn: 'root' })
 export class CartService {
@@ -14,7 +15,7 @@ export class CartService {
   }
 
   // HELPER: Direct access to the current active price
-  getItemPrice(part: CarPart): number {
+  getItemPrice(part: CarPart | AccPart): number {
     return part.onSale ? (part.priceAfterSale || part.price) : part.price;
   }
 
@@ -27,7 +28,8 @@ export class CartService {
   getTotalPrice(): number {
     return this.cart.reduce((sum, item) => sum + this.getItemSubtotal(item), 0);
   }
-  addItem(part: CarPart, quantity: number) {
+
+  addItem(part: CarPart | AccPart, quantity: number) {
     const cart = [...this.cartSubject.value];
     const existing = cart.find(item => item.part.id === part.id);
 

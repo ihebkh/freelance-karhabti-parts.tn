@@ -47,8 +47,11 @@
 
 <div class="brand-grid-header">
     <div class="header-titles">
-        <h2>CATALOGUE DES PIÈCES EN VENTE</h2>
+        <h2>CATALOGUE DES PIÈCES EN VENTE (accessories)</h2>
         <div class="header-line"></div>
+    </div>
+    <div class="header-subtitle" *ngIf="categoryAccId">
+        Catégorie d'accessoires #{{ categoryAccId }}
     </div>
 </div>
 
@@ -72,7 +75,7 @@
         </div>
 
         <div class="part-data">
-            <span class="brand-name">{{ p.parts.categoryName || 'Pièce Auto' }}</span>
+            <span class="brand-name">{{ p.parts.categoryAccName || 'Accessoire' }}</span>
             <h4 class="part-name">{{ p.parts.name }}</h4>
 
             <div class="price-row">
@@ -193,14 +196,8 @@
                         placeholder="Spécifications techniques..."></textarea>
                 </div>
 
+                <!-- Pour les accessoires, on ne gère pas les catégories/sous-catégories classiques -->
                 <div class="form-row split">
-                    <div class="form-group half" *ngIf="!isSubcategoryContext">
-                        <label class="friendly-label">Catégorie</label>
-                        <select formControlName="categoryId" class="friendly-input" (change)="onCategoryChange($event)">
-                            <option [ngValue]="null" disabled>Choisir une catégorie</option>
-                            <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
-                        </select>
-                    </div>
                     <div class="form-group half">
                         <label class="friendly-label">Disponibilité</label>
                         <div class="toggle-container">
@@ -213,32 +210,7 @@
                     </div>
                 </div>
 
-                <div class="form-group" *ngIf="!isSubcategoryContext">
-                    <label class="friendly-label">Sous-catégorie *</label>
-                    <select formControlName="subCategoryId" class="friendly-input"
-                        [disabled]="subCategories.length === 0">
-                        <option [ngValue]="null" disabled>{{ subCategories.length === 0 ? 'Sélectionnez d\'abord une
-                            catégorie' : 'Choisir une sous-catégorie' }}</option>
-                        <option *ngFor="let sub of subCategories" [value]="sub.id">{{ sub.name }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group" style="margin-top: 20px;">
-                    <label class="friendly-label">Générations de voitures compatibles</label>
-                    <div class="checklist-frame">
-                        <div class="generation-grid">
-                            <div *ngFor="let gen of generations" class="gen-item">
-                                <label class="custom-checkbox">
-                                    <input type="checkbox"
-                                        [checked]="form.get('generationIds')?.value?.includes(gen.id)"
-                                        (change)="onGenerationToggle(gen.id)" />
-                                    <span class="checkmark"></span>
-                                    <span class="gen-label">{{ gen.name }}</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Pas de gestion de générations pour les accessoires -->
 
                 <div class="form-group">
                     <label class="friendly-label">Image de la pièce</label>
@@ -266,7 +238,7 @@
         <div class="modal-header-clean">
             <div class="header-content">
                 <span class="category-tag">
-                    {{ selectedPart?.categoryName }}
+                    {{ selectedPart?.categoryAccName }}
                     <span *ngIf="selectedPart?.onSale" class="sale-text-inline">| PROMOTION</span>
                 </span>
                 <h5 class="modal-title">{{ selectedPart?.name }}</h5>
@@ -295,11 +267,7 @@
                         <span class="info-value">#REF-{{ selectedPart?.reference }}</span>
                     </div>
 
-                    <div class="info-row">
-                        <span class="info-label">Catégorie :</span>
-                        <span class="info-value">{{ selectedPart?.categoryName }} > {{ selectedPart?.subCategoryName
-                            }}</span>
-                    </div>
+                    <!-- Les accessoires n'ont pas de sous-catégorie classique -->
 
                     <div class="price-highlight-container">
                         <div class="price-highlight on-sale" *ngIf="selectedPart?.onSale">

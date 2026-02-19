@@ -112,10 +112,10 @@ public class CarMapper {
                         0L);
         }
 
-     /*   public AccessoryPartDTO toAccessoryPartDTO(AccessoryPart part) {
+        public AccPartDTO toAccessoryPartDTO(AccessoryPart part) {
                 if (part == null)
                         return null;
-                return new AccessoryPartDTO(
+                return new AccPartDTO(
                         part.getId(),
                         part.getName(),
                         part.getPrice(),
@@ -131,5 +131,5 @@ public class CarMapper {
                         part.isOnSale(),
                         part.getSalePercentage(),
                         part.getPriceAfterSale());
-        }*/
+        }
 }
