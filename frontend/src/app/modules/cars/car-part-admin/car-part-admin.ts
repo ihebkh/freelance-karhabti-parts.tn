@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { CarPart } from '../../../models/CarPart';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PublicCarService } from '../../../services/public-car-service';
 import { CarPartsService } from '../../../services/car-parts-service';
@@ -73,8 +73,8 @@ export class CarPartAdmin implements OnInit {
   ) {
     this.form = this.fb.group({
       name: [''],
-      price: [0],
-      costPrice: [0],
+      price: [0, [Validators.required, Validators.min(0)]],
+      costPrice: [0, [Validators.required, Validators.min(0)]],
       inStock: [true],
       generationIds: [[]],
       categoryId: [null],
@@ -83,8 +83,8 @@ export class CarPartAdmin implements OnInit {
       reference: [''],
       description: [''],
       onSale: [false],
-      salePercentage: [0],
-    });
+      salePercentage: [0, [Validators.min(0), Validators.max(100)]],
+    }, { validators: this.priceValidators });
 
     this.designationForm = this.fb.group({
       name: [''],
@@ -98,6 +98,25 @@ export class CarPartAdmin implements OnInit {
       this.currentPage = 0;
       this.loadParts();
     });
+  }
+
+  /** Prix d'achat <= prix de vente ; remise <= 100% ; prix vente > prix après remise */
+  priceValidators(control: AbstractControl): ValidationErrors | null {
+    const price = control.get('price')?.value ?? 0;
+    const costPrice = control.get('costPrice')?.value ?? 0;
+    const onSale = control.get('onSale')?.value;
+    const salePercentage = control.get('salePercentage')?.value ?? 0;
+    if (costPrice > price) {
+      return { costPriceSupPrice: true };
+    }
+    if (onSale && salePercentage > 100) {
+      return { salePercentageMax: true };
+    }
+    const priceAfterSale = price * (1 - salePercentage / 100);
+    if (onSale && priceAfterSale <= 0) {
+      return { priceAfterSaleInvalid: true };
+    }
+    return null;
   }
 
   ngOnInit() {
@@ -304,6 +323,11 @@ export class CarPartAdmin implements OnInit {
   }
 
   submit() {
+    this.form.updateValueAndValidity();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const part: CarPart = this.form.value;
 
     // Debug: Afficher les données du formulaire

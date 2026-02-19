@@ -10,6 +10,7 @@ import { BrandListConstante } from './brand-list-constante/brand-list-constante'
 import { CategoryList } from './category-list/category-list';
 import { PicturesWelcome } from './pictures-welcome/pictures-welcome';
 import { FormsModule } from '@angular/forms';
+import { ModalWelcome } from './modal-welcome/modal-welcome';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
     BrandListConstante,
     CategoryList,
     PicturesWelcome,
+    ModalWelcome,
   ],
   imports: [
     CommonModule,

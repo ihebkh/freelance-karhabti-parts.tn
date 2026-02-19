@@ -196,13 +196,27 @@
 
         <div class="form-group half">
           <label class="friendly-label">Prix d'achat (TND)</label>
-          <input formControlName="costPrice" type="number" class="friendly-input" placeholder="0.00" />
+          <input formControlName="costPrice" type="number" class="friendly-input" placeholder="0.00" min="0" step="0.01"
+            [class.is-invalid]="form.get('costPrice')?.invalid && form.get('costPrice')?.touched" />
+          <div class="invalid-feedback" *ngIf="form.get('costPrice')?.invalid && form.get('costPrice')?.touched">
+            Le prix d'achat doit être ≥ 0.
+          </div>
+        </div>
+
+        <div class="invalid-feedback form-group" *ngIf="form.errors && (form.errors['costPriceSupPrice'] || form.errors['salePercentageMax'] || form.errors['priceAfterSaleInvalid'])">
+          <span *ngIf="form.errors['costPriceSupPrice']">Le prix d'achat doit être inférieur ou égal au prix de vente.</span>
+          <span *ngIf="form.errors['salePercentageMax']">La remise ne peut pas dépasser 100 %.</span>
+          <span *ngIf="form.errors['priceAfterSaleInvalid']">Le prix de vente après remise doit rester strictement positif.</span>
         </div>
 
         <div class="form-row split sale-row-highlight">
           <div class="form-group half">
             <label class="friendly-label">Prix de vente sans remise (TND)</label>
-            <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" />
+            <input formControlName="price" type="number" class="friendly-input" placeholder="0.00" min="0" step="0.01"
+              [class.is-invalid]="form.get('price')?.invalid && form.get('price')?.touched" />
+            <div class="invalid-feedback" *ngIf="form.get('price')?.invalid && form.get('price')?.touched">
+              Le prix de vente doit être ≥ 0.
+            </div>
           </div>
 
           <div class="form-group half">
@@ -222,7 +236,10 @@
           <div class="form-group half">
             <label class="friendly-label">Pourcentage de remise (%)</label>
             <input formControlName="salePercentage" type="number" class="friendly-input" placeholder="20" min="0"
-              max="100" />
+              max="100" [class.is-invalid]="form.get('salePercentage')?.invalid && form.get('salePercentage')?.touched" />
+            <div class="invalid-feedback" *ngIf="form.get('salePercentage')?.invalid && form.get('salePercentage')?.touched">
+              La remise doit être entre 0 et 100 %.
+            </div>
           </div>
           <div class="form-group half">
             <label class="friendly-label">Prix de vente calculé</label>

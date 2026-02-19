@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { DesignationPart } from '../../../models/DesignationPart';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { AccPart } from '../../../models/AccPart';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../services/auth-service';
 import { AccPartsService } from '../../../services/acc-parts-service';
@@ -40,6 +40,25 @@ export class AccPartAdmin implements OnInit {
   selectedFile?: File;
   modalRef?: NgbModalRef;
 
+  /** Prix d'achat <= prix de vente ; remise <= 100% ; prix vente > prix après remise */
+  priceValidators(control: AbstractControl): ValidationErrors | null {
+    const price = control.get('price')?.value ?? 0;
+    const costPrice = control.get('costPrice')?.value ?? 0;
+    const onSale = control.get('onSale')?.value;
+    const salePercentage = control.get('salePercentage')?.value ?? 0;
+    if (costPrice > price) {
+      return { costPriceSupPrice: true };
+    }
+    if (onSale && salePercentage > 100) {
+      return { salePercentageMax: true };
+    }
+    const priceAfterSale = price * (1 - salePercentage / 100);
+    if (onSale && priceAfterSale <= 0) {
+      return { priceAfterSaleInvalid: true };
+    }
+    return null;
+  }
+
   constructor(
     public authService: AuthService,
     private partService: AccPartsService,
@@ -52,16 +71,16 @@ export class AccPartAdmin implements OnInit {
   ) {
     this.form = this.fb.group({
       name: [''],
-      price: [0],
-      costPrice: [0],
+      price: [0, [Validators.required, Validators.min(0)]],
+      costPrice: [0, [Validators.required, Validators.min(0)]],
       inStock: [true],
       categoryAccId: [null],
       designationId: [null],
       reference: [''],
       description: [''],
       onSale: [false],
-      salePercentage: [0],
-    });
+      salePercentage: [0, [Validators.min(0), Validators.max(100)]],
+    }, { validators: this.priceValidators });
 
     this.designationForm = this.fb.group({
       namePart: [''],
@@ -184,6 +203,11 @@ export class AccPartAdmin implements OnInit {
   }
 
   submit() {
+    this.form.updateValueAndValidity();
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
     const part: AccPart = this.form.value;
 
     const request = this.editingPartId
