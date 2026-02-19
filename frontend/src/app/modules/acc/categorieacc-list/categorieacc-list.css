@@ -1,0 +1,455 @@
+/* Ajout du wrapper pour centrer et contrôler la largeur de la grille */
+.brand-grid-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* Container & Grid - HARMONISÉ */
+.brand-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    padding: 10px;
+    border-radius: 12px;
+    background: transparent;
+}
+
+/* The Card - HARMONISÉ */
+.brand-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.brand-card:hover {
+    border-color: #D4AF37;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-4px);
+}
+
+.brand-logo-area {
+    cursor: pointer;
+}
+
+/* Logo Presentation - HARMONISÉ */
+.logo-cadre {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.brand-card img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: filter 0.3s;
+    opacity: 0.8;
+}
+
+.brand-card:hover img {
+    opacity: 1;
+}
+
+.brand-card h4 {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: #222;
+    text-align: center;
+}
+
+/* Actions Area - HARMONISÉ */
+.brand-actions {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-view {
+    background: #f8f9fa;
+    color: #2d3748;
+    border: 2px solid #e2e8f0;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.btn-view:hover {
+    background: #D4AF37;
+    color: #ffffff;
+    border-color: #D4AF37;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.admin-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.admin-controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 14px;
+    opacity: 0.5;
+    transition: all 0.2s;
+}
+
+.admin-controls button:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.btn-edit:hover {
+    color: #3182ce;
+}
+
+.btn-delete:hover {
+    color: #9de53e;
+}
+
+/* The Add New Brand Card */
+.add-brand-card {
+    border: 2px dashed #ccc;
+    background: transparent;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.add-brand-card:hover {
+    border-color: #D4AF37;
+    background: #fff;
+}
+
+.add-icon-wrapper {
+    font-size: 40px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.logo-placeholder {
+    font-size: 60px;
+    opacity: 0.3;
+}
+
+/* --- MODAL WRAPPER FIXES --- */
+::ng-deep .modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.8) !important;
+    backdrop-filter: blur(4px);
+}
+
+::ng-deep .modal-content {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* --- INDUSTRIAL MODAL DESIGN (Legacy) --- */
+.garage-modal {
+    background: #fff;
+    border-top: 4px solid #D4AF37;
+    border-radius: 4px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.modal-header-industrial {
+    padding: 20px 25px;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 900;
+    font-size: 1rem;
+    color: var(--dark-steel);
+    margin: 0;
+}
+
+.accent-bolt {
+    width: 12px;
+    height: 12px;
+    background: #D4AF37;
+    transform: rotate(45deg);
+}
+
+.close-x {
+    background: none;
+    border: none;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    color: #aaa;
+}
+
+/* --- FORM STYLING INSIDE MODAL --- */
+.modal-body-industrial {
+    padding: 25px;
+}
+
+.industrial-form .form-field {
+    margin-bottom: 20px;
+}
+
+.industrial-form label {
+    display: block;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.industrial-form input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 4px;
+    transition: border-color 0.2s;
+}
+
+.industrial-form input:focus {
+    border-color: var(--dark-steel);
+    outline: none;
+}
+
+/* CUSTOM FILE UPLOAD LOOK */
+.custom-file-label {
+    display: block;
+    padding: 12px;
+    background: #f1f1f1;
+    border: 1px dashed #ccc;
+    text-align: center;
+    cursor: pointer;
+    font-size: 13px;
+    color: #777;
+}
+
+.hidden-file {
+    display: none;
+}
+
+/* --- FRIENDLY MODAL DESIGN --- */
+.friendly-modal {
+    border-radius: 16px !important;
+    background: #ffffff;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border: none !important;
+}
+
+.modal-header-clean {
+    padding: 24px 24px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.category-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #D4AF37;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.modal-title {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: #1a202c;
+    letter-spacing: -0.5px;
+}
+
+.modal-body-friendly {
+    padding: 20px 24px 24px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.friendly-label {
+    display: block;
+    font-weight: 700;
+    font-size: 13px;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.friendly-input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #edf2f7;
+    border-radius: 12px;
+    background: #f8fafc;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.friendly-input:focus {
+    outline: none;
+    background: #fff;
+    border-color: #1a202c;
+    box-shadow: 0 0 0 4px rgba(26, 32, 44, 0.05);
+}
+
+.file-dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    border: 2px dashed #cbd5e0;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.file-dropzone:hover {
+    border-color: #D4AF37;
+    background: #fff5f5;
+}
+
+.dropzone-content {
+    text-align: center;
+    color: #718096;
+    font-size: 14px;
+}
+
+.hidden-file {
+    display: none;
+}
+
+.upload-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.modal-footer-friendly {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.btn-action-primary {
+    background: #1a202c;
+    color: white;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-action-primary:hover {
+    background: #000;
+    transform: translateY(-2px);
+}
+
+.btn-ghost {
+    background: transparent;
+    border: none;
+    color: #718096;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 14px 20px;
+}
+
+.btn-ghost:hover {
+    color: #4a5568;
+}
+
+.btn-close-circle {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-close-circle:hover {
+    background: #e2e8f0;
+    color: #2d3748;
+}
+
+/* Page wrapper */
+.page-wrapper {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    background: transparent;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .brand-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .brand-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .page-wrapper {
+        padding: 0 1rem;
+    }
+
+    .logo-cadre {
+        height: 120px;
+    }
+
+    .logo-placeholder {
+        font-size: 50px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

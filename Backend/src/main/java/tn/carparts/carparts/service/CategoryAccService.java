@@ -2,6 +2,7 @@ package tn.carparts.carparts.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import tn.carparts.carparts.DTO.CategoryAccDTO;
 import tn.carparts.carparts.entity.CategoryAcc;
@@ -16,70 +17,64 @@ public class CategoryAccService {
     private final CategoryAccRepository categoryAccRepository;
     private final FileUploadService fileUploadService;
 
-    public CategoryAccDTO create(String nameAcc, MultipartFile image) throws Exception {
-        if (categoryAccRepository.existsByNameAcc(nameAcc)) {
+    @Transactional
+    public CategoryAccDTO create(String name, MultipartFile image) throws Exception {
+
+        if (categoryAccRepository.existsByName(name)) {
             throw new RuntimeException("CategoryAcc already exists");
         }
 
         CategoryAcc categoryAcc = new CategoryAcc();
-        categoryAcc.setNameAcc(nameAcc);
+        categoryAcc.setName(name);
 
         if (image != null && !image.isEmpty()) {
-            categoryAcc.setImageAcc(fileUploadService.upload(image, "categoriesAcc"));
+            categoryAcc.setImage(fileUploadService.upload(image, "categoryacc"));
         }
 
         categoryAcc = categoryAccRepository.save(categoryAcc);
-
-        // Return with empty list as there are no subcategories yet
-        // return new CategoryAccDTO(categoryAcc.getId(), categoryAcc.getNameAcc(), categoryAcc.getImageAcc(), List.of());
-        return new CategoryAccDTO(categoryAcc.getId(), categoryAcc.getNameAcc(), categoryAcc.getImageAcc());
+        return toDTO(categoryAcc);
     }
 
-    public CategoryAccDTO update(Long id, String nameAcc, MultipartFile image) throws Exception {
+    @Transactional
+    public CategoryAccDTO update(Long id, String name, MultipartFile image) throws Exception {
+
         CategoryAcc categoryAcc = categoryAccRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("CategoryAcc not found"));
 
-        categoryAcc.setNameAcc(nameAcc);
+        categoryAcc.setName(name);
 
         if (image != null && !image.isEmpty()) {
-            String newImage = fileUploadService.upload(image, "categoriesAcc");
-            if (categoryAcc.getImageAcc() != null) {
-                fileUploadService.delete(categoryAcc.getImageAcc());
+            String newImage = fileUploadService.upload(image, "categoryacc");
+
+            if (categoryAcc.getImage() != null) {
+                fileUploadService.delete(categoryAcc.getImage());
             }
-            categoryAcc.setImageAcc(newImage);
+
+            categoryAcc.setImage(newImage);
         }
 
         categoryAcc = categoryAccRepository.save(categoryAcc);
-        return mapToDTO(categoryAcc);
+        return toDTO(categoryAcc);
     }
 
-    public List<CategoryAccDTO> findAll() {
-        // return categoryAccRepository.findAllWithSubCategoriesAcc()
-        //         .stream()
-        //         .map(this::mapToDTO)
-        //         .toList();
+    @Transactional
+    public List<CategoryAccDTO> getAll() {
         return categoryAccRepository.findAll()
                 .stream()
-                .map(this::mapToDTO)
+                .map(this::toDTO)
                 .toList();
     }
 
-    private CategoryAccDTO mapToDTO(CategoryAcc c) {
-        // var subCategoryAccDTOs = c.getSubCategoriesAcc().stream()
-        //         .map(sc -> new tn.carparts.carparts.DTO.SubCategoryAccDTO(
-        //                 sc.getId(),
-        //                 sc.getNameAcc(),
-        //                 sc.getImageAcc(),
-        //                 c.getId(),
-        //                 c.getNameAcc()
-        //         ))
-        //         .toList();
-
-        // return new CategoryAccDTO(c.getId(), c.getNameAcc(), c.getImageAcc(), subCategoryAccDTOs);
-        return new CategoryAccDTO(c.getId(), c.getNameAcc(), c.getImageAcc());
-    }
-
+    @Transactional
     public void delete(Long id) {
         categoryAccRepository.deleteById(id);
+    }
+
+    private CategoryAccDTO toDTO(CategoryAcc ca) {
+        return new CategoryAccDTO(
+                ca.getId(),
+                ca.getName(),
+                ca.getImage()
+        );
     }
 }

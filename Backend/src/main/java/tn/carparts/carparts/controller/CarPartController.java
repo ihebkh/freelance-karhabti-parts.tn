@@ -6,8 +6,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.carparts.carparts.DTO.CarPartDTO;
+import tn.carparts.carparts.DTO.CategoryAccDTO;
 import tn.carparts.carparts.entity.CarPart;
 import tn.carparts.carparts.service.CarPartService;
+import tn.carparts.carparts.service.CategoryAccService;
 
 import java.util.List;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 public class CarPartController {
 
     private final CarPartService partService;
+    private final CategoryAccService categoryAccService;
 
     @GetMapping("/generation/{generationId}")
     public Page<CarPartDTO> getByGeneration(
@@ -34,7 +37,7 @@ public class CarPartController {
     @GetMapping("/subcategory/{subCategoryId}")
     public Page<CarPartDTO> getBySubCategory(
             @PathVariable Long subCategoryId,
-            @RequestParam(required = false) Long designationId, // New
+            @RequestParam(required = false) Long designationId,
             @RequestParam(defaultValue = "0") int page) {
         return partService.getPartsBySubCategory(subCategoryId, designationId, page);
     }
@@ -50,18 +53,14 @@ public class CarPartController {
             @RequestParam(required = false) Long designationId,
             @RequestParam(required = false) Long categoryId,
             @RequestParam(required = false) Long subCategoryId,
-
             @RequestParam(defaultValue = "0") int page) {
         return partService.getAllParts(designationId, categoryId, subCategoryId, page);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
-    @PostMapping(
-            value = "", // Removed generationId from path
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
-    )
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public CarPartDTO create(
-            @RequestParam List<Long> generationIds, // Now a List
+            @RequestParam List<Long> generationIds,
             @RequestParam Long subCategoryId,
             @RequestParam String name,
             @RequestParam double price,
@@ -75,18 +74,8 @@ public class CarPartController {
             @RequestParam(required = false) MultipartFile imageFile
     ) throws Exception {
         return partService.createPart(
-                generationIds,
-                subCategoryId,
-                name,
-                price,
-                costPrice,
-                inStock,
-                desId,
-                ref,
-                desc,
-                onSale,
-                salePercentage,
-                imageFile
+                generationIds, subCategoryId, name, price, costPrice,
+                inStock, desId, ref, desc, onSale, salePercentage, imageFile
         );
     }
 
@@ -108,23 +97,10 @@ public class CarPartController {
             @RequestParam(required = false) MultipartFile imageFile
     ) throws Exception {
         return partService.updatePart(
-                id,
-                name,
-                price,
-                costPrice,
-                inStock,
-                generationIds,
-                subCategoryId,
-                desId,
-                ref,
-                desc,
-                onSale,
-                salePercentage,
-                imageFile
+                id, name, price, costPrice, inStock, generationIds,
+                subCategoryId, desId, ref, desc, onSale, salePercentage, imageFile
         );
     }
-
-
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @DeleteMapping("/{id}")
@@ -132,13 +108,19 @@ public class CarPartController {
         partService.deletePart(id);
     }
 
-
     @GetMapping("/{id}")
     public CarPartDTO getOne(@PathVariable Long id) {
         return partService.getPartById(id);
     }
+
     @GetMapping("/search")
     public Page<CarPartDTO> search(@RequestParam String q, @RequestParam(defaultValue = "0") int page) {
         return partService.searchParts(q, page);
+    }
+
+    // CategoryAcc endpoints
+    @GetMapping("/categoryacc")
+    public List<CategoryAccDTO> getAllCategoryAcc() {
+        return categoryAccService.getAll();
     }
 }

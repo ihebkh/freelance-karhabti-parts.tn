@@ -52,6 +52,7 @@ public class SecurityConfig {
                         ).permitAll()
 
                         .requestMatchers(HttpMethod.GET, "/cars/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/acc/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/designations/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/parts/**").permitAll()

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
 import { AdminGuard } from './guards/admin.guard';
-import {Layout} from './wrapper/layout/layout';
-import {RootRedirectGuard} from './guards/route-redirect.guard';
+import { Layout } from './wrapper/layout/layout';
+import { RootRedirectGuard } from './guards/route-redirect.guard';
 
 const routes: Routes = [
 
@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     canActivate: [RootRedirectGuard],
 
-    component: class DummyComponent {}
+    component: class DummyComponent { }
   },
   {
     path: 'auth',
@@ -41,6 +41,19 @@ const routes: Routes = [
           import('./modules/cars/cars-module').then(m => m.CarsModule),
         canActivate: [AuthGuard, AdminGuard]
       },
+
+      {
+        path: 'acc',
+        loadChildren: () =>
+          import('./modules/acc/acc-module').then(m => m.AccModule)
+      },
+      {
+        path: 'admin/acc',
+        loadChildren: () =>
+          import('./modules/acc/acc-module').then(m => m.AccModule),
+        canActivate: [AuthGuard, AdminGuard]
+      },
+
       {
         path: 'home',
         loadChildren: () =>

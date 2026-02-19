@@ -14,20 +14,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(
-        uniqueConstraints = @UniqueConstraint(columnNames = "nameAcc")
-)
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name_acc"))
 public class CategoryAcc {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nameAcc;
+    private String name;
 
-    private String imageAcc;
+    private String image;
 
-  //  @OneToMany(mappedBy = "categoryAcc", cascade = CascadeType.ALL, orphanRemoval = true)
-   // private List<SubCategoryAcc> subCategoriesAcc = new ArrayList<>();
+    @OneToMany(mappedBy = "categoryAcc", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AccessoryPart> parts = new ArrayList<>();
 }
