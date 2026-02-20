@@ -58,6 +58,7 @@ public class CarPartOrderService {
             } else {
                 orderItem.setPriceSnapshot(part.getPriceAfterSale());
             }
+            orderItem.setCostPriceSnapshot(part.getCostPrice());
             order.getItems().add(orderItem);
         }
 
@@ -120,9 +121,16 @@ public class CarPartOrderService {
                         item.getPart() != null ? item.getPart().getId() : null, // partId
                         item.getPartNameSnapshot(),
                         item.getPriceSnapshot(),
+                        item.getCostPriceSnapshot(),
                         item.getQuantity(),
                         item.getPriceSnapshot() * item.getQuantity()))
                 .toList();
+
+        double totalSelling = itemsDTO.stream().mapToDouble(OrderItemDTO::subTotal).sum();
+        double totalCost = order.getItems().stream()
+                .mapToDouble(item -> item.getCostPriceSnapshot() * item.getQuantity())
+                .sum();
+        double totalMargin = totalSelling - totalCost;
 
         return new CarPartOrderDTO(
                 order.getId(),
@@ -132,6 +140,8 @@ public class CarPartOrderService {
                 order.getDeliveryAddress(),
                 order.getDateDelivery(),
                 order.getStatus(),
-                itemsDTO);
+                itemsDTO,
+                totalCost,
+                totalMargin);
     }
 }

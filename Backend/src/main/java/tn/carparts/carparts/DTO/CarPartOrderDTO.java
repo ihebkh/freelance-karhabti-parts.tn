@@ -13,5 +13,7 @@ public record CarPartOrderDTO(
                 String deliveryAddress,
                 LocalDateTime dateDelivery,
                 OrderStatus status,
-                List<OrderItemDTO> items) {
+                List<OrderItemDTO> items,
+                Double totalCostPrice,  // Prix d'achat total de la commande
+                Double totalMargin) {   // Différence: montant total vente - prix d'achat total
 }

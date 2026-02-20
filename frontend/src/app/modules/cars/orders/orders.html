@@ -25,6 +25,8 @@
           <th>Statut</th>
           <th>Détails (Manifeste)</th>
           <th>Montant Total</th>
+          <th *ngIf="isAdmin">Prix d'achat total</th>
+          <th *ngIf="isAdmin">Marge</th>
           <th *ngIf="isAdmin" class="text-center">Action</th>
         </tr>
       </thead>
@@ -52,6 +54,8 @@
           </td>
 
           <td class="order-total">{{ getOrderTotal(order) | number:'1.2-2' }} TND</td>
+          <td *ngIf="isAdmin" class="order-cost">{{ (order.totalCostPrice ?? getTotalCostPrice(order)) | number:'1.2-2' }} TND</td>
+          <td *ngIf="isAdmin" class="order-margin">{{ (order.totalMargin ?? getOrderMargin(order)) | number:'1.2-2' }} TND</td>
 
           <td *ngIf="isAdmin" class="text-center" (click)="$event.stopPropagation()">
             <div class="admin-action-container">
@@ -182,6 +186,14 @@
           </ng-template>
         </div>
 
+        <div class="summary-line" *ngIf="isAdmin">
+          <span>Prix d'achat total</span>
+          <span>{{ (selectedOrder.totalCostPrice ?? getTotalCostPrice(selectedOrder)) | number:'1.2-2' }} TND</span>
+        </div>
+        <div class="summary-line" *ngIf="isAdmin">
+          <span>Marge</span>
+          <span>{{ (selectedOrder.totalMargin ?? getOrderMargin(selectedOrder)) | number:'1.2-2' }} TND</span>
+        </div>
         <div class="summary-line total">
           <span>MONTANT TOTAL</span>
           <span class="grand-total">

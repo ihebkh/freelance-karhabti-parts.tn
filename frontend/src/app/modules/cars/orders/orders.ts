@@ -88,6 +88,17 @@ export class Orders implements OnInit {
     );
   }
 
+  getTotalCostPrice(order: CarPartOrder): number {
+    return order.items.reduce(
+      (sum, item) => sum + (item.costPrice ?? 0) * item.quantity,
+      0
+    );
+  }
+
+  getOrderMargin(order: CarPartOrder): number {
+    return this.getOrderTotal(order) - this.getTotalCostPrice(order);
+  }
+
 
   getSubtotal(order: CarPartOrder): number {
     return order.items.reduce(

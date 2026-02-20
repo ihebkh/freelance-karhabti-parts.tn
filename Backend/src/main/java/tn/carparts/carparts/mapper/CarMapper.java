@@ -72,6 +72,7 @@ public class CarMapper {
                         item.getPart() != null ? item.getPart().getId() : null,
                         item.getPartNameSnapshot(),
                         item.getPriceSnapshot(),
+                        item.getCostPriceSnapshot(),
                         item.getQuantity(),
                         item.getPriceSnapshot() * item.getQuantity());
         }
@@ -81,6 +82,12 @@ public class CarMapper {
                         .map(this::toOrderItemDTO)
                         .toList();
 
+                double totalSelling = itemDTOs.stream().mapToDouble(OrderItemDTO::subTotal).sum();
+                double totalCost = order.getItems().stream()
+                        .mapToDouble(item -> item.getCostPriceSnapshot() * item.getQuantity())
+                        .sum();
+                double totalMargin = totalSelling - totalCost;
+
                 return new CarPartOrderDTO(
                         order.getId(),
                         order.getUser().getEmail(),
@@ -89,7 +96,9 @@ public class CarMapper {
                         order.getDeliveryAddress(),
                         order.getDateDelivery(),
                         order.getStatus(),
-                        itemDTOs);
+                        itemDTOs,
+                        totalCost,
+                        totalMargin);
         }
 
         public DesignationDTO toDesignationDTO(Designation designation) {

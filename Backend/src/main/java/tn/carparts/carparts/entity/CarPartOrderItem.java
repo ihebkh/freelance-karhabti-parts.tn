@@ -32,4 +32,7 @@ public class CarPartOrderItem {
     private String partNameSnapshot; // Name at time of purchase
     private double priceSnapshot;     // Price at time of purchase
 
+    @Column(columnDefinition = "double default 0")
+    private double costPriceSnapshot; // Cost price at time of purchase (prix d'achat unitaire)
+
 }
